@@ -12,7 +12,7 @@ int main (void){
 
     file = fopen("file.txt", "rt");
 
-    fscanf(file, "%*f;%*c;%d;%s", &myInt, myString);
+    fscanf(file, "%*f;%*c;%d;%s",  , myString);
 
     if (file == NULL)
     {
