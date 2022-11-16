@@ -1,21 +1,64 @@
 
-// parse en remplissant struct paramètres --> PEPS params[1500]
+// parse en remplissant struct paramètres avec conditions initiales--> PEPS params[1500]
 // struct contenant variables --> PEPS vari[1500]
 // tableau de struct qui se remplit avec variables --> MAHLIA
 // fichier contenant variables --> MAHLIA
 // python lit ces fichiers et plot tout
 // méthode runge kutta pour équa diff --> comparer les 2 méthodes pour précision
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
-double * update(double xc, double xe, double y, double w, double am, double aM, double bc, double be, double g, double l, double s, double d, double k, double r) {
+struct Struct_params {
+    double xc ;
+    double xe ;
+    double n ;
+    double w ;
+} ;
+
+struct Struct_vari {
+    double am ;
+    double aM ;
+    double bc ;
+    double be ;
+    double g ;
+    double l ;
+    double s ;
+    double d ;
+    double k ;
+    double r ;
+} ;
+
+struct Struct_params params[1500] ;//= tableau de 1500 structures de types struct_params
+struct Struct_vari vari ; //1 seule car les variables ne changent pas
+
+void update(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
+
+// possible avec boucle for ?
+
+    double xc = params_i->xc ;
+    double xe = params_i->xe ;
+    double n = params_i->n ;
+    double w = params_i->w ;
+
+    double am = vari->am ;
+    double aM = vari->aM ;
+    double bc = vari->bc ;
+    double be = vari->be ;
+    double g = vari->g ;
+    double l = vari->l ;
+    double s = vari->s ;
+    double d = vari->d ;
+    double k = vari->k ;
+    double r = vari->r ;
 
     double wth = (r * xc) + (k * r * xe) ;
     double cc ;
     double ce ;
     double ac ;
     double ae ;
-
-    // ouvrir ma strucutre xc = params.xc
 
 
     if (wth != 0) {
@@ -41,32 +84,70 @@ double * update(double xc, double xe, double y, double w, double am, double aM, 
 
     double dxc = (bc * xc) - (ac * xc) ;
     double dxe = (be * xe) - (ae * xe) ;
-    double dy = (g * y * (l - y)) - (d * xc * y) ;
-    double dw = (d * xc * y) - cc - ce ;
+    double dn = (g * n * (l - n)) - (d * xc * n) ;
+    double dw = (d * xc * n) - cc - ce ;
 
     double xc = xc + dxc ;
     if (xc < 0) xc = 0 ;
     double xe = xe + dxe ;
     if (xe < 0) xe = 0 ;
-    double y = y + dy ;
-    if (y < 0) y = 0 ;
+    double n = n + dn ;
+    if (n < 0) n = 0 ;
     double w = w + dw ;
     if (w < 0) w = 0 ;
 
-    //ajout des valeurs à ma strucutre n°i
-
-
+    //ajout des valeurs à ma strucutre n°i+1
+    params_i2 -> xc = xc ;
+    params_i2 -> xe = xe ;
+    params_i2 -> n = n ;
+    params_i2 -> w = w ;
 
 }
 
-void run_auto(struct Struct_params * params, struct Struct_vari * vari) {
+double findMax(struct Struct_params * params, int t) {
+    double mx = 0 ;
+    for (int i = 0; i < t; i++) {
+        double val = params[i].xc ;
+        mx = max(mx, val);
+    }
+    return mx ;
+}
 
-    for (int i = 0 ; i < 1000 ; i++) {
-        update(params[i], vari[i]) ;
+void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
+
+    for (int i = 0 ; i < t-1 ; i++) {
+        update(&params[i], &vari, &params[i+1]) ;
     }
 
     //normalisation
+    double mx_XC = findMax(&params, t) ; //ajouter variable pour trouver max
+    double mx_XE = findMax(&params, t) ;
+    double mx_N = findMax(&params, t) ;
+    double mx_W = findMax(&params, t) ;
 
+    for (int i = 0 ; i < t ; i++) {
+        params[i].xc = (params[i].xc / mx_XC) ;
+        params[i].xe = (params[i].xe / mx_XE) ;
+        params[i].n = (params[i].n / mx_N) ;
+        params[i].w = (params[i].w / mx_W) ;
 
+    }
+}
+
+void file(struct Struct_params * params, struct Struct_vari * vari, int t) {
+//create file containing all datas
+
+//    ameliorate file name
+
+    FILE *fp;
+    fp = fopen("file_name", "w");
+
+    for (int i = 0 ; i < t ; i++) {
+        fwrite(&params[i], sizeof(params[i]), 1, fp);
+    }
+
+    fclose(fp) ;
+
+    // envoyer le file à python pour modélisation --> appeler python file
 
 }
