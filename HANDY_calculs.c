@@ -3,7 +3,7 @@
 // struct contenant variables --> PEPS vari[1500]
 // tableau de struct qui se remplit avec variables --> MAHLIA
 // fichier contenant variables --> MAHLIA
-// python lit ces fichiers et plot tout
+// python lit ces fichiers et plot tout --> Mahlia
 // méthode runge kutta pour équa diff --> comparer les 2 méthodes pour précision
 
 #include <stdio.h>
@@ -31,10 +31,15 @@ struct Struct_vari {
     double r ;
 } ;
 
-struct Struct_params params[1500] ;//= tableau de 1500 structures de types struct_params
-struct Struct_vari vari ; //1 seule car les variables ne changent pas
+void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari) {
 
-void update(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
+    FILE * file = fopen(nomFichier, "r");
+    if (file == NULL) return -1;
+
+    fclose(file);
+}
+
+void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
 
 // possible avec boucle for ?
 
@@ -54,7 +59,7 @@ void update(struct Struct_params * params_i, struct Struct_vari * vari, struct S
     double k = vari->k ;
     double r = vari->r ;
 
-    double wth = (r * xc) + (k * r * xe) ;
+    double wth = (r * xc) + (k * r * xe) ; //dépend du temps
     double cc ;
     double ce ;
     double ac ;
@@ -134,7 +139,7 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
     }
 }
 
-void file(struct Struct_params * params, struct Struct_vari * vari, int t) {
+void finalfile(struct Struct_params * params, struct Struct_vari * vari, int t) {
 //create file containing all datas
 
 //    ameliorate file name
@@ -150,4 +155,43 @@ void file(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
     // envoyer le file à python pour modélisation --> appeler python file
 
+}
+
+void runge_kutta4(struct Struct_params * params, struct Struct_vari * vari, int t) {
+
+    double h ;
+    double k1_xc ;
+    double k2_xc ;
+    double k3_xc ;
+    double k4_xc ;
+
+    for (int i = 0 ; i < t ; i++) {
+
+        // double xc = params[i].xc ;
+        // double xe = params[i].xe ;
+        // double n = params[i].n ;
+        // double w = params[i].w ;
+
+        k1_xc = f_xc(i, params[i].xc) ;
+        k2_xc = f_xc(i + h/2, params[i].xc + h/2*k1_xc) ;
+        k3_xc = f_xc(i + h/2, params[i].xc + h/2*k2_xc) ;
+        k4_xc = f_xc(i + h, params[i].xc + h*k3_xc) ;
+
+        params[i].xc = params[i].xc + h/6 * (k1_xc + 2*k2_xc + 2*k3_xc + k4_xc) ;
+    }
+}
+
+double f_xc(t,xc) {
+
+    double wth = (r * xc) + (k * r * xe) ;
+    xc * (bc - (am + max(0,1-min(1,w/wth))(aM-am))) ;
+}
+
+
+int main(int argc, char const *argv[])
+{
+    struct Struct_params params[1500] ;//= tableau de 1500 structures de types struct_params
+    struct Struct_vari vari ; //1 seule car les variables ne changent pas
+
+    return 0;
 }
