@@ -71,12 +71,17 @@ int lireLigne(char * ligne, struct DataSet * data){
         return 1; 
         }
     }
+void readfile(char * Filename, struct Struct_params * params, struct Struct_vari * vari){
+    FILE * file = fopen(Filename, "r");
+    if (file == NULL) return -1;
+    int size = len(file);
+    fclose(file);
+}
 
 int main(int argc, char const *argv[]){
     struct Struct_params params[1500] ;//= tableau de 1500 structures de types struct_params
     struct Struct_vari vari ;
-
-
+    readfile("params_default.txt", )
     return 0;
 }
 
