@@ -31,12 +31,17 @@ struct Struct_vari {
     double r ;
 } ;
 
-void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari) {
+void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari, int size) {
 
     FILE * file = fopen(nomFichier, "r");
     if (file == NULL) return -1;
-
+    int size = len(file);
     fclose(file);
+
+    for (int i=0 ; i<size ; i++){
+        char *tab1 = strchr(file[i], '\t');
+        char *tab2 = strchr(tab1 + 1, '\t');
+    }
 }
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
