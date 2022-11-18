@@ -21,7 +21,7 @@ def main():
     plt.plot(range(len(XC)), XC, label="Commoner Population", color='b')
     plt.plot(range(len(XE)), XE, label="Elite Population", color='r')
     plt.plot(range(len(N)), N, label="Nature", color='g')
-    plt.plot(range(len(W)), W, label="Weatlth", color='k')
+    plt.plot(range(len(W)), W, label="Wealth", color='k')
     plt.legend()
     plt.savefig('.'.join(fname.split('.')[:-1])+'.pdf') #graph.pdf
     plt.close()
