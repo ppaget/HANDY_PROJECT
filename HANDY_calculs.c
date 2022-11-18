@@ -46,7 +46,7 @@ void readfile(char * nomFichier, struct Struct_params * params, struct Struct_va
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
 
-// possible avec boucle for ?
+// possible avec boucle for ? 
 
     double xc = params_i->xc ;
     double xe = params_i->xe ;
