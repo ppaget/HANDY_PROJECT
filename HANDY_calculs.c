@@ -39,9 +39,13 @@ void readfile(char * nomFichier, struct Struct_params * params, struct Struct_va
     fclose(file);
 
     for (int i=0 ; i<size ; i++){
-        char *tab1 = strchr(file[i], '\t');
-        char *tab2 = strchr(tab1 + 1, '\t');
+        char *tab1 = strchr(file, '\t');
+        char *tab2 = strchr(tab1 + 1, '\t'); 
     }
+}
+
+void lireLigne() {
+
 }
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
