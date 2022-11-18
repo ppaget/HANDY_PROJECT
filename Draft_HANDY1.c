@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-struct Struct_vari {
+struct Struct_params {
     double xc; //commoners population
     double xe; //elites population
     double y; //nature 
     double w; //wealth 
 };
 
-struct Struct_params {
+struct Struct_vari {
     double min_deathrate;
     double max_deathrate;
     double c_birthrate;
@@ -53,6 +53,7 @@ int lireLigne(char * ligne, struct DataSet * data){
         char *tab1 = strchr(ligne, '\t');
         char *tab2 = strchr(tab1 + 1, '\t');
 
+
         //Condition d'invalidité de la ligne 
         if (tab1==NULL) {
             printf("0\nLigne non valide !\n");
@@ -64,8 +65,6 @@ int lireLigne(char * ligne, struct DataSet * data){
         double v = atof(tab1+1) ; 
 
         //Remplissage de la structure avec les coordonnées en chiffres 
-        data -> value = v ;
-        data -> name = tab1 ;
 
         printf("%s,%.5f\t\n", tab1, v);
         return 1; 
