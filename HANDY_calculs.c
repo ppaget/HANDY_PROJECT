@@ -50,7 +50,11 @@ void lireLigne() {
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
 
-// possible avec boucle for ?
+// possible avec boucle for pour les variables
+
+    for (int i=0 ; i<10 ; i++) {
+        double Data.name = Data.value ;
+    }
 
     double xc = params_i->xc ;
     double xe = params_i->xe ;
@@ -118,10 +122,13 @@ void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct St
 
 }
 
-double findMax(struct Struct_params * params, int t) {
+double findMax_xc(struct Struct_params * params, int t, char * string) {
+
     double mx = 0 ;
+    // que faire avec le string ?
+
     for (int i = 0; i < t; i++) {
-        double val = params[i].xc ;
+        double val = params[i].string ;
         mx = max(mx, val);
     }
     return mx ;
@@ -130,11 +137,15 @@ double findMax(struct Struct_params * params, int t) {
 void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
     for (int i = 0 ; i < t-1 ; i++) {
-        update(&params[i], &vari, &params[i+1]) ;
+        euler(&params[i], &vari, &params[i+1]) ;
     }
+    char * xc = "xc" ;
+    char * xe = "xe" ;
+    char * n = "n" ;
+    char * w = "w" ;
 
     //normalisation
-    double mx_XC = findMax(&params, t) ; //ajouter variable pour trouver max
+    double mx_XC = findMax(&params, t, &xc) ; //ajouter variable pour trouver max
     double mx_XE = findMax(&params, t) ;
     double mx_N = findMax(&params, t) ;
     double mx_W = findMax(&params, t) ;
@@ -144,7 +155,6 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
         params[i].xe = (params[i].xe / mx_XE) ;
         params[i].n = (params[i].n / mx_N) ;
         params[i].w = (params[i].w / mx_W) ;
-
     }
 }
 
