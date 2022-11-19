@@ -31,17 +31,27 @@ struct Struct_vari {
     double r ;
 } ;
 
-void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari, int size) {
+void readline(char *line, struct Struct_params * params, struct Struct_vari * vari) {
 
-    FILE * file = fopen(nomFichier, "r");
-    if (file == NULL) return -1;
-    int size = len(file);
-    fclose(file);
-
-    for (int i=0 ; i<size ; i++){
-        char *tab1 = strchr(file[i], '\t');
-        char *tab2 = strchr(tab1 + 1, '\t');
+    char *tab1 = strchr(line, '\t');
+    char *tab2 = strchr(tab1 + 1, '\t');
     }
+}
+
+void lireFichier(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari) {
+    // Ouvrir le fichier
+    FILE * file = fopen(nomFichier, "r"); // pointer
+    if (file == NULL) return -1;  //si fichier n'existe pas
+
+    // Lire ligne par ligne
+    int n = 0;
+    char buffer[100];
+    while (fgets(buffer, 100, file) != NULL) { //read and store char (max 100 char) into buffer. at the end-> NULL
+        //if (n >= 16) break; //checker l'indice 
+        int ok = lireLigne(buffer, &params[n], &vari[n]);  //accede a ladresse n du tableau de structures = la structure n qui sera modifiée
+        if (ok) n = n + 1;  // if ok is 1
+    }
+    fclose(file); // nombre de lignes ok pour coordonnées
 }
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
@@ -118,7 +128,11 @@ double findMax(struct Struct_params * params, int t) {
     double mx = 0 ;
     for (int i = 0; i < t; i++) {
         double val = params[i].xc ;
+        double val2 = params[i].xe ;
+        double val3 = params[i].n ;
+        double val4 = params[i].w
         mx = max(mx, val);
+
     }
     return mx ;
 }
