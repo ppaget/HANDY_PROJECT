@@ -187,7 +187,9 @@ class Model():
         # print("max xc", maxXC, "max xe", maxXE, "max n", maxN, "max w", maxW)
         # print('final xc', XC[-1], 'final xe', XE[-1], 'final n', N[-1], 'final w', W[-1])
 
-        return [XC, XE, N, W]
+        #return [XC, XE, N, W]
+        return XC[time-1]
+        
 
     def print_params(self):
         Mam, MaM, Mbc, Mbe, Mg, Ml, Ms, Md, Mk, Mr = self.parameters

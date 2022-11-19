@@ -3,20 +3,28 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation,FFMpegFileWriter
 from HANDY import Model as HANDY
 
+fname = "params_stable_equitable_2.txt"
+model = HANDY(fname=fname) #fichier trouvé
+#XC, XE, N, W = model.run_auto(norm=True)
+#XC = model.run_auto(norm=True)
+
+
 fig, ax = plt.subplots()
 xdata, ydata = [], []
 ln, = plt.plot([], [], 'r', animated=True)
-f = np.linspace(0, 1000, 200)
+f = np.linspace(0, 1000)
 
 def init():
-    ax.set_xlim(-3, 3)
-    ax.set_ylim(-0.25, 2)
+    ax.set_xlim(0, 1000)
+    ax.set_ylim(0, 1)
     ln.set_data(xdata,ydata)
     return ln,
 
 def update(frame):
+
     xdata.append(frame)
-    ydata.append(np.exp(-frame**2))
+    ydata.append(model.run_auto(norm=True))
+
     ln.set_data(xdata, ydata)
     return ln,
 
