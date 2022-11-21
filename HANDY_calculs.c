@@ -112,6 +112,7 @@ double findMax_xc(struct Struct_params * params, int t) {
     for (int i = 0; i < t; i++) {
         double val = params[i].xc ;
         mx = max(mx, val);
+
     }
     return mx ;
 }
