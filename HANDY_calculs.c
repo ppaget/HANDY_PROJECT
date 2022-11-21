@@ -5,14 +5,13 @@
 #include <string.h>
 #include <math.h>
 
-//importer les strucutres clean peps (ou renommer params/vari)
-struct Struct_params {
+struct Struct_vari {
     double xc ;
     double xe ;
     double n ;
     double w ;
 } ;
-struct Struct_vari {
+struct Struct_params {
     double am ;
     double aM ;
     double bc ;
@@ -23,37 +22,82 @@ struct Struct_vari {
     double d ;
     double k ;
     double r ;
+    double t ;
 } ;
+
 // struct Data {
 //     char name ;
 //     double value ;
 // }
-void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari, int size) {
-// remplir peps
+
+void readfile(char * FileName, struct Struct_params * tableparams, struct Struct_vari * tablevari, int size) {
+
+// Ouvrir le fichier
+    FILE * file = fopen(FileName, "r"); // pointer
+    if (file == NULL) return -1;  //si fichier n'existe pas
+
+    // Lire ligne par ligne
+    int n = 0;
+    double val;
+    char line[100];
+    while (fgets(line, 100, file) != NULL) { //read and store char (max 100 char) into buffer. at the end-> NULL
+        // recup la valeur de la ligne strch, atof
+        char * espace =strchr(line,' ');
+        if (*(espace+1) != ' '){  // Si le caractère d'après n'est pas un espace, on peut transfèrer en chiffres 
+            val = atof(espace+1); // arrondir à 2 chiffres après virgule 
+        }    
+        else {
+            val=atof(espace+2); // arrondir à 2 chiffres après virgule 
+        }
+        
+        // dijonction des cas pour chaque valeur de n
+        if (n == 0) tablevari->xc = val;
+        if (n == 1) tablevari->xe = val ;
+        if (n == 2) tablevari->n = val ;
+        if (n == 3) tablevari->w = val ; // Finir pour les paramètres 
+
+        if (n == 4) tableparams->am ;
+        if (n == 5) tableparams->aM ;
+        if (n == 6) tableparams->bc ;
+        if (n == 7) tableparams->be ;
+        if (n == 8) tableparams->g ;
+        if (n == 9) tableparams->l ; 
+        if (n == 10) tableparams->s ;
+        if (n == 11) tableparams->d;
+        if (n == 12) tableparams->k ;
+        if (n == 13) tableparams->r ;
+        if (n == 14) tableparams->t ;
+
+        n = n + 1; // if ok is 1
+        
+        if (n>size) break ; // ici, size=15
+    }
+    fclose(file);
 }
 
-void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
+
+void euler(struct Struct_vari * vari_i, struct Struct_params * params, struct Struct_vari * vari_i2) {
 
 // possible avec boucle for pour les variables
     // for (int i=0 ; i<10 ; i++) {
     //     double Data[i].name = Data[i].value ;
     // }
 
-    double xc = params_i->xc ;
-    double xe = params_i->xe ;
-    double n = params_i->n ;
-    double w = params_i->w ;
+    double xc = vari_i->xc ;
+    double xe = vari_i->xe ;
+    double n = vari_i->n ;
+    double w = vari_i->w ;
 
-    double am = vari->am ;
-    double aM = vari->aM ;
-    double bc = vari->bc ;
-    double be = vari->be ;
-    double g = vari->g ;
-    double l = vari->l ;
-    double s = vari->s ;
-    double d = vari->d ;
-    double k = vari->k ;
-    double r = vari->r ;
+    double am = params->am ;
+    double aM = params->aM ;
+    double bc = params->bc ;
+    double be = params->be ;
+    double g = params->g ;
+    double l = params->l ;
+    double s = params->s ;
+    double d = params->d ;
+    double k = params->k ;
+    double r = params->r ;
 
     double wth = (r * xc) + (k * r * xe) ; //dépend du temps
     double cc ;
@@ -98,19 +142,19 @@ void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct St
     if (w < 0) w = 0 ;
 
     //ajout des valeurs à ma strucutre n°i+1
-    params_i2 -> xc = xc ;
-    params_i2 -> xe = xe ;
-    params_i2 -> n = n ;
-    params_i2 -> w = w ;
+    vari_i2 -> xc = xc ;
+    vari_i2 -> xe = xe ;
+    vari_i2 -> n = n ;
+    vari_i2 -> w = w ;
 
 }
 
-double findMax_xc(struct Struct_params * params, int t) {
+double findMax_xc(struct Struct_vari * vari, int t) {
 
     double mx = 0 ;
 
     for (int i = 0; i < t; i++) {
-        double val = params[i].xc ;
+        double val = vari[i].xc ;
         mx = max(mx, val);
 
     }
@@ -120,7 +164,7 @@ double findMax_xc(struct Struct_params * params, int t) {
 void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
     for (int i = 0 ; i < t-1 ; i++) {
-        euler(&params[i], &vari, &params[i+1]) ;
+        euler(&vari[i], &params, &vari[i+1]) ;
     }
     char * xc = "xc" ;
     char * xe = "xe" ;
@@ -128,29 +172,29 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
     char * w = "w" ;
 
     //normalisation
-    double mx_XC = findMax(&params, t, &xc) ; //ajouter variable pour trouver max
-    double mx_XE = findMax(&params, t) ;
-    double mx_N = findMax(&params, t) ;
-    double mx_W = findMax(&params, t) ;
+    double mx_XC = findMax(&vari, t, &xc) ; //ajouter variable pour trouver max
+    double mx_XE = findMax(&vari, t) ;
+    double mx_N = findMax(&vari, t) ;
+    double mx_W = findMax(&vari, t) ;
 
     for (int i = 0 ; i < t ; i++) {
-        params[i].xc = (params[i].xc / mx_XC) ;
-        params[i].xe = (params[i].xe / mx_XE) ;
-        params[i].n = (params[i].n / mx_N) ;
-        params[i].w = (params[i].w / mx_W) ;
+        vari[i].xc = (vari[i].xc / mx_XC) ;
+        vari[i].xe = (vari[i].xe / mx_XE) ;
+        vari[i].n = (vari[i].n / mx_N) ;
+        vari[i].w = (vari[i].w / mx_W) ;
     }
 }
 
-void finalfile(struct Struct_params * params, struct Struct_vari * vari, int t) {
+void finalfile(char * FileName, struct Struct_params * params, struct Struct_vari * vari, int t) {
 //create file containing all datas to send to python (une variable par colonne)
 
 //    ameliorate file name (le mettre en argument)
 
     FILE *fp;
-    fp = fopen("datas_for_py.txt", "w");
+    fp = fopen(FileName, "w");
 
     for (int i = 0 ; i < t ; i++) {
-        fwrite(&params[i], sizeof(params[i]), 1, fp);
+        fwrite(&vari[i], sizeof(vari[i]), 1, fp);
     }
 
     fclose(fp) ;
@@ -192,8 +236,11 @@ void finalfile(struct Struct_params * params, struct Struct_vari * vari, int t) 
 
 int main(int argc, char const *argv[])
 {
-    struct Struct_params params[1500] ;//= tableau de 1500 structures de types struct_params
-    struct Struct_vari vari ; //1 seule car les variables ne changent pas
 
+    struct Struct_vari vari[1500] ;// = tableau de 1500 structures de types struct_vari
+    struct Struct_params params ; //1 seule car les variables ne changent pas
+    int t = 1000 ;
+
+    finalfile("data_file_to_python.txt", vari, &params, t);
     return 0;
 }
