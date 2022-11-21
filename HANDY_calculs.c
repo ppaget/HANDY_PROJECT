@@ -1,23 +1,17 @@
-
-// parse en remplissant struct paramètres avec conditions initiales--> PEPS params[1500]
-// struct contenant variables --> PEPS vari[1500]
-// tableau de struct qui se remplit avec variables --> MAHLIA
-// fichier contenant variables --> MAHLIA
-// python lit ces fichiers et plot tout --> Mahlia
-// méthode runge kutta pour équa diff --> comparer les 2 méthodes pour précision
+// Notre fichier calculs de HANDY
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
+//importer les strucutres clean peps (ou renommer params/vari)
 struct Struct_params {
     double xc ;
     double xe ;
     double n ;
     double w ;
 } ;
-
 struct Struct_vari {
     double am ;
     double aM ;
@@ -30,31 +24,20 @@ struct Struct_vari {
     double k ;
     double r ;
 } ;
-
+// struct Data {
+//     char name ;
+//     double value ;
+// }
 void readfile(char * nomFichier, struct Struct_params * params, struct Struct_vari * vari, int size) {
-
-    FILE * file = fopen(nomFichier, "r");
-    if (file == NULL) return -1;
-    int size = len(file);
-    fclose(file);
-
-    for (int i=0 ; i<size ; i++){
-        char *tab1 = strchr(file, '\t');
-        char *tab2 = strchr(tab1 + 1, '\t'); 
-    }
-}
-
-void lireLigne() {
-
+// remplir peps
 }
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
 
 // possible avec boucle for pour les variables
-
-    for (int i=0 ; i<10 ; i++) {
-        double Data.name = Data.value ;
-    }
+    // for (int i=0 ; i<10 ; i++) {
+    //     double Data[i].name = Data[i].value ;
+    // }
 
     double xc = params_i->xc ;
     double xe = params_i->xe ;
@@ -122,18 +105,17 @@ void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct St
 
 }
 
-double findMax_xc(struct Struct_params * params, int t, char * string) {
+double findMax_xc(struct Struct_params * params, int t) {
 
     double mx = 0 ;
-    // que faire avec le string ?
 
     for (int i = 0; i < t; i++) {
-        double val = params[i].string ;
+        double val = params[i].xc ;
         mx = max(mx, val);
     }
     return mx ;
 }
-
+// faire les trois autres find max
 void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
     for (int i = 0 ; i < t-1 ; i++) {
@@ -159,12 +141,12 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
 }
 
 void finalfile(struct Struct_params * params, struct Struct_vari * vari, int t) {
-//create file containing all datas
+//create file containing all datas to send to python (une variable par colonne)
 
-//    ameliorate file name
+//    ameliorate file name (le mettre en argument)
 
     FILE *fp;
-    fp = fopen("file_name", "w");
+    fp = fopen("datas_for_py.txt", "w");
 
     for (int i = 0 ; i < t ; i++) {
         fwrite(&params[i], sizeof(params[i]), 1, fp);
@@ -176,35 +158,35 @@ void finalfile(struct Struct_params * params, struct Struct_vari * vari, int t) 
 
 }
 
-void runge_kutta4(struct Struct_params * params, struct Struct_vari * vari, int t) {
+// void runge_kutta4(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
-    double h ;
-    double k1_xc ;
-    double k2_xc ;
-    double k3_xc ;
-    double k4_xc ;
+//     double h ;
+//     double k1_xc ;
+//     double k2_xc ;
+//     double k3_xc ;
+//     double k4_xc ;
 
-    for (int i = 0 ; i < t ; i++) {
+//     for (int i = 0 ; i < t ; i++) {
 
-        // double xc = params[i].xc ;
-        // double xe = params[i].xe ;
-        // double n = params[i].n ;
-        // double w = params[i].w ;
+//         // double xc = params[i].xc ;
+//         // double xe = params[i].xe ;
+//         // double n = params[i].n ;
+//         // double w = params[i].w ;
 
-        k1_xc = f_xc(i, params[i].xc) ;
-        k2_xc = f_xc(i + h/2, params[i].xc + h/2*k1_xc) ;
-        k3_xc = f_xc(i + h/2, params[i].xc + h/2*k2_xc) ;
-        k4_xc = f_xc(i + h, params[i].xc + h*k3_xc) ;
+//         k1_xc = f_xc(i, params[i].xc) ;
+//         k2_xc = f_xc(i + h/2, params[i].xc + h/2*k1_xc) ;
+//         k3_xc = f_xc(i + h/2, params[i].xc + h/2*k2_xc) ;
+//         k4_xc = f_xc(i + h, params[i].xc + h*k3_xc) ;
 
-        params[i].xc = params[i].xc + h/6 * (k1_xc + 2*k2_xc + 2*k3_xc + k4_xc) ;
-    }
-}
+//         params[i].xc = params[i].xc + h/6 * (k1_xc + 2*k2_xc + 2*k3_xc + k4_xc) ;
+//     }
+// }
 
-double f_xc(t,xc) {
+// double f_xc(t,xc) {
 
-    double wth = (r * xc) + (k * r * xe) ;
-    xc * (bc - (am + max(0,1-min(1,w/wth))(aM-am))) ;
-}
+//     double wth = (r * xc) + (k * r * xe) ;
+//     xc * (bc - (am + max(0,1-min(1,w/wth))(aM-am))) ;
+// }
 
 
 int main(int argc, char const *argv[])
