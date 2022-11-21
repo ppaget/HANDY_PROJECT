@@ -3,7 +3,7 @@
 """ This is a Test for Git"""
 
 import os
-
+import numpy as np
 
 class Model():
     """ Base class for HANDY model"""
@@ -83,8 +83,8 @@ class Model():
         #     print("File doesn't exist, ", fname, "exiting")
         #     exit(0)
 
-        for k in data.keys():
-            print (k, data[k]) #print les data
+        # for k in data.keys():
+        #     print (k, data[k]) #print les data
 
         xc = data['xc']  # initial commoner popultaion
         xe = data['xe']  # initial elite population
@@ -151,11 +151,11 @@ class Model():
 
         return [xc, xe, y, w]
 
-    def run_auto(self, time=-1, norm=False):
-        if time == -1:
-            time = self.runtime
-        if time == 0:
-            time = 1000
+    def run_auto(self, time=1000, norm=True):
+        # if time == -1:
+        #     time = self.runtime
+        # if time == 0:
+        #     time = 1000
 
         am, aM, bc, be, g, l, s, d, k, r = self.parameters #plein qui sont inutiles
 
@@ -188,10 +188,12 @@ class Model():
         # print('final xc', XC[-1], 'final xe', XE[-1], 'final n', N[-1], 'final w', W[-1])
 
         #return [XC, XE, N, W]
-        return XC[time-1]
+        #print("size xc", np.size(XC))
+
+        return XC
         
 
-    def print_params(self):
+    # def print_params(self):
         Mam, MaM, Mbc, Mbe, Mg, Ml, Ms, Md, Mk, Mr = self.parameters
         Mxc, Mxe, My, Mw = self.metrics
         Mt = self.runtime
