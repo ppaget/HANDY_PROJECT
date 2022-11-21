@@ -30,6 +30,14 @@ struct Struct_params {
 //     double value ;
 // }
 
+double double_round(double value, int decimal_places) {
+    double rounded ;
+    double shift = pow(10, decimal_places);
+
+    rounded = round(value*shift)/shift;
+    return rounded ;
+}
+
 void readfile(char * FileName, struct Struct_params * tableparams, struct Struct_vari * tablevari, int size) {
 
 // Ouvrir le fichier
@@ -44,10 +52,12 @@ void readfile(char * FileName, struct Struct_params * tableparams, struct Struct
         // recup la valeur de la ligne strch, atof
         char * espace =strchr(line,' ');
         if (*(espace+1) != ' '){  // Si le caractère d'après n'est pas un espace, on peut transfèrer en chiffres 
-            val = atof(espace+1); // arrondir à 2 chiffres après virgule 
+            val = atof(espace+1);
+            val = double_rounded(val,2); // arrondit à 2 chiffres après virgule 
         }    
         else {
-            val=atof(espace+2); // arrondir à 2 chiffres après virgule 
+            val=atof(espace+2);
+            val = double_rounded(val,2); // arrondit à 2 chiffres après virgule 
         }
         
         // dijonction des cas pour chaque valeur de n
@@ -190,14 +200,14 @@ void finalfile(char * FileName, struct Struct_params * params, struct Struct_var
 
 //    ameliorate file name (le mettre en argument)
 
-    FILE *fp;
-    fp = fopen(FileName, "w");
+    // FILE *fp;
+    // fp = fopen(FileName, "w");
 
-    for (int i = 0 ; i < t ; i++) {
-        fwrite(&vari[i], sizeof(vari[i]), 1, fp);
-    }
+    // for (int i = 0 ; i < t ; i++) {
+    //     fwrite(&vari[i], sizeof(vari[i]), 1, fp);
+    // }
 
-    fclose(fp) ;
+    // fclose(fp) ;
 
     // envoyer le file à python pour modélisation --> appeler python file
 
