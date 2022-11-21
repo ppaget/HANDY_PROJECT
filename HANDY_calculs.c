@@ -33,7 +33,6 @@ struct Struct_vari {
 
 void readline(char *line, struct Struct_params * params, struct Struct_vari * vari) {
 
-<<<<<<< HEAD
     char *tab1 = strchr(line, '\t');
     char *tab2 = strchr(tab1 + 1, '\t');
     }
@@ -53,34 +52,11 @@ void lireFichier(char * nomFichier, struct Struct_params * params, struct Struct
         if (ok) n = n + 1;  // if ok is 1
     }
     fclose(file); // nombre de lignes ok pour coordonnées
-=======
-    FILE * file = fopen(nomFichier, "r");
-    if (file == NULL) return -1;
-    int size = len(file);
-    fclose(file);
-
-    for (int i=0 ; i<size ; i++){
-        char *tab1 = strchr(file, '\t');
-        char *tab2 = strchr(tab1 + 1, '\t'); 
-    }
-}
-
-void lireLigne() {
-
->>>>>>> efb65bcc7e026edac0fa15aa608f6a1fa9e4c96c
 }
 
 void euler(struct Struct_params * params_i, struct Struct_vari * vari, struct Struct_params * params_i2) {
 
-<<<<<<< HEAD
 // possible avec boucle for ? 
-=======
-// possible avec boucle for pour les variables
-
-    for (int i=0 ; i<10 ; i++) {
-        double Data.name = Data.value ;
-    }
->>>>>>> efb65bcc7e026edac0fa15aa608f6a1fa9e4c96c
 
     double xc = params_i->xc ;
     double xe = params_i->xe ;
@@ -154,14 +130,10 @@ double findMax_xc(struct Struct_params * params, int t, char * string) {
     // que faire avec le string ?
 
     for (int i = 0; i < t; i++) {
-<<<<<<< HEAD
         double val = params[i].xc ;
         double val2 = params[i].xe ;
         double val3 = params[i].n ;
         double val4 = params[i].w
-=======
-        double val = params[i].string ;
->>>>>>> efb65bcc7e026edac0fa15aa608f6a1fa9e4c96c
         mx = max(mx, val);
 
     }
