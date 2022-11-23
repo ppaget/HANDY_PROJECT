@@ -24,10 +24,10 @@ struct Struct_params {
     double r ;
 } ;
 
-void readfile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
-""" This function reads a text file of our initial conditions : 4 variables and 10 parameters. """
-""" It stocks the values in the two structures corresponding to the two types of arguments (variables and parameters). """
-;
+void readFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
+/* This function reads a text file of our initial conditions : 4 variables and 10 parameters.
+It stocks the values in the two structures corresponding to the two types of arguments
+(variables and parameters). */ 
 
     FILE * file = fopen(FileName, "r");
     if (file == NULL) printf("Error: file does not exist");
@@ -73,9 +73,8 @@ void readfile(char * FileName, struct Struct_variables * variables, struct Struc
 }
 
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
-""" This function calculates the new four variables from the variables just before. """
-""" Incremeting with differential functions defined in the paper, using Euler method. """
-;
+/* This function calculates the new four variables from the variables just before.
+Incremeting with differential functions defined in the paper, using Euler method. */
 
     double xc_prev = variables[i].xc ;
     double xe_prev = variables[i].xe ;
@@ -141,72 +140,60 @@ void euler(struct Struct_variables * variables, struct Struct_params * params, i
     variables[i+1].w = w_next ;
 }
 
-double XC_findMax(struct Struct_variables * vari, int t) {
+double findMax(struct Struct_variables * variables, char variable_name, int t) {
+/* This function finds the maximum value for each of our 4 variable. It is then used
+for the normalisation. */ 
 
-    double mx = 0 ;
-
-    for (int i = 0; i < t; i++) {
-        double val = vari[i].xc ;
-        mx = fmax(mx, val);
-
+    if (variable_name == 'c') {
+        double mx = 0 ;
+        for (int i = 0; i < t; i++) {
+            double val = variables[i].xc ;
+            mx = fmax(mx, val);
+        }
+        return mx ;
     }
-    return mx ;
+    if (variable_name == 'e') {
+        double mx = 0 ;
+        for (int i = 0; i < t; i++) {
+            double val = variables[i].xe ;
+            mx = fmax(mx, val);
+        }
+        return mx ;
+    }
 
+    if (variable_name == 'n') {
+        double mx = 0 ;
+        for (int i = 0; i < t; i++) {
+            double val = variables[i].n ;
+            mx = fmax(mx, val);
+        }
+        return mx ;
+    }
+
+    if (variable_name == 'w') {
+        double mx = 0 ;
+        for (int i = 0; i < t; i++) {
+            double val = variables[i].w ;
+            mx = fmax(mx, val);
+        }
+        return mx ;
+    }
+    return 0 ;
 }
 
-double XE_findMax(struct Struct_variables * vari, int t) {
+void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t) {
+/* This function fulfills our tab_variables following the time using our
+euleur function and normalizes each value. */
 
-    double mx = 0 ;
-
-    for (int i = 0; i < t; i++) {
-        double val = vari[i].xe ;
-        mx = fmax(mx, val);
-
-    }
-    return mx ;
-
-}
-
-double N_findMax(struct Struct_variables * vari, int t) {
-
-    double mx = 0 ;
-
-    for (int i = 0; i < t; i++) {
-        double val = vari[i].n ;
-        mx = fmax(mx, val);
-
-    }
-    return mx ;
-
-}
-
-double W_findMax(struct Struct_variables * vari, int t) {
-
-    double mx = 0 ;
-
-    for (int i = 0; i < t; i++) {
-        double val = vari[i].w ;
-        mx = fmax(mx, val);
-
-    }
-    return mx ;
-
-}
-
-void run_auto(struct Struct_variables * variables, struct Struct_params * params, int t) {
-""" This function fulfills our tab_variables following the time using our """
-""" euleur function and normalizes each value. """
-;
-
-    for (int i = 0 ; i < t ; i++) {
+    for (int i = 0 ; i < t-1 ; i++) {
         euler(variables, params, i) ;
     }
 
     //normalisation
-    double mx_XC = XC_findMax(variables, t) ; 
-    double mx_XE = XE_findMax(variables, t) ;
-    double mx_N = N_findMax(variables, t) ;
-    double mx_W = W_findMax(variables, t) ;
+    double mx_XC = findMax(variables, 'c', t) ; 
+    double mx_XE = findMax(variables, 'e', t) ;
+    double mx_N = findMax(variables, 'n', t) ;
+    double mx_W = findMax(variables, 'w', t) ;
 
     for (int i = 0 ; i < t ; i++) {
         variables[i].xc = (variables[i].xc / mx_XC) ;
@@ -216,9 +203,9 @@ void run_auto(struct Struct_variables * variables, struct Struct_params * params
     }
 }
 
-void finalfile(char * FileName, struct Struct_variables * variables, int t) {
-""" This function creates the final file containing all datas to send to python """
-""" (one variable per column) """
+void finalFile(char * FileName, struct Struct_variables * variables, int t) {
+/* This function creates the final file containing all datas to send to python
+(one variable per column). */
 ;
 
     FILE * file = fopen(FileName, "w");
@@ -226,14 +213,15 @@ void finalfile(char * FileName, struct Struct_variables * variables, int t) {
 
 
     for (int i=0 ; i<t ; i++) {  //va à la ligne à chaque fois normalement
-        fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
+        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
     }
 
     fclose(file);
 }
 
 int main(int argc, char const *argv[]) {
-"""This is our main function. It reads a text file. Then calculates datas. Creates a final file to send the datas to Python. """
+/* This is our main function. It reads a text file.
+Then calculates datas. Creates a final file to send the datas to Python. */
 ;
 
     int t = 1000;
@@ -241,17 +229,15 @@ int main(int argc, char const *argv[]) {
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 14; //taille des params (j'ai enlevé le temps à la fin)
 
-    readfile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
-    run_auto(tab_variables, &parameters, t);
-    finalfile("results_python.txt", tab_variables, t) ;
+    readFile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python.txt", tab_variables, t) ;
 
-    //lien avec python ?
+    //lien avec python ? fin
     
     return 0;
 }
 
 
-// modifier tous les textes de parametres
-// findMax en structure ?
-// pour euler : mieux de faire une copie ou d'appeler variables[i]
-// courbe inclusive
+
+// pour euler : mieux de faire une copie ou d'appeler variables[i] ?

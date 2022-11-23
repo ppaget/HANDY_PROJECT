@@ -4,6 +4,7 @@
 #include <math.h>
 
 int main(int argc, char * argv[]) {
+    
     FILE * fichier = fopen("resultats", "w");
 
 
