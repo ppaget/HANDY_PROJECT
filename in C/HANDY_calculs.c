@@ -22,12 +22,12 @@ struct Struct_params {
     double d ;
     double k ;
     double r ;
-    double t ;
 } ;
 
-
 void readfile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
-"""comment fonctionne ?""" ;
+""" This function reads a text file of our initial conditions : 4 variables and 10 parameters. """
+""" It stocks the values in the two structures corresponding to the two types of arguments (variables and parameters). """
+;
 
     FILE * file = fopen(FileName, "r");
     if (file == NULL) printf("Error: file does not exist");
@@ -64,18 +64,18 @@ void readfile(char * FileName, struct Struct_variables * variables, struct Struc
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
-        if (n == 14) params->t = val ;
 
         n = n + 1 ;
         
-        if (n>size) break ; // ici, size=15
+        if (n>size) break ;
     }
     fclose(file);
 }
 
-
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
-"""que fait ?""" ;
+""" This function calculates the new four variables from the variables just before. """
+""" Incremeting with differential functions defined in the paper, using Euler method. """
+;
 
     double xc_prev = variables[i].xc ;
     double xe_prev = variables[i].xe ;
@@ -194,7 +194,9 @@ double W_findMax(struct Struct_variables * vari, int t) {
 }
 
 void run_auto(struct Struct_variables * variables, struct Struct_params * params, int t) {
-"""que fait ?""" ;
+""" This function fulfills our tab_variables following the time using our """
+""" euleur function and normalizes each value. """
+;
 
     for (int i = 0 ; i < t ; i++) {
         euler(variables, params, i) ;
@@ -215,39 +217,41 @@ void run_auto(struct Struct_variables * variables, struct Struct_params * params
 }
 
 void finalfile(char * FileName, struct Struct_variables * variables, int t) {
-"""create file containing all datas to send to python (une variable par colonne)""";
+""" This function creates the final file containing all datas to send to python """
+""" (one variable per column) """
+;
 
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
 
-    for (int i=0 ; i<1000 ; i++) {  //va à la ligne à chaque fois normalement
+    for (int i=0 ; i<t ; i++) {  //va à la ligne à chaque fois normalement
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
     }
 
     fclose(file);
 }
 
-
 int main(int argc, char const *argv[]) {
-"""que fait ,""";
+"""This is our main function. It reads a text file. Then calculates datas. Creates a final file to send the datas to Python. """
+;
 
     int t = 1000;
     struct Struct_variables tab_variables[t] ;// = tableau de t structures de types struct_vari
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
-    int size = 15; //taille des params
+    int size = 14; //taille des params (j'ai enlevé le temps à la fin)
 
     readfile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
     run_auto(tab_variables, &parameters, t);
     finalfile("results_python.txt", tab_variables, t) ;
-    //lien avec python
+
+    //lien avec python ?
     
     return 0;
 }
 
 
-// tout en anglais
 // modifier tous les textes de parametres
-// le temps inclut dans params or argument ?
 // findMax en structure ?
 // pour euler : mieux de faire une copie ou d'appeler variables[i]
+// courbe inclusive
