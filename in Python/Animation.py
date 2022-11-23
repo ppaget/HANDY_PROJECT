@@ -24,8 +24,8 @@ line, = ax.plot([],[], color='blue')
 # point, = ax.plot([], [], ls="none", marker="o")
 
 #Gestion des limites de la fenêtre
-ax.set_xlim(0, 1000)
-ax.set_ylim(0, 1)
+ax.set_xlim(-10, 1020)
+ax.set_ylim(-0.5, 1)
 
 
 # Création de la function qui sera appelée à "chaque nouvelle image"
