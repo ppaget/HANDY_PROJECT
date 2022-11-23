@@ -200,14 +200,14 @@ void finalfile(char * FileName, struct Struct_params * params, struct Struct_var
 
 //    ameliorate file name (le mettre en argument)
 
-    // FILE *fp;
-    // fp = fopen(FileName, "w");
+    FILE *fp;
+    fp = fopen(FileName, "w");
 
-    // for (int i = 0 ; i < t ; i++) {
-    //     fwrite(&vari[i], sizeof(vari[i]), 1, fp);
-    // }
+    for (int i = 0 ; i < t ; i++) {
+        fwrite(&vari[i], sizeof(vari[i]), 1, fp);
+    }
 
-    // fclose(fp) ;
+    fclose(fp) ;
 
     // envoyer le file à python pour modélisation --> appeler python file
 
@@ -251,6 +251,9 @@ int main(int argc, char const *argv[])
     struct Struct_params params ; //1 seule car les variables ne changent pas
     int t = 1000 ;
 
-    finalfile("data_file_to_python.txt", vari, &params, t);
+    // finalfile("data_file_to_python.txt", vari, &params, t);
+    readfile("params_default.txt", vari, &params, 15) ;
+
+
     return 0;
 }
