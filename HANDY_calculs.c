@@ -88,11 +88,6 @@ void readfile(char * FileName, struct Struct_params * tableparams, struct Struct
 
 void euler(struct Struct_vari * vari_i, struct Struct_params * params, struct Struct_vari * vari_i2) {
 
-// possible avec boucle for pour les variables
-    // for (int i=0 ; i<10 ; i++) {
-    //     double Data[i].name = Data[i].value ;
-    // }
-
     double xc = vari_i->xc ;
     double xe = vari_i->xe ;
     double n = vari_i->n ;
@@ -287,11 +282,13 @@ void finalfile(char * FileName, struct Struct_vari * vari, int t) {
 int main(int argc, char const *argv[])
 {
 
-    struct Struct_vari vari[1500] ;// = tableau de 1500 structures de types struct_vari
+    struct Struct_vari vari[1001] ;// = tableau de 1000 structures de types struct_vari
     struct Struct_params params ; //1 seule car les variables ne changent pas
-    int t = 1000 ;
+    int t = 1000;
+    int size = 15;
 
-    // finalfile("data_file_to_python.txt", vari, &params, t);
+    readfile("params_stable_equitable_2.txt",vari, &params, 15);
+    run_auto(&params, vari,t);
     finalfile("variables_for_python.txt", vari, t) ;
     
     return 0;
