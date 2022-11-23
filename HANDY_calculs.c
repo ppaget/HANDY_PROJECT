@@ -53,11 +53,11 @@ void readfile(char * FileName, struct Struct_params * tableparams, struct Struct
         char * espace =strchr(line,' ');
         if (*(espace+1) != ' '){  // Si le caractère d'après n'est pas un espace, on peut transfèrer en chiffres 
             val = atof(espace+1);
-            val = double_round(val,2); // arrondit à 2 chiffres après virgule 
+            val = double_round(val,6); // arrondit à 2 chiffres après virgule 
         }    
         else {
             val=atof(espace+2);
-            val = double_round(val,2); // arrondit à 2 chiffres après virgule 
+            val = double_round(val,6); // arrondit à 2 chiffres après virgule 
         }
         
         // dijonction des cas pour chaque valeur de n
