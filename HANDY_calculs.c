@@ -159,7 +159,7 @@ void euler(struct Struct_vari * vari_i, struct Struct_params * params, struct St
 
 }
 
-double findMax_xc(struct Struct_vari * vari, int t) {
+double XC_findMax_xc(struct Struct_vari * vari, int t) {
 
     double mx = 0 ;
 
@@ -169,8 +169,48 @@ double findMax_xc(struct Struct_vari * vari, int t) {
 
     }
     return mx ;
+
 }
-// faire les trois autres find max
+
+double XE_findMax(struct Struct_vari * vari, int t) {
+
+    double mx = 0 ;
+
+    for (int i = 0; i < t; i++) {
+        double val = vari[i].xe ;
+        mx = max(mx, val);
+
+    }
+    return mx ;
+
+}
+
+double N_findMax(struct Struct_vari * vari, int t) {
+
+    double mx = 0 ;
+
+    for (int i = 0; i < t; i++) {
+        double val = vari[i].n ;
+        mx = max(mx, val);
+
+    }
+    return mx ;
+
+}
+
+double W_findMax(struct Struct_vari * vari, int t) {
+
+    double mx = 0 ;
+
+    for (int i = 0; i < t; i++) {
+        double val = vari[i].w ;
+        mx = max(mx, val);
+
+    }
+    return mx ;
+
+}
+
 void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
 
     for (int i = 0 ; i < t-1 ; i++) {
@@ -182,10 +222,10 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
     char * w = "w" ;
 
     //normalisation
-    double mx_XC = findMax(&vari, t, &xc) ; //ajouter variable pour trouver max
-    double mx_XE = findMax(&vari, t) ;
-    double mx_N = findMax(&vari, t) ;
-    double mx_W = findMax(&vari, t) ;
+    double mx_XC = XC_findMax(&vari, t) ; 
+    double mx_XE = XE_findMax(&vari, t) ;
+    double mx_N = N_findMax(&vari, t) ;
+    double mx_W = W_findMax(&vari, t) ;
 
     for (int i = 0 ; i < t ; i++) {
         vari[i].xc = (vari[i].xc / mx_XC) ;
@@ -253,7 +293,7 @@ int main(int argc, char const *argv[])
 
     // finalfile("data_file_to_python.txt", vari, &params, t);
     readfile("params_default.txt", vari, &params, 15) ;
-
+    printf()
 
     return 0;
 }
