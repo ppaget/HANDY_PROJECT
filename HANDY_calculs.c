@@ -42,7 +42,7 @@ void readfile(char * FileName, struct Struct_params * tableparams, struct Struct
 
 // Ouvrir le fichier
     FILE * file = fopen(FileName, "r"); // pointer
-    if (file == NULL) return -1;  //si fichier n'existe pas
+    if (file == NULL) printf("erreur");  //si fichier n'existe pas
 
     // Lire ligne par ligne
     int n = 0;
@@ -53,11 +53,11 @@ void readfile(char * FileName, struct Struct_params * tableparams, struct Struct
         char * espace =strchr(line,' ');
         if (*(espace+1) != ' '){  // Si le caractère d'après n'est pas un espace, on peut transfèrer en chiffres 
             val = atof(espace+1);
-            val = double_rounded(val,2); // arrondit à 2 chiffres après virgule 
+            val = double_round(val,2); // arrondit à 2 chiffres après virgule 
         }    
         else {
             val=atof(espace+2);
-            val = double_rounded(val,2); // arrondit à 2 chiffres après virgule 
+            val = double_round(val,2); // arrondit à 2 chiffres après virgule 
         }
         
         // dijonction des cas pour chaque valeur de n
@@ -117,21 +117,21 @@ void euler(struct Struct_vari * vari_i, struct Struct_params * params, struct St
 
 
     if (wth != 0) {
-        double cc = min(1, w/wth) * s * xc ;
-        double ce = min(1, w/wth) * k * s * xe ;
+        double cc = fmin(1, w/wth) * s * xc ;
+        double ce = fmin(1, w/wth) * k * s * xe ;
     }
     else {
         double cc = s * xc ;
         double ce = k * s * xe ;
     }
     if (s * xc != 0) {
-        double ac = am + (max(0, 1 - (cc / (s * xc))) * (aM - am)) ;
+        double ac = am + (fmax(0, 1 - (cc / (s * xc))) * (aM - am)) ;
     }
     else {
         double ac = am ;
     } 
     if (s * xe != 0) {
-        double ae = am + (max(0, 1 - (ce / (s * xe))) * (aM - am)) ;
+        double ae = am + (fmax(0, 1 - (ce / (s * xe))) * (aM - am)) ;
     }
     else {
         double ae = am ;
@@ -142,30 +142,30 @@ void euler(struct Struct_vari * vari_i, struct Struct_params * params, struct St
     double dn = (g * n * (l - n)) - (d * xc * n) ;
     double dw = (d * xc * n) - cc - ce ;
 
-    double xc = xc + dxc ;
+    double xc_1 = xc + dxc ;
     if (xc < 0) xc = 0 ;
-    double xe = xe + dxe ;
+    double xe_1 = xe + dxe ;
     if (xe < 0) xe = 0 ;
-    double n = n + dn ;
+    double n_1 = n + dn ;
     if (n < 0) n = 0 ;
-    double w = w + dw ;
+    double w_1 = w + dw ;
     if (w < 0) w = 0 ;
 
     //ajout des valeurs à ma strucutre n°i+1
-    vari_i2 -> xc = xc ;
-    vari_i2 -> xe = xe ;
-    vari_i2 -> n = n ;
-    vari_i2 -> w = w ;
+    vari_i2 -> xc = xc_1 ;
+    vari_i2 -> xe = xe_1 ;
+    vari_i2 -> n = n_1 ;
+    vari_i2 -> w = w_1 ;
 
 }
 
-double XC_findMax_xc(struct Struct_vari * vari, int t) {
+double XC_findMax(struct Struct_vari * vari, int t) {
 
     double mx = 0 ;
 
     for (int i = 0; i < t; i++) {
         double val = vari[i].xc ;
-        mx = max(mx, val);
+        mx = fmax(mx, val);
 
     }
     return mx ;
@@ -178,7 +178,7 @@ double XE_findMax(struct Struct_vari * vari, int t) {
 
     for (int i = 0; i < t; i++) {
         double val = vari[i].xe ;
-        mx = max(mx, val);
+        mx = fmax(mx, val);
 
     }
     return mx ;
@@ -191,7 +191,7 @@ double N_findMax(struct Struct_vari * vari, int t) {
 
     for (int i = 0; i < t; i++) {
         double val = vari[i].n ;
-        mx = max(mx, val);
+        mx = fmax(mx, val);
 
     }
     return mx ;
@@ -204,7 +204,7 @@ double W_findMax(struct Struct_vari * vari, int t) {
 
     for (int i = 0; i < t; i++) {
         double val = vari[i].w ;
-        mx = max(mx, val);
+        mx = fmax(mx, val);
 
     }
     return mx ;
@@ -235,7 +235,7 @@ void run_auto(struct Struct_params * params, struct Struct_vari * vari, int t) {
     }
 }
 
-void finalfile(char * FileName, struct Struct_params * params, struct Struct_vari * vari, int t) {
+void finalfile(char * FileName, struct Struct_vari * vari, int t) {
 //create file containing all datas to send to python (une variable par colonne)
 
 //    ameliorate file name (le mettre en argument)
@@ -292,8 +292,7 @@ int main(int argc, char const *argv[])
     int t = 1000 ;
 
     // finalfile("data_file_to_python.txt", vari, &params, t);
-    readfile("params_default.txt", vari, &params, 15) ;
-    printf()
-
+    finalfile("variables_for_python.txt", vari, t) ;
+    
     return 0;
 }
