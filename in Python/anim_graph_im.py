@@ -40,15 +40,22 @@ def animate(k):
 
     return ax
 
-    
+def readFile(fname):
+
+    array = np.genfromtxt(fname, delimiter=', ', dtype='float64')
+    XC = array[:,0]
+    XE = array[:,1]
+    N = array[:,2]
+    W = array[:,3]
+
+    return [XC, XE, N ,W]
 
 if __name__=='__main__':
 
-    fname = "params_stable_equitable_2.txt"
-    model = HANDY(fname=fname) #fichier trouvé
-
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in Python/results_python.txt"
+    [XC, XE, N, W] = readFile(fname)
     t = [i for i in range(1000)]
-    [XC, XE, N, W] = model.run_auto(norm=True)
+
 
     
 # Création de la figure et de l'axe

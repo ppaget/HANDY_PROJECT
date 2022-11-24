@@ -1,4 +1,4 @@
-// Notre fichier calculs de HANDY
+// Notre fichier calculs de HANDY depuis fichier textes
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -92,24 +92,24 @@ Incremeting with differential functions defined in the paper, using Euler method
     double ae ;
 
     if (wth != 0) {
-        double cc = fmin(1, w_prev/wth) * s * xc_prev ;
-        double ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
+        cc = fmin(1, w_prev/wth) * s * xc_prev ;
+        ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
     }
     else {
-        double cc = s * xc_prev ;
-        double ce = k * s * xe_prev ;
+        cc = s * xc_prev ;
+        ce = k * s * xe_prev ;
     }
     if (s * xc_prev != 0) {
-        double ac = am + (fmax(0, 1 - (cc / (s * xc_prev))) * (aM - am)) ;
+        ac = am + (fmax(0, 1 - (cc / (s * xc_prev))) * (aM - am)) ;
     }
     else {
-        double ac = am ;
+        ac = am ;
     } 
     if (s * xe_prev != 0) {
-        double ae = am + (fmax(0, 1 - (ce / (s * xe_prev))) * (aM - am)) ;
+        ae = am + (fmax(0, 1 - (ce / (s * xe_prev))) * (aM - am)) ;
     }
     else {
-        double ae = am ;
+        ae = am ;
     }
 
     // why
