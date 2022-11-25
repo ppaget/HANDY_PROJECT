@@ -181,29 +181,29 @@ for the normalisation. */
     return 0 ;
 }
 
-void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t) {
+void runAuto(struct Struct_variables * tab_variables, struct Struct_params * params, int t) {
 /* This function fulfills our tab_variables following the time using our
 euleur function and normalizes each value. */
 
     for (int i = 0 ; i < t-1 ; i++) {
-        euler(variables, params, i) ;
+        euler(tab_variables, params, i) ;
     }
 
     //normalisation
-    double mx_XC = findMax(variables, 'c', t) ; 
-    double mx_XE = findMax(variables, 'e', t) ;
-    double mx_N = findMax(variables, 'n', t) ;
-    double mx_W = findMax(variables, 'w', t) ;
+    double mx_XC = findMax(tab_variables, 'c', t) ; 
+    double mx_XE = findMax(tab_variables, 'e', t) ;
+    double mx_N = findMax(tab_variables, 'n', t) ;
+    double mx_W = findMax(tab_variables, 'w', t) ;
 
     for (int i = 0 ; i < t ; i++) {
-        variables[i].xc = (variables[i].xc / mx_XC) ;
-        variables[i].xe = (variables[i].xe / mx_XE) ;
-        variables[i].n = (variables[i].n / mx_N) ;
-        variables[i].w = (variables[i].w / mx_W) ;
+        tab_variables[i].xc = (tab_variables[i].xc / mx_XC) ;
+        tab_variables[i].xe = (tab_variables[i].xe / mx_XE) ;
+        tab_variables[i].n = (tab_variables[i].n / mx_N) ;
+        tab_variables[i].w = (tab_variables[i].w / mx_W) ;
     }
 }
 
-void finalFile(char * FileName, struct Struct_variables * variables, int t) {
+void finalFile(char * FileName, struct Struct_variables * tab_variables, int t) {
 /* This function creates the final file containing all datas to send to python
 (one variable per column). */
 ;
@@ -212,8 +212,8 @@ void finalFile(char * FileName, struct Struct_variables * variables, int t) {
     if (file == NULL) printf("Error: can not open file.\n");
 
 
-    for (int i=0 ; i<t ; i++) {  //va à la ligne à chaque fois normalement
-        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
+    for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
+        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", tab_variables[i].xc, tab_variables[i].xe, variables[i].n, variables[i].w);
     }
 
     fclose(file);
