@@ -1,4 +1,4 @@
-xc 1e2
+xc 1e2 commoner population
 xe 10
 y  100
 w  0
@@ -12,4 +12,3 @@ s  5e-4
 d  4.33e-5
 k  0
 r  5e-3
-t  1000

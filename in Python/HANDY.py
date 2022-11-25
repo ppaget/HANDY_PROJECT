@@ -152,6 +152,15 @@ class Model():
         return [xc, xe, y, w]
 
     def run_auto(self, time=1000, norm=True):
+        """_summary_
+
+        Args:
+            time (int, optional): _description_. Defaults to 1000.
+            norm (bool, optional): _description_. Defaults to True.
+
+        Returns:
+            _type_: _description_
+        """
         # if time == -1:
         #     time = self.runtime
         # if time == 0:

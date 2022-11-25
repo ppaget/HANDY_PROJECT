@@ -1,4 +1,4 @@
-// Notre fichier calculs de HANDY
+// Notre fichier calculs de HANDY depuis fichier textes
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,23 +32,14 @@ It stocks the values in the two structures corresponding to the two types of arg
     FILE * file = fopen(FileName, "r");
     if (file == NULL) printf("Error: file does not exist");
 
-    // Lire ligne par ligne
     int n = 0;
     double val;
     char line[100];
-    while (fgets(line, 100, file) != NULL) { //read and store char (max 100 char) into buffer. at the end-> NULL
-        // recup la valeur de la ligne strch, atof
-        char * espace =strchr(line,' ');
-        if (*(espace+1) != ' '){  // Si le caractère d'après n'est pas un espace, on peut transfèrer en chiffres 
-            val = atof(espace+1);
-            //val = double_round(val,6); // arrondit à 2 chiffres après virgule 
-        }    
-        else {
-            val=atof(espace+2);
-            //val = double_round(val,6); // arrondit à 2 chiffres après virgule 
-        }
-        
-        // disjonction des cas pour chaque valeur de n
+    while (fgets(line, 100, file) != NULL) {
+
+        char * espace = strchr(line,' ') ;
+        val = atof(espace) ;  //après tests ca fonctionne
+
         if (n == 0) variables->xc = val ;
         if (n == 1) variables->xe = val ;
         if (n == 2) variables->n = val ;
@@ -74,8 +65,9 @@ It stocks the values in the two structures corresponding to the two types of arg
 
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
 /* This function calculates the new four variables from the variables just before.
-Incremeting with differential functions defined in the paper, using Euler method. */
+Incremeting with differential functions defined in the paper, using Euler method.*/
 
+    // giving name for variables to make the program lighter
     double xc_prev = variables[i].xc ;
     double xe_prev = variables[i].xe ;
     double n_prev = variables[i].n ;
@@ -92,6 +84,7 @@ Incremeting with differential functions defined in the paper, using Euler method
     double k = params->k ;
     double r = params->r ;
 
+    //why
     double wth = (r * xc_prev) + (k * r * xe_prev) ; //dépend du temps
     double cc ;
     double ce ;
@@ -99,26 +92,27 @@ Incremeting with differential functions defined in the paper, using Euler method
     double ae ;
 
     if (wth != 0) {
-        double cc = fmin(1, w_prev/wth) * s * xc_prev ;
-        double ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
+        cc = fmin(1, w_prev/wth) * s * xc_prev ;
+        ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
     }
     else {
-        double cc = s * xc_prev ;
-        double ce = k * s * xe_prev ;
+        cc = s * xc_prev ;
+        ce = k * s * xe_prev ;
     }
     if (s * xc_prev != 0) {
-        double ac = am + (fmax(0, 1 - (cc / (s * xc_prev))) * (aM - am)) ;
+        ac = am + (fmax(0, 1 - (cc / (s * xc_prev))) * (aM - am)) ;
     }
     else {
-        double ac = am ;
+        ac = am ;
     } 
     if (s * xe_prev != 0) {
-        double ae = am + (fmax(0, 1 - (ce / (s * xe_prev))) * (aM - am)) ;
+        ae = am + (fmax(0, 1 - (ce / (s * xe_prev))) * (aM - am)) ;
     }
     else {
-        double ae = am ;
+        ae = am ;
     }
 
+    // why
     double dxc = (bc * xc_prev) - (ac * xc_prev) ;
     double dxe = (be * xe_prev) - (ae * xe_prev) ;
     double dn = (g * n_prev * (l - n_prev)) - (d * xc_prev * n_prev) ;
@@ -133,7 +127,7 @@ Incremeting with differential functions defined in the paper, using Euler method
     double w_next = w_prev + dw ;
     if (w_next < 0) w_next = 0 ;
 
-    //ajout des valeurs à ma strucutre n°i+1
+    // ajout des valeurs à ma strucutre n°i+1
     variables[i+1].xc = xc_next ;
     variables[i+1].xe = xe_next ;
     variables[i+1].n = n_next ;
@@ -227,7 +221,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     int t = 1000;
     struct Struct_variables tab_variables[t] ;// = tableau de t structures de types struct_vari
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
-    int size = 14; //taille des params (j'ai enlevé le temps à la fin)
+    int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
     readFile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
     runAuto(tab_variables, &parameters, t);
@@ -241,3 +235,6 @@ Then calculates datas. Creates a final file to send the datas to Python. */
 
 
 // pour euler : mieux de faire une copie ou d'appeler variables[i] ?
+// pour améliorer : fichier plus précis donc modifier lecture
+// anciens fichiers textes
+// template pyhton pour définir fonction

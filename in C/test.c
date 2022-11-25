@@ -5,15 +5,18 @@
 
 int main(int argc, char * argv[]) {
     
-    FILE * fichier = fopen("resultats", "w");
+        char * line = "xc     1e2 commoner population" ;
+        char * espace = strchr(line,' ');
+        double val ;
+        if (*(espace+1) != ' '){ 
+            val = atof(espace+1);
+        }    
+        else {
+            val=atof(espace+2);
+        }
+    
+    printf("Valeur:%0.3f\n", atof(espace));
 
-
-// Ecrire
-    double valeur = 0.661;
-    fprintf(fichier, "Valeur: %0.3f\n", valeur);
-
-// Fermer le fichier
-    fclose(fichier);
 
         
 
