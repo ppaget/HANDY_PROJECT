@@ -207,7 +207,7 @@ void finalFile(char * FileName, struct Struct_variables * tab_variables, int t) 
 
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
-        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", tab_variables[i].xc, tab_variables[i].xe, variables[i].n, variables[i].w);
+        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", tab_variables[i].xc, tab_variables[i].xe, tab_variables[i].n, tab_variables[i].w);
     }
 
     fclose(file);
