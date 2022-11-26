@@ -38,7 +38,7 @@ It stocks the values in the two structures corresponding to the two types of arg
     while (fgets(line, 100, file) != NULL) {
 
         char * espace = strchr(line,' ') ;
-        val = atof(espace) ;  //après tests ca fonctionne
+        val = atof(espace) ; 
 
         if (n == 0) variables->xc = val ;
         if (n == 1) variables->xe = val ;
@@ -127,7 +127,7 @@ Incremeting with differential functions defined in the paper, using Euler method
     double w_next = w_prev + dw ;
     if (w_next < 0) w_next = 0 ;
 
-    // ajout des valeurs à ma strucutre n°i+1
+    // Addition of values of structure n°i+1
     variables[i+1].xc = xc_next ;
     variables[i+1].xe = xe_next ;
     variables[i+1].n = n_next ;
@@ -175,29 +175,29 @@ for the normalisation. */
     return 0 ;
 }
 
-void runAuto(struct Struct_variables * tab_variables, struct Struct_params * params, int t) {
+void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t) {
 /* This function fulfills our tab_variables following the time using our
 euleur function and normalizes each value. */
 
     for (int i = 0 ; i < t-1 ; i++) {
-        euler(tab_variables, params, i) ;
+        euler(variables, params, i) ;
     }
 
     //normalisation
-    double mx_XC = findMax(tab_variables, 'c', t) ; 
-    double mx_XE = findMax(tab_variables, 'e', t) ;
-    double mx_N = findMax(tab_variables, 'n', t) ;
-    double mx_W = findMax(tab_variables, 'w', t) ;
+    double mx_XC = findMax(variables, 'c', t) ; 
+    double mx_XE = findMax(variables, 'e', t) ;
+    double mx_N = findMax(variables, 'n', t) ;
+    double mx_W = findMax(variables, 'w', t) ;
 
     for (int i = 0 ; i < t ; i++) {
-        tab_variables[i].xc = (tab_variables[i].xc / mx_XC) ;
-        tab_variables[i].xe = (tab_variables[i].xe / mx_XE) ;
-        tab_variables[i].n = (tab_variables[i].n / mx_N) ;
-        tab_variables[i].w = (tab_variables[i].w / mx_W) ;
+        variables[i].xc = (variables[i].xc / mx_XC) ;
+        variables[i].xe = (variables[i].xe / mx_XE) ;
+        variables[i].n = (variables[i].n / mx_N) ;
+        variables[i].w = (variables[i].w / mx_W) ;
     }
 }
 
-void finalFile(char * FileName, struct Struct_variables * tab_variables, int t) {
+void finalFile(char * FileName, struct Struct_variables * variables, int t) {
 /* This function creates the final file containing all datas to send to python
 (one variable per column). */
 ;
@@ -207,8 +207,8 @@ void finalFile(char * FileName, struct Struct_variables * tab_variables, int t) 
 
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
-        fprintf(file, "%0.8f, %0.8f, %0.8f, %0.8f\n", tab_variables[i].xc, tab_variables[i].xe, tab_variables[i].n, tab_variables[i].w);
-    }
+        fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
+    } // Warning : frpintf writes strings and not doubles into the file -> Need to convert in python file 
 
     fclose(file);
 }
