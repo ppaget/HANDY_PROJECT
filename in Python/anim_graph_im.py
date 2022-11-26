@@ -22,9 +22,9 @@ def animate(k):
     ax[1].clear() #Permet d'éviter la superposition d'images de tailles diff
 
     r_xc = XC[k]*2 + 1 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min
-    r_xe = XE[k]*
-    r_n
-    r_w
+    r_xe = XE[k]*2 + 1
+    r_n = N[k]*2 + 1
+    r_w = W[k]*2 + 1
     
     ax[1].imshow(im_xc, extent=[-r_xc+0.5, r_xc+0.5, -r_xc+0.5, r_xc+0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
     ax[1].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe-0.5, r_xe-0.5])
