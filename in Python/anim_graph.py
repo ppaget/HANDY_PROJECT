@@ -44,12 +44,7 @@ if __name__=='__main__':
 
     ani = FuncAnimation(fig = interface, func = animate, frames = range(time), interval = 1, repeat = False)
     
-<<<<<<< HEAD
-    plt.show()
-
-=======
     # frames : appelle pour chaque indice de t, les 4 valeurs des variables 
     # interval : 1=plus rapide 
 
     plt.show()
->>>>>>> eb2f70869f2c690f41d8ec0ff4b00d9297611f18
