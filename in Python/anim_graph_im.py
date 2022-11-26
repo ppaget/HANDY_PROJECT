@@ -16,9 +16,11 @@ def animate(k):
     #rendre legende plus petite
 
     im_xc = Image.open('sample.jpeg') 
-    im_xe = Image.open('sample.jpeg') 
+
+    """im_xe = Image.open('sample.jpeg') 
     im_n = Image.open('sample.jpeg') 
-    im_w = Image.open('sample.jpeg') 
+    im_w = Image.open('sample.jpeg')"""
+
     ax[1].clear() #Permet d'éviter la superposition d'images de tailles diff
 
     r_xc = XC[k]*2 + 1 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min
@@ -27,16 +29,12 @@ def animate(k):
     r_w = W[k]*2 + 1
     
     ax[1].imshow(im_xc, extent=[-r_xc+0.5, r_xc+0.5, -r_xc+0.5, r_xc+0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
-    ax[1].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe-0.5, r_xe-0.5])
+    """ ax[1].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe-0.5, r_xe-0.5])
     ax[1].imshow(im_n, extent=[-r_n+0.5, r_n+0.5, -r_n-0.5, r_n-0.5])
-    ax[1].imshow(im_w, extent=[-r_w-0.5, r_w-0.5, -r_w+0.5, r_w+0.5])
+    ax[1].imshow(im_w, extent=[-r_w-0.5, r_w-0.5, -r_w+0.5, r_w+0.5])"""
 
     ax[1].axis("off")
 
-
-
-
-    return ax
 
 def readFile(fname):
 
@@ -64,7 +62,7 @@ if __name__=='__main__':
     ax[0].set_ylim(-0.03, 1.03)
 
     ani = FuncAnimation(fig = interface, func = animate, frames = range(time), interval = 1, repeat = False)
-    
+
     
     plt.show()
 
