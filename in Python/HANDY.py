@@ -27,7 +27,7 @@ class Model():
 
     def set_params(self, xc='', xe='', y='', w='', am='', aM='', bc='', be='',
                    g='', l='', s='', d='', k='', r='', t=''):
-    
+
         """Set params manually with data that is already defined in the class"""
 
         Mam, MaM, Mbc, Mbe, Mg, Ml, Ms, Md, Mk, Mr = self.parameters
