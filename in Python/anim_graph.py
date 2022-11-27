@@ -11,7 +11,7 @@ def animate(k):
     ax.plot(t[:k*5], N[:k*5], color = 'g')
     ax.plot(t[:k*5], W[:k*5], color = 'k')
 # ci-dessus : le facteur par lequel on multiplie k permet de faire varier la vitesse de déroul
-
+    plt.title("Scenario :")
     ax.legend(["Commoner population", "Elite population", "Nature", "Wealth"])
     #rendre legende plus petite
 
@@ -42,8 +42,8 @@ if __name__=='__main__':
     ax.set_xlim(-20, 1020)
     ax.set_ylim(-0.03, 1.03) # marges --> Permet une meilleure clarté du graph 
 
-    ani = FuncAnimation(fig = interface, func = animate, frames = range(time), interval = 1, repeat = False)
-    
+    ani = FuncAnimation(fig=interface, func = animate, frames = range(time), interval = 1, repeat = False)
+    #au lieu de mettre fig=interface, on peut mettre plt.gcf()
     # frames : appelle pour chaque indice de t, les 4 valeurs des variables 
     # interval : 1=plus rapide 
 
