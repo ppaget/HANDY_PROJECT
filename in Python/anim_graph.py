@@ -11,7 +11,7 @@ def animate(k):
     ax.plot(t[:k*5], N[:k*5], color = 'g')
     ax.plot(t[:k*5], W[:k*5], color = 'k')
 # ci-dessus : le facteur par lequel on multiplie k permet de faire varier la vitesse de déroul
-    plt.title("Scenario :")
+    plt.title("Stable equitable scenario")
     ax.legend(["Commoner population", "Elite population", "Nature", "Wealth"])
     #rendre legende plus petite
 
