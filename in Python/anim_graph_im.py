@@ -28,7 +28,7 @@ def animate(k):
     r_n = N[k]*2 + 1
     r_w = W[k]*2 + 1
     
-    ax[1].imshow(im_xc, extent=[-r_xc+0.5, r_xc+0.5, -r_xc+0.5, r_xc+0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
+    ax[1].imshow(im_xc, extent=[(-0.5, r_xc, -0.5, r_xc)]) #image en carré ; 0,5 = éloignement par rapport au centre 
     """ ax[1].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe-0.5, r_xe-0.5])
     ax[1].imshow(im_n, extent=[-r_n+0.5, r_n+0.5, -r_n-0.5, r_n-0.5])
     ax[1].imshow(im_w, extent=[-r_w-0.5, r_w-0.5, -r_w+0.5, r_w+0.5])"""
@@ -51,7 +51,7 @@ if __name__=='__main__':
     time = 1000
     fnameM = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in Python/results_python.txt"
     fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in C/results_python.txt"
-    [XC, XE, N, W] = readFile(fnameP)
+    [XC, XE, N, W] = readFile(fnameM)
     t = [i for i in range(time)]
     
 # Création de la figure et de l'axe

@@ -16,6 +16,7 @@ def animate(k):
     #rendre legende plus petite
 
 
+
 def readFile(fname):
 
     array = np.genfromtxt(fname, delimiter=', ', dtype='float64')
@@ -31,7 +32,8 @@ if __name__=='__main__':
     time = 1000
     fnameM = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in Python/results_python.txt"
     fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in C/results_python.txt"
-    [XC, XE, N, W] = readFile(fnameP)
+    # [XC, XE, N, W] = readFile(fnameP)
+    [XC, XE, N, W] = readFile(fnameM)
     t = [i for i in range(time)]
 
     
