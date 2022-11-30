@@ -1,4 +1,5 @@
 from tkinter import *
+import os
 
 def afficherValeur_xc() :
     valeur = curseurxc.get()
@@ -17,8 +18,16 @@ def afficherValeur_n() :
 
 def afficherValeur_w() :
     valeur = curseurw.get()
-    text1 = ("W : ", valeur)
+    text1 = "W : " + str(valeur)
     monAffichagew.configure(text = text1)
+
+def run():
+    variables = [curseurxc.get(), curseurxe.get(), curseurn.get(), curseurw.get()]
+    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
+    os.chdir("../in_C") #sortir de celui d'avant
+    # os.system("python emilien.py")
+    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
+    os.system("./handy_calculs_exe " + str(variables[0]) + " " + str(variables[1]) + " " + str(variables[2]) + " " + str(variables[3]))
 
 
 if __name__=='__main__':
@@ -32,7 +41,7 @@ if __name__=='__main__':
     monAffichagexc = Label(fen_princ, text = "Value wanted for XC", width=70)
     monAffichagexc.pack()
 
-    monBoutonxc = Button(fen_princ, text = "Get value for XC", command = afficherValeur_xc())
+    monBoutonxc = Button(fen_princ, text = "Get value for XC", command = afficherValeur_xc)
     monBoutonxc.pack()
     
     # XE
@@ -42,7 +51,7 @@ if __name__=='__main__':
     monAffichagexe = Label(fen_princ, text = "Value wanted for XE", width=70)
     monAffichagexe.pack()
 
-    monBoutonxe = Button(fen_princ, text = "Get value for XE", command = afficherValeur_xe())
+    monBoutonxe = Button(fen_princ, text = "Get value for XE", command = afficherValeur_xe)
     monBoutonxe.pack()
 
     #N
@@ -52,7 +61,7 @@ if __name__=='__main__':
     monAffichagen = Label(fen_princ, text = "Value wanted for N", width=70)
     monAffichagen.pack()
 
-    monBoutonn = Button(fen_princ, text = "Get value for N", command = afficherValeur_n())
+    monBoutonn = Button(fen_princ, text = "Get value for N", command = afficherValeur_n)
     monBoutonn.pack()
 
     # W
@@ -62,8 +71,13 @@ if __name__=='__main__':
     monAffichagew = Label(fen_princ, text = "Value wanted for W", width=70)
     monAffichagew.pack()
 
-    monBoutonw = Button(fen_princ, text = "Get value for W", command = afficherValeur_w())
+    monBoutonw = Button(fen_princ, text = "Get value for W", command = afficherValeur_w)
     monBoutonw.pack()
+
+    #Final
+
+    monBoutonf = Button(fen_princ, text = "GOOOO", command = run)
+    monBoutonf.pack()
 
     # END
     fen_princ.mainloop()
