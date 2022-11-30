@@ -7,9 +7,13 @@ import matplotlib.image as mpimg
 
 # Création de la fonction qui sera appelée à "chaque nouvelle image"
 
-img = mpimg.imread('sample.jpeg')
+img = mpimg.imread("lol.png")
+
+img2 = Image.open("lol.png")
 imgplot = plt.imshow(img)
-plt.show()
+#plt.show()
+img2.show()
+
     #im_xc.clear() #Permet d'éviter la superposition d'images de tailles diff
 
     # r_xc = XC[k]*2 + 1 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min

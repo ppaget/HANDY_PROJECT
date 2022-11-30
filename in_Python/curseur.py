@@ -3,6 +3,8 @@ from tkinter import *
 # Déclarations des fonctions utilisées
 # - - - - - - - - - - - - - - - - - -
 
+TK_SILENCE_DEPRECATION=1
+
 def afficherValeur(string) :
     if string == "xc":
         valeur = curseurxc.get()
@@ -53,3 +55,4 @@ monBoutonxc.pack()
 # - - - - - - - - - - - - - - - - - -
 
 fen_princ.mainloop()
+
