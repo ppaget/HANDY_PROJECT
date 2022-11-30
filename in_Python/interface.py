@@ -15,10 +15,10 @@ def animate(k):
     ax[1].legend(["Commoner population", "Elite population", "Nature", "Wealth"])
     #rendre legende plus petite
 
-    im_xc = Image.open("in_Python/im1.jpg") 
-    im_xe = Image.open("in_Python/im2.jpg")
-    im_n = Image.open("in_Python/im3.jpg") 
-    im_w = Image.open("in_Python/im4.jpg")  
+    im_xc = Image.open("images/im1.jpg") 
+    im_xe = Image.open("images/im2.jpg")
+    im_n = Image.open("images/im3.jpg") 
+    im_w = Image.open("images/im4.jpg")  
 
     ax[2].clear() #Permet d'éviter la superposition d'images de tailles diff
 
@@ -53,7 +53,7 @@ def readFile(fname):
 if __name__=='__main__':
 
     time = 5000 # Quelle valeur du temps ? 
-    fnameM = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python/results_python.txt"
+    fnameM = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
     fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
     [XC, XE, N, W] = readFile(fnameP)
     t = [i for i in range(time)]

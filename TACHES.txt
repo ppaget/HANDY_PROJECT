@@ -2,7 +2,7 @@ MAHLIA
 * Curseurs
     - les 4 doivent fonctionner en même temps -> cursors.py
     - transférer les valeurs pour fichier C -> system.py
-    - ax[0] sur l'interface -> anim_graph_im.py
+    - ax[0] sur l'interface -> interface.py
     - vérifier utilité (variables ou params ?)
 
 =======================================================================
@@ -10,7 +10,7 @@ MAHLIA
 PEPS 
 * Images 
     - dessiner/trouver 4 images de MEME DIMENSION
-    - solution pour graph + smooth -> anim_graph_im.py
+    - solution pour graph + smooth -> interface.py
         interval =! 1 possible ? 
     - redimensioner colonne ax[0] pour avoir ax[1] plus "carré"
     - faire programme "finalité" -> type de collapse, 
