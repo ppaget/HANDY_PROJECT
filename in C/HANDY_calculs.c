@@ -223,9 +223,30 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
-    readFile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
-    runAuto(tab_variables, &parameters, t);
-    finalFile("results_python.txt", tab_variables, t) ;
+    char condition = 'c' ;
+
+    if (condition == 'f') {
+        readFile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
+    }
+
+    if (condition == 'c') {
+        double xc_0 = atof(argv[1]) ;
+        tab_variables[0].xc = xc_0 ;
+        double xe_0 = atof(argv[2]) ;
+        tab_variables[0].xe = xe_0 ;
+        double n_0 = atof(argv[3]) ;
+        tab_variables[0].n = n_0 ;
+        double w_0 = atof(argv[4]) ;
+        tab_variables[0].w = w_0 ;
+    }
+
+    printf("%f\n", tab_variables[0].xc) ;
+    printf("%f\n", tab_variables[0].xe) ;
+    printf("%f\n", tab_variables[0].n) ;
+    printf("%f\n", tab_variables[0].w) ;
+
+    // runAuto(tab_variables, &parameters, t);
+    // finalFile("results_python.txt", tab_variables, t) ;
 
     //lien avec python ? fin
     
