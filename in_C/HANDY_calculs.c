@@ -24,7 +24,7 @@ struct Struct_params {
     double r ;
 } ;
 
-void readFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
+void readFile(const char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
 /* This function reads a text file of our initial conditions : 4 variables and 10 parameters.
 It stocks the values in the two structures corresponding to the two types of arguments
 (variables and parameters). */ 
@@ -223,32 +223,35 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
-    char condition = 'c' ;
+    const char * condition = argv[1] ;
 
-    if (condition == 'f') {
-        readFile("params_stable_equitable_2.txt",tab_variables, &parameters, 15);
+    char * f = "f" ;
+    if (strcmp(condition, f) == 0) {
+        const char * file_path = argv[2] ;
+        readFile(file_path,tab_variables, &parameters, 15);
     }
-
-    if (condition == 'c') {
-        double xc_0 = atof(argv[1]) ;
+    char * c = "c" ;
+    if (strcmp(condition, c) == 0) {
+        double xc_0 = atof(argv[2]) ;
         tab_variables[0].xc = xc_0 ;
-        double xe_0 = atof(argv[2]) ;
+        double xe_0 = atof(argv[3]) ;
         tab_variables[0].xe = xe_0 ;
-        double n_0 = atof(argv[3]) ;
+        double n_0 = atof(argv[4]) ;
         tab_variables[0].n = n_0 ;
-        double w_0 = atof(argv[4]) ;
+        double w_0 = atof(argv[5]) ;
         tab_variables[0].w = w_0 ;
     }
 
-    printf("%f\n", tab_variables[0].xc) ;
-    printf("%f\n", tab_variables[0].xe) ;
-    printf("%f\n", tab_variables[0].n) ;
-    printf("%f\n", tab_variables[0].w) ;
+    // printf("%f\n", tab_variables[0].xc) ;
+    // printf("%f\n", tab_variables[0].xe) ;
+    // printf("%f\n", tab_variables[0].n) ;
+    // printf("%f\n", tab_variables[0].w) ;
 
-    // runAuto(tab_variables, &parameters, t);
-    // finalFile("results_python.txt", tab_variables, t) ;
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python.txt", tab_variables, t) ;
 
     //lien avec python ? fin
+    //modifier name of file selon file or cursors
     
     return 0;
 }
