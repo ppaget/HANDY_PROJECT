@@ -63,7 +63,8 @@ if __name__=='__main__':
     fnameMfile = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     fnameMcurs = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt"
     fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
-    [XC, XE, N, W] = readFile(fnameMfile)
+    #[XC, XE, N, W] = readFile(fnameMfile)
+    [XC, XE, N, W] = readFile(fnameP)
     t = [i for i in range(time)]
 
     interface, ax = plt.subplots(1, 2, figsize=(13,6.5))
