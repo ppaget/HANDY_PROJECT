@@ -36,10 +36,11 @@ def send_cursors():
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + variables[0] + " " + variables[1] + " " + variables[2] + " " + variables[3] + " " + variables[4])
 
-    window = [curseurxc, curseurxe, curseurn, curseurw, monAffichagexc, monAffichagexe, monAffichagen, monAffichagew, monBoutonxc, monBoutonxe, monBoutonn, monBoutonw, monBoutonfinal]
-    for i in window : i.destroy()
-    monAffichagecalc = Label(fen_princ, text = "Handy is calculating with chosen :\n"+"XC : "+xc+"\nXE : "+xe+"\nN : "+n+"\nW : "+w, width=70)
-    monAffichagecalc.place(x=0, y=0)
+    fen_princ.destroy()
+    # window = [curseurxc, curseurxe, curseurn, curseurw, monAffichagexc, monAffichagexe, monAffichagen, monAffichagew, monBoutonxc, monBoutonxe, monBoutonn, monBoutonw, monBoutonfinal]
+    # for i in window : i.destroy()
+    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating with chosen :\n"+"XC : "+xc+"\nXE : "+xe+"\nN : "+n+"\nW : "+w, width=70)
+    # monAffichagecalc.place(x=0, y=0)
 
 def send_path():
     path = ['f', name_file.get()]
@@ -49,10 +50,14 @@ def send_path():
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
-    window = [monAffichageinput, name_file, monBoutoninput]
-    for i in window : i.destroy()
-    monAffichagecalc = Label(fen_princ, text = "Handy is calculating from file", width=70)
-    monAffichagecalc.place(x=10, y=10)
+    fen_princ.destroy()
+
+    # window = [monAffichageinput, name_file, monBoutoninput]
+    # for i in window : i.destroy()
+    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating from file", width=70)
+    # monAffichagecalc.place(x=10, y=10)
+
+    # ajouter le titre du fichier pour mettre dans le titre
 
 def uploadFile():
     global monAffichageinput
@@ -149,50 +154,6 @@ def questions():
     monBoutoncurs.pack()
 
 
-# def readFile(fname):
-
-#     array = np.genfromtxt(fname, delimiter=', ', dtype='float64')
-#     XC = array[:,0]
-#     XE = array[:,1]
-#     N = array[:,2]
-#     W = array[:,3]
-
-#     return [XC, XE, N ,W]
-
-# def animate(k):
-
-#     ax[0].plot(t[:k*5], XC[:k*5], color = 'b')
-#     ax[0].plot(t[:k*5], XE[:k*5], color = 'r')
-#     ax[0].plot(t[:k*5], N[:k*5], color = 'g')
-#     ax[0].plot(t[:k*5], W[:k*5], color = 'k')
-
-#     ax[0].legend(["Commoner population", "Elite population", "Nature", "Wealth"])
-#     #rendre legende plus petite
-
-#     im_xc = Image.open("images/im1.jpg") 
-#     im_xe = Image.open("images/im2.jpg")
-#     im_n = Image.open("images/im3.jpg") 
-#     im_w = Image.open("images/im4.jpg")  
-
-#     ax[1].clear() #Permet d'éviter la superposition d'images de tailles diff
-
-#     ax[1].set_xlim([-1,1]) # Définit un cadre pour l'image 
-#     ax[1].set_ylim([-1,1])
-
-#     r_xc = XC[k*5]*0.5 + 0.05 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min
-#     r_xe = XE[k*5]*0.5 + 0.05
-#     r_n = N[k*5]*0.5 + 0.05
-#     r_w = W[k*5]*0.5 + 0.05
-
-    
-#     ax[1].imshow(im_xc, extent=[-r_xc-0.5, r_xc-0.5, -r_xc-0.5, r_xc-0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
-#     ax[1].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe+0.5, r_xe+0.5])
-#     ax[1].imshow(im_n, extent=[-r_n+0.5, r_n+0.5, -r_n+0.5, r_n+0.5])
-#     ax[1].imshow(im_w, extent=[-r_w+0.5, r_w+0.5, -r_w-0.5, r_w-0.5])
-
-#     ax[1].axis("off")
-
-
 
 if __name__=='__main__':
     fen_princ = Tk()
@@ -204,6 +165,13 @@ if __name__=='__main__':
 
     fen_princ.attributes('-fullscreen', True)
     questions()
+    fen_princ.mainloop()
+
+    #random chiffre sur première ligne (header)
+    #attendre 1s et regarder etc...
+    #
+
+    # print("emilouche")
 
     # data = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
     
@@ -222,8 +190,12 @@ if __name__=='__main__':
     # ani = FuncAnimation(fig = interface, func = animate, frames = range(time), interval = 1, repeat = False)
 
 
-    # END
-    fen_princ.mainloop()
+    # # END
+    # fen_princ.mainloop()
 
 #ajouter résumé à la fin
 #préciser quels sont les paramètres par défaut
+
+
+# expliquer les variables 
+# et la normalisation 

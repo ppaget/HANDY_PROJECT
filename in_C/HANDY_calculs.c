@@ -63,6 +63,19 @@ It stocks the values in the two structures corresponding to the two types of arg
     fclose(file);
 }
 
+void paramsDefault(struct Struct_params * params) {
+    params->am = 0.01 ;
+    params->aM = 0.07 ;
+    params->bc = 0.03 ;
+    params->be = 0.03 ;
+    params->g = 0.01 ;
+    params->l = 100 ;
+    params->s = 0.0005 ;
+    params->d = 0.00000667 ;
+    params->k = 0 ;
+    params->r = 0.005 ;
+}
+
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
 /* This function calculates the new four variables from the variables just before.
 Incremeting with differential functions defined in the paper, using Euler method.*/
@@ -228,7 +241,9 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     char * f = "f" ;
     if (strcmp(condition, f) == 0) {
         const char * file_path = argv[2] ;
-        readFile(file_path,tab_variables, &parameters, 15);
+        readFile(file_path, tab_variables, &parameters, 15);
+        runAuto(tab_variables, &parameters, t);
+        finalFile("results_python_file.txt", tab_variables, t) ;
     }
     char * c = "c" ;
     if (strcmp(condition, c) == 0) {
@@ -240,6 +255,9 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         tab_variables[0].n = n_0 ;
         double w_0 = atof(argv[5]) ;
         tab_variables[0].w = w_0 ;
+        paramsDefault(&parameters) ;
+        runAuto(tab_variables, &parameters, t);
+        finalFile("results_python_cursors.txt", tab_variables, t) ;
     }
 
     // printf("%f\n", tab_variables[0].xc) ;
@@ -247,8 +265,6 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     // printf("%f\n", tab_variables[0].n) ;
     // printf("%f\n", tab_variables[0].w) ;
 
-    runAuto(tab_variables, &parameters, t);
-    finalFile("results_python.txt", tab_variables, t) ;
 
     //lien avec python ? fin
     //modifier name of file selon file or cursors
@@ -258,7 +274,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
 
 
 
-// pour euler : mieux de faire une copie ou d'appeler variables[i] ?
-// pour améliorer : fichier plus précis donc modifier lecture
+
+
 // anciens fichiers textes
 // template pyhton pour définir fonction
