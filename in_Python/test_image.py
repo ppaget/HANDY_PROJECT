@@ -4,10 +4,9 @@ import matplotlib.animation as ani
 from PIL import Image
 
 
-def test(): 
-    fig, ax = plt.subplots()
-    ax.axis("off")
-    ax.text(0.3,0.5, 'We have reached a collapse', style='italic',
-        bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
-    plt.show()
-test()
+def test(fname): 
+    array = np.genfromtxt(fname, delimiter=', ', dtype="float64")
+    variables = array[:,0]
+    parameters = array[:,0]
+    print(variables, parameters)
+test("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt")
