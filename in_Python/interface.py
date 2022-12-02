@@ -57,6 +57,7 @@ def animate(k):
 if __name__=='__main__':
 
     # Importations données graph+im
+    print("Entering in interface")
     time = 1000
     skip = 5
 

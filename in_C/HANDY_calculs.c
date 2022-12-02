@@ -265,6 +265,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     // printf("%f\n", tab_variables[0].n) ;
     // printf("%f\n", tab_variables[0].w) ;
 
+    system("python ../in_Python/interface.py") ;
 
     //lien avec python ? fin
     //modifier name of file selon file or cursors
