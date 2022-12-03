@@ -210,7 +210,7 @@ euleur function and normalizes each value. */
     }
 }
 
-void finalFile(char * FileName, struct Struct_variables * variables, int t) {
+void finalFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int t) {
 /* This function creates the final file containing all datas to send to python
 (one variable per column). */
 ;
@@ -218,6 +218,7 @@ void finalFile(char * FileName, struct Struct_variables * variables, int t) {
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
+    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", "Variables", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r);
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
@@ -243,7 +244,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         const char * file_path = argv[2] ;
         readFile(file_path, tab_variables, &parameters, 15);
         runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, t) ;
+        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
     }
     char * c = "c" ;
     if (strcmp(condition, c) == 0) {
@@ -257,7 +258,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         tab_variables[0].w = w_0 ;
         paramsDefault(&parameters) ;
         runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_cursors.txt", tab_variables, t) ;
+        finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
     }
 
     // printf("%f\n", tab_variables[0].xc) ;
@@ -265,6 +266,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     // printf("%f\n", tab_variables[0].n) ;
     // printf("%f\n", tab_variables[0].w) ;
 
+    system("python ../in_Python/interface.py") ;
 
     //lien avec python ? fin
     //modifier name of file selon file or cursors

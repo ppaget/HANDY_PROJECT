@@ -1,15 +1,17 @@
 MAHLIA
 * Curseurs
-    - les 4 doivent fonctionner en même temps -> cursors.py
+
     - transférer les valeurs pour fichier C -> system.py
     - ax[0] sur l'interface -> interface.py
     - vérifier utilité (variables ou params ?)
+    - paramètres ne varient pas par rapport au temps (Coco)
 
 =======================================================================
 
 PEPS 
 * Images 
     - dessiner/trouver 4 images de MEME DIMENSION
+    - explication des variables / welcome -> cursors.py
     - solution pour graph + smooth -> interface.py
         interval =! 1 possible ? 
     - redimensioner colonne ax[0] pour avoir ax[1] plus "carré"
