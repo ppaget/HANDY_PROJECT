@@ -68,3 +68,6 @@ if __name__=='__main__':
     # monAffichagecalc.place(x=10, y=10)
 
     # ajouter le titre du fichier pour mettre dans le titre
+
+        # name_file = Entry(fen_princ)
+    # name_file.pack()
