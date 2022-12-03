@@ -5,6 +5,7 @@ MAHLIA
     - ax[0] sur l'interface -> interface.py
     - vérifier utilité (variables ou params ?)
     - paramètres ne varient pas par rapport au temps (Coco)
+    - requirements : toutes libraires
 
 =======================================================================
 

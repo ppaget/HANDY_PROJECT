@@ -50,3 +50,21 @@ if __name__=='__main__':
     # interval : 1=plus rapide 
 
     plt.show()
+
+    # screen_width = fen_princ.winfo_screenwidth()
+    # screen_height = fen_princ.winfo_screenheight()
+
+    # print(screen_width, screen_height)
+
+    # window = [curseurxc, curseurxe, curseurn, curseurw, monAffichagexc, monAffichagexe, monAffichagen, monAffichagew, monBoutonxc, monBoutonxe, monBoutonn, monBoutonw, monBoutonfinal]
+    # for i in window : i.destroy()
+    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating with chosen :\n"+"XC : "+xc+"\nXE : "+xe+"\nN : "+n+"\nW : "+w, width=70)
+    # monAffichagecalc.place(x=0, y=0)
+
+
+    # window = [monAffichageinput, name_file, monBoutoninput]
+    # for i in window : i.destroy()
+    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating from file", width=70)
+    # monAffichagecalc.place(x=10, y=10)
+
+    # ajouter le titre du fichier pour mettre dans le titre

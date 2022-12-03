@@ -203,10 +203,14 @@ euleur function and normalizes each value. */
     double mx_W = findMax(variables, 'w', t) ;
 
     for (int i = 0 ; i < t ; i++) {
-        variables[i].xc = (variables[i].xc / mx_XC) ;
-        variables[i].xe = (variables[i].xe / mx_XE) ;
-        variables[i].n = (variables[i].n / mx_N) ;
-        variables[i].w = (variables[i].w / mx_W) ;
+        if (mx_XC == 0) variables[i].xc = 0 ;
+        else variables[i].xc = (variables[i].xc / mx_XC) ;
+        if (mx_XE == 0) variables[i].xe = 0 ;
+        else variables[i].xe = (variables[i].xe / mx_XE) ;
+        if (mx_N == 0) variables[i].n = 0 ;
+        else variables[i].n = (variables[i].n / mx_N) ;
+        if (mx_W == 0) variables[i].w = 0 ;
+        else variables[i].w = (variables[i].w / mx_W) ;
     }
 }
 
@@ -218,7 +222,7 @@ void finalFile(char * FileName, struct Struct_variables * variables, struct Stru
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
-    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", "Variables", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r);
+    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r);
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
@@ -245,10 +249,12 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         readFile(file_path, tab_variables, &parameters, 15);
         runAuto(tab_variables, &parameters, t);
         finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+        system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
     }
     char * c = "c" ;
     if (strcmp(condition, c) == 0) {
         double xc_0 = atof(argv[2]) ;
+        printf("%f\n", xc_0) ;
         tab_variables[0].xc = xc_0 ;
         double xe_0 = atof(argv[3]) ;
         tab_variables[0].xe = xe_0 ;
@@ -259,17 +265,10 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         paramsDefault(&parameters) ;
         runAuto(tab_variables, &parameters, t);
         finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+        system("python ../in_Python/interface.py --fileName results_python_cursors.txt") ;
     }
 
-    // printf("%f\n", tab_variables[0].xc) ;
-    // printf("%f\n", tab_variables[0].xe) ;
-    // printf("%f\n", tab_variables[0].n) ;
-    // printf("%f\n", tab_variables[0].w) ;
-
-    system("python ../in_Python/interface.py") ;
-
-    //lien avec python ? fin
-    //modifier name of file selon file or cursors
+    
     
     return 0;
 }
