@@ -1,10 +1,7 @@
 from tkinter import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation,FFMpegFileWriter
-from PIL import Image
+
 
 def afficherValeur_xc() :
     valeur = curseurxc.get()
@@ -23,7 +20,7 @@ def afficherValeur_w() :
     text1 = "W : " + str(valeur)
     monAffichagew.configure(text = text1)
 
-def send_cursors():
+def sendCursors():
     xc = str(curseurxc.get())
     xe = str(curseurxe.get())
     n = str(curseurn.get())
@@ -37,13 +34,13 @@ def send_cursors():
     os.system("./handy_calculs_exe " + variables[0] + " " + variables[1] + " " + variables[2] + " " + variables[3] + " " + variables[4])
 
     fen_princ.destroy()
-    # window = [curseurxc, curseurxe, curseurn, curseurw, monAffichagexc, monAffichagexe, monAffichagen, monAffichagew, monBoutonxc, monBoutonxe, monBoutonn, monBoutonw, monBoutonfinal]
-    # for i in window : i.destroy()
-    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating with chosen :\n"+"XC : "+xc+"\nXE : "+xe+"\nN : "+n+"\nW : "+w, width=70)
-    # monAffichagecalc.place(x=0, y=0)
 
-def send_path():
-    path = ['f', name_file.get()]
+def sendScenario():
+    path = ['f']
+    scenario = []
+    for i in lb.curselection():
+        scenario.append(lb.get(i))
+    #envoyer le bon fichier
     os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
     os.chdir("../in_C") #sortir de celui d'avant
     # os.system("python emilien.py")
@@ -52,29 +49,44 @@ def send_path():
 
     fen_princ.destroy()
 
-    # window = [monAffichageinput, name_file, monBoutoninput]
-    # for i in window : i.destroy()
-    # monAffichagecalc = Label(fen_princ, text = "Handy is calculating from file", width=70)
-    # monAffichagecalc.place(x=10, y=10)
-
-    # ajouter le titre du fichier pour mettre dans le titre
-
 def uploadFile():
     global monAffichageinput
-    global name_file
+    global lb
     global monBoutoninput
 
     window = [monAffichagep, monBoutonfile, monBoutoncurs]
     for i in window : i.destroy()
 
-    monAffichageinput = Label(fen_princ, text = "Enter the path of your file", width=70)
+    monAffichageinput = Label(fen_princ, text = "Chose an existing scenario", width=70)
     monAffichageinput.pack()
 
-    name_file = Entry(fen_princ)
-    name_file.pack()
+    lb = Listbox(fen_princ)
+    lb.insert(1, "Default society")
+    lb.insert(2, "Egalitarian society")
+    lb.insert(3, "Inequal society 1")
+    lb.insert(4, "Inequal society 2")
+    lb.insert(5, "Stable society 1")
+    lb.insert(6, "Inequal society 2")
+    lb.insert(7, "Inequal society 3")
+    lb.pack()
 
-    monBoutoninput = Button(fen_princ, text = "Validate the path", command = send_path)
+
+    monBoutoninput = Button(fen_princ, text = "Validate scenario", command = sendScenario)
     monBoutoninput.pack()
+
+def sendPath():
+    path = ['f', name_file.get()]
+
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
+    for i in window : i.destroy()
+
+    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
+    os.chdir("../in_C") #sortir de celui d'avant
+    # os.system("python emilien.py")
+    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
+    os.system("./handy_calculs_exe " + path[0] + " " + path[1])
+
+    fen_princ.destroy()
 
 def launchCursors():
     global curseurxc
@@ -135,67 +147,57 @@ def launchCursors():
     monBoutonw.pack()
 
     #Validate values
-    monBoutonfinal = Button(fen_princ, text = "GOOOO", command = send_cursors)
+    monBoutonfinal = Button(fen_princ, text = "GOOOO", command = sendCursors)
     monBoutonfinal.pack()
+
+def getPath():
+    global monAffichagepath
+    global monBoutonpath
+    global name_file
+
+    window = [monAffichagep, monBoutonfile, monBoutoncurs]
+    for i in window : i.destroy()
+
+    monAffichagepath = Label(fen_princ, text = "Chose an existing scenario", width=70)
+    monAffichageinput.pack()
+    
+    name_file = Entry(fen_princ)
+    name_file.pack()
+
+    monBoutonpath = Button(fen_princ, text = "Validate path", command=sendPath)
+    monBoutonpath.pack()
 
 def questions():
     global monAffichagep
     global monBoutonfile
     global monBoutoncurs
+    global monBoutonpath
 
     # First choices
     monAffichagep = Label(fen_princ, text = "What do you prefer?", width=70)
     monAffichagep.pack()
 
-    monBoutonfile = Button(fen_princ, text = "I want to use my file", command = uploadFile)
+    monBoutonfile = Button(fen_princ, text = "I want to chose an existing scenario", command = uploadFile)
     monBoutonfile.pack()
 
-    monBoutoncurs = Button(fen_princ, text = "I want to chose now", command = launchCursors)
+    monBoutoncurs = Button(fen_princ, text = "I want to create a scenario now", command = launchCursors)
     monBoutoncurs.pack()
 
+    monBoutonpath = Button(fen_princ, text = "I want to upload my file", command = getPath)
+    monBoutonpath.pack()
 
 
 if __name__=='__main__':
     fen_princ = Tk()
 
-    # screen_width = fen_princ.winfo_screenwidth()
-    # screen_height = fen_princ.winfo_screenheight()
-
-    # print(screen_width, screen_height)
-
     fen_princ.attributes('-fullscreen', True)
     questions()
     fen_princ.mainloop()
 
-    #random chiffre sur première ligne (header)
-    #attendre 1s et regarder etc...
-    #
 
-    # print("emilouche")
-
-    # data = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
-    
-    # time = 1001 
-    # [XC, XE, N, W] = readFile(data)
-    # t = [i for i in range(time)]
-    
-    # interface, ax = plt.subplots(1, 2, figsize=(15,8))
-    # ax[0].set_xlim(-20, 1020)
-    # ax[0].set_ylim(-0.03, 1.03)
-    
-
-    # canvas = FigureCanvasTkAgg(interface, master=fen_princ) # Convert the Figure to a tkinter widget
-    # canvas.get_tk_widget().pack() # Show the widget on the screen
-
-    # ani = FuncAnimation(fig = interface, func = animate, frames = range(time), interval = 1, repeat = False)
-
-
-    # # END
-    # fen_princ.mainloop()
 
 #ajouter résumé à la fin
 #préciser quels sont les paramètres par défaut
-
 
 # expliquer les variables 
 # et la normalisation 

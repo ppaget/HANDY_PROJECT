@@ -1,3 +1,5 @@
-    # im_xe = Image.open("images/im2.jpg")
-    # im_n = Image.open("images/im3.jpg") 
-    # im_w = Image.open("images/im4.jpg") 
+    # name_file = Entry(fen_princ)
+    # name_file.pack()
+
+    # monBoutoninput = Button(fen_princ, text = "Validate the path", command = sendPath)
+    # monBoutoninput.pack()

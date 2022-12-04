@@ -5,17 +5,8 @@
 
 int main(int argc, char * argv[]) {
     
-        char * line = "xc     1e2 commoner population" ;
-        char * espace = strchr(line,' ');
-        double val ;
-        if (*(espace+1) != ' '){ 
-            val = atof(espace+1);
-        }    
-        else {
-            val=atof(espace+2);
-        }
-    
-    printf("Valeur:%0.3f\n", atof(espace));
+    char * d = "0" ;
+    printf("%f\n", atof(d)/0) ;
 
 
         

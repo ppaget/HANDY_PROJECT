@@ -2,24 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation,FFMpegFileWriter
 from PIL import Image
-import os
+import argparse
 
+parser = argparse.ArgumentParser(description="From C")
+parser.add_argument("--fileName", type=str, help="fichier C")
 
 def readFile(fname):
 
-    array = np.genfromtxt(fname, delimiter=', ', dtype=float)
-    XC = array[2:,0]
-    XE = array[2:,1]
-    N = array[2:,2]
-    W = array[2:,3]
-    variables = array[0,:]
-    parameters = array[1,:]
+    array = np.genfromtxt(fname, delimiter=', ', skip_header=3, dtype=float)
+    XC = array[:,0]
+    XE = array[:,1]
+    N = array[:,2]
+    W = array[:,3]
+    f = open(fname, "r")
+    variables = [f.readline()]
+    variables = variables[0].split(", ")
+    parameters = [f.readline()]
+    parameters = parameters[0].split(", ")
+    
     return [XC, XE, N ,W, variables, parameters]
 
 def stateText():
     ax[0].axis("off")
-    text1 = "Variables : \nXC = "+xc+"\nXE = "+xe+"\nN = "+n+"\nW = "+w+"\n"
-    text2 = "Parameters : \nam = "+am+"\naM = "+aM+"\nbc = "+bc+"\nbe = "+be+"\ng = "+g+"\nl = "+l+"\ns = "+s+"\nd = "+d+"\nk = "+k+"\nr = "+r+"\n"
+    text1 = "Variables : \n\nXC = "+xc+"\nXE = "+xe+"\nN = "+n+"\nW = "+w+"\n\n"
+    text2 = "Parameters : \n\nam = "+am+"\naM = "+aM+"\nbc = "+bc+"\nbe = "+be+"\ng = "+g+"\nl = "+l+"\ns = "+s+"\nd = "+d+"\nk = "+k+"\nr = "+r+"\n"
     ax[0].text(0.3,0.5, s=text1+text2)
 
 def finalText():
@@ -62,9 +68,10 @@ def animate(k):
         finalText()
 
 if __name__=='__main__':
+    
+    args = parser.parse_args()
 
     # Importations données graph+im
-    print("Entering in interface")
     time = 1000
     skip = 5
 
@@ -73,23 +80,23 @@ if __name__=='__main__':
     fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"
 
-    [XC, XE, N, W, variables, parameters] = readFile(fnamePfile)
+    [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
     t = [i for i in range(time)]
 
-    xc = str(variables[1])
-    xe = str(variables[2])
-    n = str(variables[3])
-    w = str(variables[4])
-    am = str(parameters[1])
-    aM = str(parameters[2])
-    bc = str(parameters[3])
-    be = str(parameters[4])
-    g = str(parameters[5])
-    l = str(parameters[6])
-    s = str(parameters[7])
-    d = str(parameters[8])
-    k = str(parameters[9])
-    r = str(parameters[10])
+    xc = variables[1]
+    xe = variables[2]
+    n = variables[3]
+    w = str(float(variables[4]))
+    am = parameters[1]
+    aM = parameters[2]
+    bc = parameters[3]
+    be = parameters[4]
+    g = parameters[5]
+    l = parameters[6]
+    s = parameters[7]
+    d = parameters[8]
+    k = parameters[9]
+    r = str(float(parameters[10]))
 
     interface, ax = plt.subplots(1, 3, figsize=(13,6.5))
 
