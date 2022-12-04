@@ -73,7 +73,7 @@ if __name__=='__main__':
     fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"
 
-    [XC, XE, N, W, variables, parameters] = readFile(fnameMfile)
+    [XC, XE, N, W, variables, parameters] = readFile(fnamePfile)
     t = [i for i in range(time)]
 
     xc = str(variables[1])
@@ -98,7 +98,9 @@ if __name__=='__main__':
     ax[1].set_xlim(-20, 1020)
     ax[1].set_ylim(-0.03, 1.03)
 
-    im_xc = Image.open("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Images/im1.jpg") 
+    #im_xc = Image.open("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Images/im1.jpg") 
+    im_xc = Image.open("Images/im1.jpg") 
+    
     # im_xe = Image.open("images/im2.jpg")
     # im_n = Image.open("images/im3.jpg") 
     # im_w = Image.open("images/im4.jpg") 
