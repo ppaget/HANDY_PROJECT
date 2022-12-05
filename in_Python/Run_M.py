@@ -9,13 +9,18 @@ from HANDY import Model as HANDY
 def main():
     """ Main loop for plotting """
 
-    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt" #modifier le nom
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_test.txt" #modifier le nom
 
-    array = np.genfromtxt(fname, delimiter=' ', dtype='float64') #ouvrir
+    array = np.genfromtxt(fname, delimiter=', ', skip_header=3, dtype=float)
     XC = array[:,0]
     XE = array[:,1]
     N = array[:,2]
     W = array[:,3]
+    f = open(fname, "r")
+    variables = [f.readline()]
+    variables = variables[0].split(", ")
+    parameters = [f.readline()]
+    parameters = parameters[0].split(", ")
 
 
     plt.plot(range(len(XC)), XC, label="Commoner Population", color='b')
