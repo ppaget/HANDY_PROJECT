@@ -31,7 +31,7 @@ if __name__=='__main__':
 
     time = 1000
     fnameM = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
-    fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python.txt"
+    fnameP = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     # [XC, XE, N, W] = readFile(fnameP)
     [XC, XE, N, W] = readFile(fnameP)
     t = [i for i in range(time)]
