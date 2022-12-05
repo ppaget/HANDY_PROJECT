@@ -5,8 +5,10 @@
 
 int main(int argc, char * argv[]) {
     
-    char * d = "0" ;
-    printf("%f\n", atof(d)/0) ;
+    char * condition = "c" ;
+    if (strcmp(condition, char* c = "c") == 0) {
+        printf("%s", "lol") ;
+    }
 
 
         

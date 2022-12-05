@@ -9,7 +9,7 @@ from HANDY import Model as HANDY
 def main():
     """ Main loop for plotting """
 
-    fname = "params_stable_equitable_2.txt" #modifier le nom
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt" #modifier le nom
 
     array = np.genfromtxt(fname, delimiter=' ', dtype='float64') #ouvrir
     XC = array[:,0]
