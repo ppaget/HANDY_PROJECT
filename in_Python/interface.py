@@ -124,8 +124,6 @@ if __name__=='__main__':
 # enregistrer la vidéo ?
 # courbe inclusive
 
-
-
    
     # fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     # fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"
