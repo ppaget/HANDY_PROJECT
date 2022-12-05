@@ -182,8 +182,12 @@ def questions():
     global monBoutoncurs
     global monBoutonpath
 
+    #finir texte intro avec présentation prjet, explications variables + paramètres ET les 3 choix possibles pour user 
+    welcome = "WELCOME TO THE HANDY PROJECT"
+    #Si possible, travailler sur le côté graphique/esthétique du texte 
+
     # First choices
-    monAffichagep = Label(fen_princ, text = "What do you prefer?", width=70)
+    monAffichagep = Label(fen_princ, text = welcome, width=70)
     monAffichagep.pack()
 
     monBoutonfile = Button(fen_princ, text = "I want to chose an existing scenario", command = choseScenario)
