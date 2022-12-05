@@ -1,11 +1,14 @@
+#!opt/anaconda3/bin/python
+# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation,FFMpegFileWriter
 from PIL import Image
 import argparse
 
-parser = argparse.ArgumentParser(description="From C")
-parser.add_argument("--fileName", type=str, help="fichier C")
+
+parser = argparse.ArgumentParser(description="File sent from C")
+parser.add_argument("--fileName", type=str, help="fichier C", default="/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt")
 
 def readFile(fname):
 
@@ -69,17 +72,13 @@ def animate(k):
 
 if __name__=='__main__':
     
+    print("emilouche")
     args = parser.parse_args()
 
     # Importations données graph+im
     time = 1000
     skip = 5
-
-    fnameMfile = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
-    fnameMcurs = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt"
-    fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
-    fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"
-
+    # fnameMcurs = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt"
     [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
     t = [i for i in range(time)]
 
@@ -118,3 +117,9 @@ if __name__=='__main__':
 
 # enregistrer la vidéo ?
 # courbe inclusive
+
+
+
+   
+    # fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
+    # fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"

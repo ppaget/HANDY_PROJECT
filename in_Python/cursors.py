@@ -20,6 +20,28 @@ def afficherValeur_w() :
     text1 = "W : " + str(valeur)
     monAffichagew.configure(text = text1)
 
+
+def sendScenario():
+    path = ['s']
+    for i in lb.curselection():
+        j = lb.get(i)
+        if j == "Default society" : path.append("../Text/HANDY_params_default.txt")
+        if j == "Egalitarian society" : path.append("../Text/HANDY_params_egalitarian_2.txt")
+        if j == "Inequal society 1" : path.append("../Text/HANDY_params_inequal.txt")
+        if j ==  "Inequal society 2" : path.append("../Text/HANDY_params_inequal_2.txt")
+        if j == "Stable society 1" : path.append("../Text/HANDY_params_stable_egalitarian.txt")
+        if j == "Stable society 2" : path.append("../Text/HANDY_params_stable_equitable_1.txt")
+        if j == "Stable society 3" : path.append("../Text/HANDY_params_stable_equitable_2.txt")
+
+    #envoyer le bon fichier
+    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
+    os.chdir("../in_C") #sortir de celui d'avant
+    # os.system("python emilien.py")
+    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
+    os.system("./handy_calculs_exe " + path[0] + " " + path[1])
+
+    fen_princ.destroy()
+
 def sendCursors():
     xc = str(curseurxc.get())
     xe = str(curseurxe.get())
@@ -35,26 +57,29 @@ def sendCursors():
 
     fen_princ.destroy()
 
-def sendScenario():
-    path = ['f']
-    scenario = []
-    for i in lb.curselection():
-        scenario.append(lb.get(i))
-    #envoyer le bon fichier
-    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
-    os.chdir("../in_C") #sortir de celui d'avant
+def sendPath():
+    path = ['f', name_file.get()]
+
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
+    for i in window : i.destroy()
+
+    # os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
+    print(os.getcwd())
+    os.chdir("in_C")
+    print(os.getcwd())
+    #sortir de celui d'avant
     # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
     fen_princ.destroy()
 
-def uploadFile():
+def choseScenario():
     global monAffichageinput
     global lb
     global monBoutoninput
 
-    window = [monAffichagep, monBoutonfile, monBoutoncurs]
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
     for i in window : i.destroy()
 
     monAffichageinput = Label(fen_princ, text = "Chose an existing scenario", width=70)
@@ -66,29 +91,14 @@ def uploadFile():
     lb.insert(3, "Inequal society 1")
     lb.insert(4, "Inequal society 2")
     lb.insert(5, "Stable society 1")
-    lb.insert(6, "Inequal society 2")
-    lb.insert(7, "Inequal society 3")
+    lb.insert(6, "Stable society 2")
+    lb.insert(7, "Stable society 3")
     lb.pack()
-
 
     monBoutoninput = Button(fen_princ, text = "Validate scenario", command = sendScenario)
     monBoutoninput.pack()
 
-def sendPath():
-    path = ['f', name_file.get()]
-
-    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
-    for i in window : i.destroy()
-
-    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
-    os.chdir("../in_C") #sortir de celui d'avant
-    # os.system("python emilien.py")
-    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
-    os.system("./handy_calculs_exe " + path[0] + " " + path[1])
-
-    fen_princ.destroy()
-
-def launchCursors():
+def choseCursors():
     global curseurxc
     global monAffichagexc
     global monBoutonxc
@@ -103,7 +113,7 @@ def launchCursors():
     global monBoutonw
     global monBoutonfinal
 
-    window = [monAffichagep, monBoutonfile, monBoutoncurs]
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
     for i in window : i.destroy()
 
     # XC
@@ -150,16 +160,16 @@ def launchCursors():
     monBoutonfinal = Button(fen_princ, text = "GOOOO", command = sendCursors)
     monBoutonfinal.pack()
 
-def getPath():
+def chosePath():
     global monAffichagepath
     global monBoutonpath
     global name_file
 
-    window = [monAffichagep, monBoutonfile, monBoutoncurs]
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
     for i in window : i.destroy()
 
-    monAffichagepath = Label(fen_princ, text = "Chose an existing scenario", width=70)
-    monAffichageinput.pack()
+    monAffichagepath = Label(fen_princ, text = "Enter path of file", width=70)
+    monAffichagepath.pack()
     
     name_file = Entry(fen_princ)
     name_file.pack()
@@ -177,13 +187,13 @@ def questions():
     monAffichagep = Label(fen_princ, text = "What do you prefer?", width=70)
     monAffichagep.pack()
 
-    monBoutonfile = Button(fen_princ, text = "I want to chose an existing scenario", command = uploadFile)
+    monBoutonfile = Button(fen_princ, text = "I want to chose an existing scenario", command = choseScenario)
     monBoutonfile.pack()
 
-    monBoutoncurs = Button(fen_princ, text = "I want to create a scenario now", command = launchCursors)
+    monBoutoncurs = Button(fen_princ, text = "I want to create a scenario now", command = choseCursors)
     monBoutoncurs.pack()
 
-    monBoutonpath = Button(fen_princ, text = "I want to upload my file", command = getPath)
+    monBoutonpath = Button(fen_princ, text = "I want to upload my file", command = chosePath)
     monBoutonpath.pack()
 
 
@@ -196,7 +206,7 @@ if __name__=='__main__':
 
 
 
-#ajouter résumé à la fin
+#ajouter resume à la fin
 #préciser quels sont les paramètres par défaut
 
 # expliquer les variables 

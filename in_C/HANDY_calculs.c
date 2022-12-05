@@ -235,6 +235,7 @@ int main(int argc, char const *argv[]) {
 /* This is our main function. It reads a text file.
 Then calculates datas. Creates a final file to send the datas to Python. */
 ;
+    // system("ls") ;
 
     int t = 1000;
     struct Struct_variables tab_variables[t] ;// = tableau de t structures de types struct_vari
@@ -242,6 +243,15 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
     const char * condition = argv[1] ;
+    
+    char * s = "s" ;
+    if (strcmp(condition, s) == 0) {
+        const char * file_path = argv[2] ;
+        readFile(file_path, tab_variables, &parameters, 15);
+        runAuto(tab_variables, &parameters, t);
+        finalFile("results_python_scenario.txt", tab_variables, &parameters, t) ;
+        system("python ../in_Python/interface.py --fileName results_python_scenario.txt") ;
+    }
 
     char * f = "f" ;
     if (strcmp(condition, f) == 0) {
