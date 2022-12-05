@@ -2,7 +2,6 @@ from tkinter import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
-
 def afficherValeur_xc() :
     valeur = curseurxc.get()
     text1 = "XC : " + str(valeur)
@@ -25,7 +24,7 @@ def sendScenario():
     path = ['s']
     for i in lb.curselection():
         j = lb.get(i)
-        if j == "Default society" : path.append("../Text/HANDY_params_default.txt")
+        if j == "Default society" : path.append("../Text/HANDY_params_default.txt") # "../" necessary : allows to exit in_C file and go into HANDY_PROJECT global file 
         if j == "Egalitarian society" : path.append("../Text/HANDY_params_egalitarian_2.txt")
         if j == "Inequal society 1" : path.append("../Text/HANDY_params_inequal.txt")
         if j ==  "Inequal society 2" : path.append("../Text/HANDY_params_inequal_2.txt")
@@ -33,11 +32,13 @@ def sendScenario():
         if j == "Stable society 2" : path.append("../Text/HANDY_params_stable_equitable_1.txt")
         if j == "Stable society 3" : path.append("../Text/HANDY_params_stable_equitable_2.txt")
 
-    #envoyer le bon fichier
+    #send the good file 
     os.chdir("in_C")
-    # os.system("python emilien.py")
-    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
-    os.system("./handy_calculs_exe " + path[0] + " " + path[1])
+
+
+    os.system("gcc HANDY_calculs.c -o handy_calculs_exe") #spaces don't count as arguments
+    os.system("./handy_calculs_exe " + path[0] + " " + path[1]) 
+    # argv[1]=path[0] : indicates which type of scenario the user choose 
 
     fen_princ.destroy()
 
