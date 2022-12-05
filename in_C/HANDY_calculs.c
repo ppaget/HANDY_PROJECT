@@ -253,14 +253,6 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         system("python ../in_Python/interface.py --fileName results_python_scenario.txt") ;
     }
 
-    char * f = "f" ;
-    if (strcmp(condition, f) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, 15);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
-    }
     char * c = "c" ;
     if (strcmp(condition, c) == 0) {
         double xc_0 = atof(argv[2]) ;
@@ -278,7 +270,14 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         system("python ../in_Python/interface.py --fileName results_python_cursors.txt") ;
     }
 
-    
+    char * f = "f" ;
+    if (strcmp(condition, f) == 0) {
+        const char * file_path = argv[2] ;
+        readFile(file_path, tab_variables, &parameters, 15);
+        runAuto(tab_variables, &parameters, t);
+        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+        system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
+    }
     
     return 0;
 }
