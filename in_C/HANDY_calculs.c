@@ -86,8 +86,8 @@ Incremeting with differential functions defined in the paper, using Euler method
     double n_prev = variables[i].n ;
     double w_prev = variables[i].w ;
 
-    double am = params->am ;
-    double aM = params->aM ;
+    double am = params->am ; //healthy value 
+    double aM = params->aM ; //max value when population starts to starve
     double bc = params->bc ;
     double be = params->be ;
     double g = params->g ;
@@ -99,14 +99,17 @@ Incremeting with differential functions defined in the paper, using Euler method
 
     //why
     double wth = (r * xc_prev) + (k * r * xe_prev) ; //dépend du temps
-    double cc ;
-    double ce ;
-    double ac ;
-    double ae ;
+    double cc ; //consumption rate of commoners
+    double ce ; //consumption rate of elites
+    double ac ; //death rate of commoners
+    double ae ; //death rate of elites
+    double zh = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour egalitarian
+    double zhg = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour equitable 
+    printf("%f\n", zh) ;
 
     if (wth != 0) {
         cc = fmin(1, w_prev/wth) * s * xc_prev ;
-        ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
+        ce = fmin(1, w_prev/wth) * k * s * xe_prev ; //k = 0 ou k=1
     }
     else {
         cc = s * xc_prev ;
@@ -201,16 +204,17 @@ euleur function and normalizes each value. */
     double mx_XE = findMax(variables, 'e', t) ;
     double mx_N = findMax(variables, 'n', t) ;
     double mx_W = findMax(variables, 'w', t) ;
+    
 
     for (int i = 0 ; i < t ; i++) {
         if (mx_XC == 0) variables[i].xc = 0 ;
-        else variables[i].xc = (variables[i].xc / mx_XC) ;
+        else variables[i].xc = (variables[i].xc / 75000 / 2) ;
         if (mx_XE == 0) variables[i].xe = 0 ;
-        else variables[i].xe = (variables[i].xe / mx_XE) ;
+        else variables[i].xe = (variables[i].xe / 75000 / 2) ;
         if (mx_N == 0) variables[i].n = 0 ;
-        else variables[i].n = (variables[i].n / mx_N) ;
+        else variables[i].n = (variables[i].n / params[0].l) ;
         if (mx_W == 0) variables[i].w = 0 ;
-        else variables[i].w = (variables[i].w / mx_W) ;
+        else variables[i].w = (variables[i].w / params[0].l / 40) ;
     }
 }
 
@@ -242,43 +246,46 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
-    const char * condition = argv[1] ;
+    // const char * condition = argv[1] ;
     
-    char * s = "s" ;
-    if (strcmp(condition, s) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, 15);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_scenario.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/interface.py --fileName results_python_scenario.txt") ;
-    }
+    // char * s = "s" ;
+    // if (strcmp(condition, s) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, 15);
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_scenario.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/interface.py --fileName results_python_scenario.txt") ;
+    // }
 
-    char * c = "c" ;
-    if (strcmp(condition, c) == 0) {
-        double xc_0 = atof(argv[2]) ;
-        printf("%f\n", xc_0) ;
-        tab_variables[0].xc = xc_0 ;
-        double xe_0 = atof(argv[3]) ;
-        tab_variables[0].xe = xe_0 ;
-        double n_0 = atof(argv[4]) ;
-        tab_variables[0].n = n_0 ;
-        double w_0 = atof(argv[5]) ;
-        tab_variables[0].w = w_0 ;
-        paramsDefault(&parameters) ;
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/interface.py --fileName results_python_cursors.txt") ;
-    }
+    // char * c = "c" ;
+    // if (strcmp(condition, c) == 0) {
+    //     double xc_0 = atof(argv[2]) ;
+    //     printf("%f\n", xc_0) ;
+    //     tab_variables[0].xc = xc_0 ;
+    //     double xe_0 = atof(argv[3]) ;
+    //     tab_variables[0].xe = xe_0 ;
+    //     double n_0 = atof(argv[4]) ;
+    //     tab_variables[0].n = n_0 ;
+    //     double w_0 = atof(argv[5]) ;
+    //     tab_variables[0].w = w_0 ;
+    //     paramsDefault(&parameters) ;
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/interface.py --fileName results_python_cursors.txt") ;
+    // }
 
-    char * f = "f" ;
-    if (strcmp(condition, f) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, 15);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
-    }
-    
+    // char * f = "f" ;
+    // if (strcmp(condition, f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, 15);
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
+    // }
+
+    readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt", tab_variables, &parameters, 15);
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python_test.txt", tab_variables, &parameters, t) ;
     return 0;
 }
 

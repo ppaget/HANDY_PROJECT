@@ -119,40 +119,40 @@ def choseCursors():
     curseurxc = Scale(fen_princ, orient='horizontal', from_ = 0, to = 10)
     curseurxc.pack()
 
-    monAffichagexc = Label(fen_princ, text = "Value wanted for XC", width=70)
+    monAffichagexc = Label(fen_princ, text = "Value wanted for Commoner population", width=70)
     monAffichagexc.pack()
 
-    monBoutonxc = Button(fen_princ, text = "Get value for XC", command = afficherValeur_xc)
+    monBoutonxc = Button(fen_princ, text = "Get value for Commoner population", command = afficherValeur_xc)
     monBoutonxc.pack()
     
     # XE
     curseurxe = Scale(fen_princ, orient='horizontal', from_ = 0, to = 20)
     curseurxe.pack()
 
-    monAffichagexe = Label(fen_princ, text = "Value wanted for XE", width=70)
+    monAffichagexe = Label(fen_princ, text = "Value wanted for Elite population", width=70)
     monAffichagexe.pack()
 
-    monBoutonxe = Button(fen_princ, text = "Get value for XE", command = afficherValeur_xe)
+    monBoutonxe = Button(fen_princ, text = "Get value for Elite population", command = afficherValeur_xe)
     monBoutonxe.pack()
 
     #N
     curseurn = Scale(fen_princ, orient='horizontal', from_ = 0, to = 5)
     curseurn.pack()
 
-    monAffichagen = Label(fen_princ, text = "Value wanted for N", width=70)
+    monAffichagen = Label(fen_princ, text = "Value wanted for Amount of nature", width=70)
     monAffichagen.pack()
 
-    monBoutonn = Button(fen_princ, text = "Get value for N", command = afficherValeur_n)
+    monBoutonn = Button(fen_princ, text = "Get value for Amount of nature", command = afficherValeur_n)
     monBoutonn.pack()
 
     # W
     curseurw = Scale(fen_princ, orient='horizontal', from_ = 0, to = 15)
     curseurw.pack()
 
-    monAffichagew = Label(fen_princ, text = "Value wanted for W", width=70)
+    monAffichagew = Label(fen_princ, text = "Value wanted for Amount of wealth", width=70)
     monAffichagew.pack()
 
-    monBoutonw = Button(fen_princ, text = "Get value for W", command = afficherValeur_w)
+    monBoutonw = Button(fen_princ, text = "Get value for Amount of wealth", command = afficherValeur_w)
     monBoutonw.pack()
 
     #Validate values
@@ -205,10 +205,8 @@ if __name__=='__main__':
 
 
 
-#ajouter resume au debut du projet pour expliquer variables et parametres
 
 
-#préciser quels sont les paramètres par défaut
 
 # expliquer les variables 
 # et la normalisation 
