@@ -29,13 +29,11 @@ def sendScenario():
         if j == "Egalitarian society" : path.append("../Text/HANDY_params_egalitarian_2.txt")
         if j == "Inequal society 1" : path.append("../Text/HANDY_params_inequal.txt")
         if j ==  "Inequal society 2" : path.append("../Text/HANDY_params_inequal_2.txt")
-        if j == "Stable society 1" : path.append("../Text/HANDY_params_stable_egalitarian.txt")
-        if j == "Stable society 2" : path.append("../Text/HANDY_params_stable_equitable_1.txt")
-        if j == "Stable society 3" : path.append("../Text/HANDY_params_stable_equitable_2.txt")
+        if j == "Stable egalitarian society" : path.append("../Text/HANDY_params_stable_egalitarian.txt")
+        if j == "Stable equitable society 1" : path.append("../Text/HANDY_params_stable_equitable_1.txt")
+        if j == "Stable equitable society 2" : path.append("../Text/HANDY_params_stable_equitable_2.txt")
 
-    #envoyer le bon fichier
     os.chdir("in_C")
-    # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
@@ -49,7 +47,6 @@ def sendCursors():
 
     variables = ['c', xc, xe, n, w]
     os.chdir("in_C")
-    # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + variables[0] + " " + variables[1] + " " + variables[2] + " " + variables[3] + " " + variables[4])
 
@@ -65,8 +62,6 @@ def sendPath():
     # print(os.getcwd())
     os.chdir("in_C")
     # print(os.getcwd())
-    #sortir de celui d'avant
-    # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
@@ -88,9 +83,9 @@ def choseScenario():
     lb.insert(2, "Egalitarian society")
     lb.insert(3, "Inequal society 1")
     lb.insert(4, "Inequal society 2")
-    lb.insert(5, "Stable society 1")
-    lb.insert(6, "Stable society 2")
-    lb.insert(7, "Stable society 3")
+    lb.insert(5, "Stable egalitarian society")
+    lb.insert(6, "Stable equitable society 1")
+    lb.insert(7, "Stable equitable society 2")
     lb.pack()
 
     monBoutoninput = Button(fen_princ, text = "Validate scenario", command = sendScenario)
@@ -113,6 +108,9 @@ def choseCursors():
 
     window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
     for i in window : i.destroy()
+    # Presentation
+    monAffichagepresentation = Label(fen_princ, text = "You are about to create a scenario.\nPlease chose values for the four variables.\nParameters by default will be used.\n", width=70)
+    monAffichagepresentation.pack()
 
     # XC
     curseurxc = Scale(fen_princ, orient='horizontal', from_ = 0, to = 10)
@@ -204,7 +202,9 @@ if __name__=='__main__':
 
 
 
-#ajouter resume à la fin
+#ajouter resume au debut du projet pour expliquer variables et parametres
+
+
 #préciser quels sont les paramètres par défaut
 
 # expliquer les variables 

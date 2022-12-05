@@ -1,5 +1,3 @@
-#!opt/anaconda3/bin/python
-# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation,FFMpegFileWriter
@@ -8,7 +6,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="File sent from C")
-parser.add_argument("--fileName", type=str, help="fichier C", default="/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt")
+parser.add_argument("--fileName", type=str, help="fichier C", default="../Text/HANDY_params_default.txt")
 
 def readFile(fname):
 
@@ -27,14 +25,20 @@ def readFile(fname):
 
 def stateText():
     ax[0].axis("off")
-    text1 = "Variables : \n\nXC = "+xc+"\nXE = "+xe+"\nN = "+n+"\nW = "+w+"\n\n"
-    text2 = "Parameters : \n\nam = "+am+"\naM = "+aM+"\nbc = "+bc+"\nbe = "+be+"\ng = "+g+"\nl = "+l+"\ns = "+s+"\nd = "+d+"\nk = "+k+"\nr = "+r+"\n"
+    text1 = "Initial variables: \n\nCommoner population: "+xc+"\nElite population: "+xe+"\nAmount of nature: "+n+"\nAmount of wealth: "+w+"\n\n"
+    text2 = "Parameters : \n\nMinimum death rate: "+am+"\nMaximal death rate= "+aM+"\nCommoner birth rate: "+bc+"\nElite birth rate: "+be+"\nNature regeneration factor: "+g+"\nNature's capacity: "+l+"\nSubsistence salary: "+s+"\nNature depletion factor: "+d+"\nDifference in consuption factor: "+k+"\nMinimum required consumption: "+r+"\n"
     ax[0].text(0.3,0.5, s=text1+text2)
 
 def finalText():
     ax[2].clear()
     ax[2].axis("off")
-    ax[2].text(0.3, 0.5, 'We have reached a collapse', style='italic',
+    if W[999] and N[999] == 0 :
+        conclusion_text = "We have reached a collapse.\n\nThis is both a type-N and a type-L collapse."
+    if N[999] == 0 :
+        conclusion_text = "We have reached a collapse.\n\nThis is a type-N collapse."
+    if W[999] == 0 :
+        conclusion_text = "We have reached a collapse.\n\nThis is a type-L collapse."
+    ax[2].text(0.3, 0.5, s= conclusion_text, style='italic',
         bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
 
 # Création de la fonction qui sera appelée à "chaque nouvelle image"
@@ -78,7 +82,7 @@ if __name__=='__main__':
     # Importations données graph+im
     time = 1000
     skip = 5
-    # fnameMcurs = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt"
+    
     [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
     t = [i for i in range(time)]
 
@@ -105,7 +109,7 @@ if __name__=='__main__':
     ax[1].set_ylim(-0.03, 1.03)
 
     #im_xc = Image.open("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Images/im1.jpg") 
-    im_xc = Image.open("Images/im1.jpg") 
+    im_xc = Image.open("../Images/im1.jpg") 
     
     # im_xe = Image.open("images/im2.jpg")
     # im_n = Image.open("images/im3.jpg") 
@@ -125,3 +129,4 @@ if __name__=='__main__':
    
     # fnamePfile = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
     # fnamePcurs = "/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/in_C/results_python_curs.txt"
+    # fnameMcurs = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_cursors.txt"
