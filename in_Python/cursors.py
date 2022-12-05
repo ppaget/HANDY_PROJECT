@@ -34,8 +34,7 @@ def sendScenario():
         if j == "Stable society 3" : path.append("../Text/HANDY_params_stable_equitable_2.txt")
 
     #envoyer le bon fichier
-    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
-    os.chdir("../in_C") #sortir de celui d'avant
+    os.chdir("in_C")
     # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
@@ -49,8 +48,7 @@ def sendCursors():
     w = str(curseurw.get())
 
     variables = ['c', xc, xe, n, w]
-    os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
-    os.chdir("../in_C") #sortir de celui d'avant
+    os.chdir("in_C")
     # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + variables[0] + " " + variables[1] + " " + variables[2] + " " + variables[3] + " " + variables[4])
@@ -64,9 +62,9 @@ def sendPath():
     for i in window : i.destroy()
 
     # os.chdir("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_Python")
-    print(os.getcwd())
+    # print(os.getcwd())
     os.chdir("in_C")
-    print(os.getcwd())
+    # print(os.getcwd())
     #sortir de celui d'avant
     # os.system("python emilien.py")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
