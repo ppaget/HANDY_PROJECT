@@ -6,7 +6,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="File sent from C")
-parser.add_argument("--fileName", type=str, help="fichier C", default="../Text/Egalitarian/HANDY_params_default.txt")
+parser.add_argument("--fileName", type=str, help="fichier C", default="in_C/results_python_file.txt")
 
 def readFile(fname):
 
@@ -43,36 +43,43 @@ def finalText():
 
 # Création de la fonction qui sera appelée à "chaque nouvelle image"
 def animate(k):
+    if k==0:
+        ax[0].legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+          fancybox=True, shadow=True, ncol=4)
 
     s = k*skip
 
-    ax[1].plot(t[:s], XC[:s], color = 'b')
-    ax[1].plot(t[:s], XE[:s], color = 'r')
-    ax[1].plot(t[:s], N[:s], color = 'g')
-    ax[1].plot(t[:s], W[:s], color = 'k')
+    ax[0].plot(t[:s], XC[:s], color = 'b', label = "Commoner population")
+    ax[0].plot(t[:s], XE[:s], color = 'r', label = "Elite population")
+    ax[0].plot(t[:s], N[:s], color = 'g', label = "Nature")
+    ax[0].plot(t[:s], W[:s], color = 'k', label = "Wealth")
 
-    ax[1].legend(["Commoner population", "Elite population", "Nature", "Wealth"])
+    # line.set_xdata = t[:s]
+    # line.set_ydata = XC[:s]
+    # return line,
+
+    # ax[0].legend(["Commoner population", "Elite population", "Nature", "Wealth"])
     #rendre legende plus petite
 
-    ax[2].clear() #Permet d'éviter la superposition d'images de tailles diff
+    # ax[2].clear() #Permet d'éviter la superposition d'images de tailles diff
 
-    r_xc = XC[s]*0.5 + 0.05 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min
-    # r_xe = XE[s]*0.5 + 0.05
-    # r_n = N[s]*0.5 + 0.05
-    # r_w = W[s]*0.5 + 0.05
+    # r_xc = XC[s]*0.5 + 0.05 # le "coeff proportionnalité" (=valeur de la col à indice k) * 2 + la valeur min
+    # # r_xe = XE[s]*0.5 + 0.05
+    # # r_n = N[s]*0.5 + 0.05
+    # # r_w = W[s]*0.5 + 0.05
 
-    ax[2].set_xlim([-1,1]) # Définit un cadre pour l'image 
-    ax[2].set_ylim([-1,1])
-    ax[2].axis("off")
+    # ax[2].set_xlim([-1,1]) # Définit un cadre pour l'image 
+    # ax[2].set_ylim([-1,1])
+    # ax[2].axis("off")
     
-    ax[2].imshow(im_xc, extent=[-r_xc-0.5, r_xc-0.5, -r_xc-0.5, r_xc-0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
-    # ax[2].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe+0.5, r_xe+0.5])
-    # ax[2].imshow(im_n, extent=[-r_n+0.5, r_n+0.5, -r_n+0.5, r_n+0.5])
-    # ax[2].imshow(im_w, extent=[-r_w+0.5, r_w+0.5, -r_w-0.5, r_w-0.5])
+    # ax[2].imshow(im_xc, extent=[-r_xc-0.5, r_xc-0.5, -r_xc-0.5, r_xc-0.5]) #image en carré ; 0,5 = éloignement par rapport au centre 
+    # # ax[2].imshow(im_xe, extent=[-r_xe-0.5, r_xe-0.5, -r_xe+0.5, r_xe+0.5])
+    # # ax[2].imshow(im_n, extent=[-r_n+0.5, r_n+0.5, -r_n+0.5, r_n+0.5])
+    # # ax[2].imshow(im_w, extent=[-r_w+0.5, r_w+0.5, -r_w-0.5, r_w-0.5])
 
 
-    if k==time//skip - 1 :
-        finalText()
+    # if k==time//skip - 1 :
+    #     finalText()
 
 if __name__=='__main__':
     
@@ -86,30 +93,33 @@ if __name__=='__main__':
     [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
     t = [i for i in range(time)]
 
-    xc = variables[1]
-    xe = variables[2]
-    n = variables[3]
-    w = str(float(variables[4]))
-    am = parameters[1]
-    aM = parameters[2]
-    bc = parameters[3]
-    be = parameters[4]
-    g = parameters[5]
-    l = parameters[6]
-    s = parameters[7]
-    d = parameters[8]
-    k = parameters[9]
-    r = str(float(parameters[10]))
+    # xc = variables[1]
+    # xe = variables[2]
+    # n = variables[3]
+    # w = str(float(variables[4]))
+    # am = parameters[1]
+    # aM = parameters[2]
+    # bc = parameters[3]
+    # be = parameters[4]
+    # g = parameters[5]
+    # l = parameters[6]
+    # s = parameters[7]
+    # d = parameters[8]
+    # k = parameters[9]
+    # r = str(float(parameters[10]))
 
-    interface, ax = plt.subplots(1, 3, figsize=(13,6.5))
+    interface, ax = plt.subplots(1, 2, figsize=(13,6.5))
 
-    stateText()
+    # stateText()
 
-    ax[1].set_xlim(-20, 1020)
-    ax[1].set_ylim(-0.03, 1.03)
+    ax[0].set_xlim(-20, 1020)
+    ax[0].set_ylim(-0.03, 1.03)
+    ax[1].axis("off")
+
+    # line, = ax[0].plot(0,0)
 
     #im_xc = Image.open("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Images/im1.jpg") 
-    im_xc = Image.open("../Images/im1.jpg") 
+    # im_xc = Image.open("../Images/im1.jpg") 
     
     # im_xe = Image.open("images/im2.jpg")
     # im_n = Image.open("images/im3.jpg") 
@@ -117,7 +127,8 @@ if __name__=='__main__':
 
     ani = FuncAnimation(fig = interface, func = animate, frames = range(time//skip), interval = 1, repeat = False)
 
-    plt.axis("equal")
+    # plt.axis("equal")
+    
     plt.show()
 
 
