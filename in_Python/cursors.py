@@ -108,14 +108,20 @@ def choseCursors():
     global monAffichagew
     global monBoutonw
     global monBoutonfinal
+    global T
 
-    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath]
+    window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath,T]
     for i in window : i.destroy()
     # Presentation
     monAffichagepresentation = Label(fen_princ, text = "You are about to create a scenario.\nPlease chose values for the four variables.\nParameters by default will be used.\n", width=70)
     monAffichagepresentation.pack()
 
     # XC
+    textXC=Text(fen_princ, height = 2, width = 120)
+    XC = "XC stands for the Commoner population ; this variable plays a prey role, with its predator being the Elite population, XE (see bellow)."
+    textXC.insert("3.0", XC)
+    textXC.pack()
+
     curseurxc = Scale(fen_princ, orient='horizontal', from_ = 0, to = 10)
     curseurxc.pack()
 
@@ -125,7 +131,13 @@ def choseCursors():
     monBoutonxc = Button(fen_princ, text = "Get value for Commoner population", command = afficherValeur_xc)
     monBoutonxc.pack()
     
+
     # XE
+    textXE=Text(fen_princ, height = 2, width = 120)
+    XE = "XE stands for the Elite population ; this variable has the XC's predator role. If set the value of XE is set to 0, meaning there is no Elite in the society, a 'Equal society' scenario is created."
+    textXE.insert("3.0", XE)
+    textXE.pack()
+
     curseurxe = Scale(fen_princ, orient='horizontal', from_ = 0, to = 20)
     curseurxe.pack()
 
@@ -136,6 +148,11 @@ def choseCursors():
     monBoutonxe.pack()
 
     #N
+    textN=Text(fen_princ, height = 2, width = 120)
+    N = "N refers to the amount of nature; "
+    textN.insert("1.0", N)
+    textN.pack()
+
     curseurn = Scale(fen_princ, orient='horizontal', from_ = 0, to = 5)
     curseurn.pack()
 
@@ -146,6 +163,11 @@ def choseCursors():
     monBoutonn.pack()
 
     # W
+    textW=Text(fen_princ, height = 2, width = 120)
+    W = "W refers to the amount of Wealth; "
+    textW.insert("1.0", W)
+    textW.pack()
+
     curseurw = Scale(fen_princ, orient='horizontal', from_ = 0, to = 15)
     curseurw.pack()
 
@@ -181,14 +203,23 @@ def questions():
     global monBoutonfile
     global monBoutoncurs
     global monBoutonpath
+    global T
 
-    #finir texte intro avec présentation prjet, explications variables + paramètres ET les 3 choix possibles pour user 
-    welcome = "WELCOME TO THE HANDY PROJECT"
+    #finir texte intro avec présentation projet, explications variables + paramètres ET les 3 choix possibles pour user 
+    welcome = "THE HANDY PROJECT"
     #Si possible, travailler sur le côté graphique/esthétique du texte 
 
     # First choices
     monAffichagep = Label(fen_princ, text = welcome, width=70)
+    monAffichagep.config(font =("Courier", 40))
     monAffichagep.pack()
+
+    T=Text(fen_princ, height = 8, width = 140)
+    
+    intro="Welcome to the handy project.The purpose of this project is to study the dynamics between human civilization and nature.\nThis simulation was created to observe, through different scenarios, the impact resources' distirbution can have on society,\nfollowing the collapsological theory.\n\nTo begin with, please select wether you prefer to work with an existing 'pre designed' scenario, or to create your own (you will be steered to chose values for the differents variables). You can also directly upload a files with your own values)\n\n WARNING : please make sure that your file is a comptatible txt file."
+    T.insert('1.0', intro) #first argument := line.column
+    T.pack()
+
 
     monBoutonfile = Button(fen_princ, text = "I want to chose an existing scenario", command = choseScenario)
     monBoutonfile.pack()
