@@ -327,10 +327,9 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     //     system("cursors_ready") ;
     // }
 
-// Pour tester
-    // readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt", tab_variables, &parameters, 15);
-    // runAuto(tab_variables, &parameters, t);
-    // finalFile("results_python_test.txt", tab_variables, &parameters, t) ;
+    readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt", tab_variables, &parameters, 15);
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python_test.txt", tab_variables, &parameters, t) ;
     return 0;
 }
 

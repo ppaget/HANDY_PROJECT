@@ -12,7 +12,7 @@ from HANDY import Model as HANDY
 
 def main():
     """ Main loop for code execution"""
-    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/Egalitarian/HANDY_params_default.txt"
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_default.txt"
     model = HANDY(fname=fname) #fichier trouvé
     XC, XE, N, W = model.run_auto(norm=True)
 
