@@ -110,6 +110,11 @@ def choseCursors():
     global monBoutonfinal
     global T
 
+    XC = "XC stands for the commoner population ; this variable plays a prey role, with its predator being the Elite population, XE (see bellow)."
+    XE = "XE stands for the elite population ; this variable has the XC's predator role. If set the value of XE is set to 0, meaning there is no Elite in the society, a 'Equal society' scenario is created."
+    N = "N refers to the natural resources ; this variable coresponds to the amount of nature and has a 'prey' role, predated by Wealth."
+    W = "W refers to the accumulated wealth ; this variable can either be set to 0 (meaning that no wealth has been accumulated yet), or to another value to represent a previous resources' accumulation."
+
     window = [monAffichagep, monBoutonfile, monBoutoncurs, monBoutonpath,T]
     for i in window : i.destroy()
     # Presentation
@@ -118,7 +123,6 @@ def choseCursors():
 
     # XC
     textXC=Text(fen_princ, height = 2, width = 120)
-    XC = "XC stands for the Commoner population ; this variable plays a prey role, with its predator being the Elite population, XE (see bellow)."
     textXC.insert("3.0", XC)
     textXC.pack()
 
@@ -134,7 +138,6 @@ def choseCursors():
 
     # XE
     textXE=Text(fen_princ, height = 2, width = 120)
-    XE = "XE stands for the Elite population ; this variable has the XC's predator role. If set the value of XE is set to 0, meaning there is no Elite in the society, a 'Equal society' scenario is created."
     textXE.insert("3.0", XE)
     textXE.pack()
 
@@ -149,7 +152,6 @@ def choseCursors():
 
     #N
     textN=Text(fen_princ, height = 2, width = 120)
-    N = "N refers to the amount of nature; "
     textN.insert("1.0", N)
     textN.pack()
 
@@ -164,7 +166,6 @@ def choseCursors():
 
     # W
     textW=Text(fen_princ, height = 2, width = 120)
-    W = "W refers to the amount of Wealth; "
     textW.insert("1.0", W)
     textW.pack()
 
