@@ -123,7 +123,7 @@ def next_graph():
 
     monBoutonk = Button(fen_princ, text = "Validate value for K", command = stock_k).grid(row=3, column=1)
 
-    curseurd = Scale(fen_princ, orient='horizontal', from_ = 0, to = 10)
+    curseurd = Scale(fen_princ, orient='horizontal', from_ = 1.25, to = 10)
     curseurd.grid(row=4, column=1)
 
     monBoutond = Button(fen_princ, text = "Validate value for D", command = stock_d).grid(row=6, column=1)

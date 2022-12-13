@@ -225,8 +225,7 @@ def introduction():
                 You are about to simulate the collapse of the society 
                 using only four variables and ten parameters. 
                 We will ask you to make choices about the variables and parameters so 
-                you can try different types of scenario.\n\n
-                First choice: do you want an Elite Population in the scenario?"""
+                you can try different types of scenario.\n\n"""
     #Si possible, travailler sur le côté graphique/esthétique du texte 
 
     # First choices

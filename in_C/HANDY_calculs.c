@@ -245,17 +245,18 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
-    double d_scenario ;
+    // double d_scenario ;
+
+    // const char * file_path = "Text/HANDY_egalitarian_basic.txt" ;
+    // readFile(file_path, tab_variables, &parameters, size);
+    // runAuto(tab_variables, &parameters, t);
+    // finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+
+    // system("Datas are ready to be graphed.") ;
+
     // const char * scenario = argv[1] ;
 
     // const char * file_path = argv[2] ;
-    const char * file_path = "../Text/HANDY_egalitarian_basic.txt" ;
-    readFile(file_path, tab_variables, &parameters, size);
-    runAuto(tab_variables, &parameters, t);
-    finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-    // system("Datas are ready to be graphed.") ;
-
-
     // system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
 
 
@@ -327,10 +328,9 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     //     system("cursors_ready") ;
     // }
 
-    //readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt", tab_variables, &parameters, 15);
-    readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_equitable_reversible.txt", tab_variables, &parameters, 15);
+    readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
     runAuto(tab_variables, &parameters, t);
-    finalFile("results_python_reversible.txt", tab_variables, &parameters, t) ;
+    finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
     return 0;
 }
 
