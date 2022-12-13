@@ -246,3 +246,4 @@ if __name__=='__main__':
 
 # expliquer les variables 
 # et la normalisation 
+
