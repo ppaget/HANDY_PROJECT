@@ -195,6 +195,9 @@ void runAuto(struct Struct_variables * variables, struct Struct_params * params,
 /* This function fulfills our tab_variables following the time using our
 euleur function and normalizes each value. */
 
+//Mettre normalisation clean : en argument de la fonction
+//Déterminer comment normaliser selon les graphs 
+
     for (int i = 0 ; i < t-1 ; i++) {
         euler(variables, params, i) ;
     }
@@ -328,7 +331,8 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     //     system("cursors_ready") ;
     // }
 
-    readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
+    //readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
+    readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_equitable_reversible.txt", tab_variables, &parameters, 15);
     runAuto(tab_variables, &parameters, t);
     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
     return 0;
