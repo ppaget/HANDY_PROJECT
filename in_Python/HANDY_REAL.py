@@ -30,17 +30,17 @@ def readFile(fname):
     
     return [XC, XE, N ,W, variables, parameters]
 
-def finalText():
-    ax[1].clear()
-    ax[1].axis("off")
-    if W[999] and N[999] == 0 :
-        conclusion_text = "We have reached a collapse.\n\nThis is both a type-N and a type-L collapse."
-    if N[999] == 0 :
-        conclusion_text = "We have reached a collapse.\n\nThis is a type-N collapse."
-    if W[999] == 0 :
-        conclusion_text = "We have reached a collapse.\n\nThis is a type-L collapse."
-    ax[2].text(0.3, 0.5, s= conclusion_text, style='italic',
-        bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
+# def finalText():
+    # ax[1].clear()
+    # ax[1].axis("off")
+    # if W[999] and N[999] == 0 :
+    #     conclusion_text = "We have reached a collapse.\n\nThis is both a type-N and a type-L collapse."
+    # if N[999] == 0 :
+    #     conclusion_text = "We have reached a collapse.\n\nThis is a type-N collapse."
+    # if W[999] == 0 :
+    #     conclusion_text = "We have reached a collapse.\n\nThis is a type-L collapse."
+    # ax[2].text(0.3, 0.5, s= conclusion_text, style='italic',
+    #     bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
 
 def animate(k,XC,XE,N,W):
     s = k*skip

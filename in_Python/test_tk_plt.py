@@ -167,7 +167,7 @@ if __name__=='__main__':
     time = 1000
     skip = 20
     
-    fname = "in_C/results_python_file.txt"
+    fname = "../in_C/results_python_file.txt"
     [XC, XE, N, W, variables, parameters] = readFile(fname)
     t = [i for i in range(time)]
 

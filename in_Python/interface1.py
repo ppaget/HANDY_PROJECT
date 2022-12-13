@@ -6,7 +6,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="File sent from C")
-parser.add_argument("--fileName", type=str, help="fichier C", default="in_C/results_python_file.txt")
+parser.add_argument("--fileName", type=str, help="fichier C", default="../in_C/results_python_reversible.txt")
 
 def readFile(fname):
 
