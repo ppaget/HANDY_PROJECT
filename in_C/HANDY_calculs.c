@@ -71,8 +71,8 @@ void paramsDefault(struct Struct_params * params) {
     params->g = 0.01 ;
     params->l = 100 ;
     params->s = 0.0005 ;
-    params->d = 0.00000667 ;
-    params->k = 0 ;
+    // params->d = 0.00000667 ;
+    // params->k = 0 ;
     params->r = 0.005 ;
 }
 
@@ -105,7 +105,7 @@ Incremeting with differential functions defined in the paper, using Euler method
     double ae ; //death rate of elites
     double zh = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour egalitarian
     double zhg = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour equitable 
-    printf("%f\n", zh) ;
+    // printf("%f\n", zh) ;
 
     if (wth != 0) {
         cc = fmin(1, w_prev/wth) * s * xc_prev ;
@@ -239,15 +239,28 @@ int main(int argc, char const *argv[]) {
 /* This is our main function. It reads a text file.
 Then calculates datas. Creates a final file to send the datas to Python. */
 ;
-    // system("ls") ;
 
     int t = 1000;
     struct Struct_variables tab_variables[t] ;// = tableau de t structures de types struct_vari
     struct Struct_params parameters ; //1 seule car les variables ne changent pas
     int size = 13; //taille des params (j'ai enlevé le temps à la fin)
 
+    double d_scenario ;
+    // const char * scenario = argv[1] ;
+
+    // const char * file_path = argv[2] ;
+    const char * file_path = "../Text/HANDY_egalitarian_basic.txt" ;
+    readFile(file_path, tab_variables, &parameters, size);
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+    // system("Datas are ready to be graphed.") ;
+
+
+    // system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
+
+
+
     // const char * condition = argv[1] ;
-    
     // char * s = "s" ;
     // if (strcmp(condition, s) == 0) {
     //     const char * file_path = argv[2] ;
@@ -256,33 +269,64 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     //     finalFile("results_python_scenario.txt", tab_variables, &parameters, t) ;
     //     system("python ../in_Python/interface.py --fileName results_python_scenario.txt") ;
     // }
-
-    // char * c = "c" ;
-    // if (strcmp(condition, c) == 0) {
-    //     double xc_0 = atof(argv[2]) ;
-    //     printf("%f\n", xc_0) ;
-    //     tab_variables[0].xc = xc_0 ;
-    //     double xe_0 = atof(argv[3]) ;
-    //     tab_variables[0].xe = xe_0 ;
-    //     double n_0 = atof(argv[4]) ;
-    //     tab_variables[0].n = n_0 ;
-    //     double w_0 = atof(argv[5]) ;
-    //     tab_variables[0].w = w_0 ;
+//  GOOOOD ONE
+    // char * eg = "egalitarian_cursors" ;
+    // if (strcmp(scenario, eg) == 0) {
+    //     d_scenario = 6.67e-6 ;
+    //     double k = atof(argv[2]) ;
+    //     // printf("%f\n", k) ;
+    //     parameters.k = k;
+    //     double d = atof(argv[3]) ;
+    //     // printf("%f\n", d) ;
+    //     parameters.d = d_scenario * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 0 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
     //     paramsDefault(&parameters) ;
     //     runAuto(tab_variables, &parameters, t);
     //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
-    //     system("python ../in_Python/interface.py --fileName results_python_cursors.txt") ;
+    //     system("echo cursors_ready") ;
     // }
 
-    // char * f = "f" ;
-    // if (strcmp(condition, f) == 0) {
-    //     const char * file_path = argv[2] ;
-    //     readFile(file_path, tab_variables, &parameters, 15);
+    // char * eq = "equitable_cursors" ;
+    // if (strcmp(scenario, eg) == 0) {
+    //     d_scenario = 8.33e-6 ;
+    //     double k = atof(argv[2]) ;
+    //     printf("%f\n", k) ;
+    //     parameters.k = k;
+    //     double d = atof(argv[3]) ;
+    //     printf("%f\n", d) ;
+    //     parameters.d = d_scenario * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 10 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
+    //     paramsDefault(&parameters) ;
     //     runAuto(tab_variables, &parameters, t);
-    //     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-    //     system("python ../in_Python/interface.py --fileName results_python_file.txt") ;
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("cursors_ready") ;
     // }
-    //readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/Unequal/HANDY_params_unequal.txt", tab_variables, &parameters, 15);
+
+    // char * un = "unequal_cursors" ;
+    // if (strcmp(scenario, eg) == 0) {
+    //     d_scenario = 1e-4 ;
+    //     double k = atof(argv[2]) ;
+    //     printf("%f\n", k) ;
+    //     parameters.k = k;
+    //     double d = atof(argv[3]) ;
+    //     printf("%f\n", d) ;
+    //     parameters.d = d_scenario * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 0.2 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
+    //     paramsDefault(&parameters) ;
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("cursors_ready") ;
+    // }
+
     readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_params_inequal.txt", tab_variables, &parameters, 15);
     runAuto(tab_variables, &parameters, t);
     finalFile("results_python_test.txt", tab_variables, &parameters, t) ;
