@@ -332,7 +332,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     // }
 
     //readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
-    readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_equitable_reversible.txt", tab_variables, &parameters, 15);
+    readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
     runAuto(tab_variables, &parameters, t);
     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
     return 0;
