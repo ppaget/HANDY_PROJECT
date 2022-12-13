@@ -30,7 +30,7 @@ def finalText(File):
         else :
             scenario = 4
     else :
-        if XC[998]==0 :
+        if XC[998]<=0.1 : #Valeur de seuil car on ne voit pas totalement la collapse dans le uneq_1
             scenario = 2
         else : 
             scenario = 4
@@ -39,4 +39,4 @@ def finalText(File):
 
 if __name__=='__main__':
     #finalText("results_python_file.txt")
-    finalText("results_python_reversible.txt")  
+    finalText("results_python_file.txt")  

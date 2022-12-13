@@ -1,5 +1,5 @@
 xc 1e2     initial commoner popultaion
-xe 10      initial elite population
+xe 25      initial elite population
 y  100     inital amount of nature
 w  0       initial amount of wealth
 am 1e-2    minimum death rate
