@@ -112,16 +112,8 @@ if __name__=='__main__':
 
     # stateText()
 
-<<<<<<< HEAD:in_Python/interface.py
     ax[1].set_xlim(-20, 1020)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
     ax[1].set_ylim(-0.03, 1.03)
-=======
-    ax[0].set_xlim(-20, 1020)
-    ax[0].set_ylim(-0.03, 1.03)
-    ax[1].axis("off")
-
-    # line, = ax[0].plot(0,0)
->>>>>>> 6c9557dbf66a1ff7252723efc79603398e9c9e7b:in_Python/interface1.py
 
     #im_xc = Image.open("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Images/im1.jpg") 
     # im_xc = Image.open("../Images/im1.jpg") 
