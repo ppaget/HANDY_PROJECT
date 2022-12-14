@@ -22,7 +22,7 @@ struct Struct_params {
     double d ;
     double k ;
     double r ;
-    double caca_m ;
+    int caca_m ;
 } ;
 
 void readFile(const char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
@@ -56,16 +56,15 @@ It stocks the values in the two structures corresponding to the two types of arg
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
-        int caca_m = (params->g)*(params->l)/(2*params->d) ;
-        printf("%d\n", caca_m) ;
-        if (n==14) params->caca_m ;
-        
 
+        
         n = n + 1 ;
         
         if (n>size) break ;
     }
     fclose(file);
+    int caca_m = (params->g)*(params->l)/(2*params->d) ;
+    params->caca_m = caca_m ;
 }
 
 void paramsDefault(struct Struct_params * params) {
@@ -76,9 +75,9 @@ void paramsDefault(struct Struct_params * params) {
     params->g = 0.01 ;
     params->l = 100 ;
     params->s = 0.0005 ;
-    // params->d = 0.00000667 ;
-    // params->k = 0 ;
     params->r = 0.005 ;
+    int caca_m = (params->g)*(params->l)/(2*params->d) ;
+    params->caca_m = caca_m ;
 }
 
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
@@ -209,23 +208,17 @@ euleur function and normalizes each value. */
     double mx_XE = findMax(variables, 'e', t) ;
     double mx_N = findMax(variables, 'n', t) ;
     double mx_W = findMax(variables, 'w', t) ;
-
-    
-    int norm_xc = params[0].caca_m ;
-    printf("%d\n", params[0].caca_m) ;
-    int norm_xe = params[0].caca_m ;
-    int norm_w = params[0].l ;
     
 
     for (int i = 0 ; i < t ; i++) {
         if (mx_XC == 0) variables[i].xc = 0 ;
-        else variables[i].xc = (variables[i].xc / norm_xc) ;
+        else variables[i].xc = (variables[i].xc / params->caca_m) ;
         if (mx_XE == 0) variables[i].xe = 0 ;
-        else variables[i].xe = (variables[i].xe / norm_xe) ;
+        else variables[i].xe = (variables[i].xe / params->caca_m) ;
         if (mx_N == 0) variables[i].n = 0 ;
         else variables[i].n = (variables[i].n / params[0].l) ;
         if (mx_W == 0) variables[i].w = 0 ;
-        else variables[i].w = (variables[i].w / norm_w) ;
+        else variables[i].w = (variables[i].w / params[0].l / 4) ;
     }
 }
 
@@ -237,7 +230,7 @@ void finalFile(char * FileName, struct Struct_variables * variables, struct Stru
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
-    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r);
+    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r, params->caca_m);
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
@@ -254,10 +247,12 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     int t = 1000;
     struct Struct_variables tab_variables[t] ;
     struct Struct_params parameters ; 
-    int size = 14 ;
+    int size = 13 ;
 
     readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, size);
     //readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, 15);
+    
+    printf("%d\n", parameters.caca_m) ;
     runAuto(tab_variables, &parameters, t);
     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
 

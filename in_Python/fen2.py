@@ -89,7 +89,35 @@ def cursors():
 
 
 
+def animate(k):
+    """Called by main.
+    Goal: Animated lines created step by step for the four variables.
+    Args: k (int): frames """
+
+    # Skipping frames
+    s = k*skip
+    
+    # Displaying legend once
+    if k==0:
+        ax.legend(loc='upper left', bbox_to_anchor=(-0.15, -0.06),
+        fancybox=True, shadow=True, ncol=4, fontsize='xx-small')
+
+    # Plotting lines from beginning
+    ax.plot(t[:s], XC[:s], color = 'b', label = "Commoner population")
+    ax.plot(t[:s], XE[:s], color = 'r', label = "Elite population")
+    ax.plot(t[:s], N[:s], color = 'g', label = "Nature")
+    ax.plot(t[:s], W[:s], color = 'k', label = "Wealth")
+
+    # Displaying new informations at last frame
+    if k==(time//skip)-1:
+        cursors()
+
 def readFile(fname):
+    """Called by main function.
+    Goal: Read file sent by HANDY_calculs.c.
+    Args: fname (str): file contains variables incremented with time according to Handy Model equations.
+    Returns: list: four lists corresponding to each variable.
+    """
 
     array = np.genfromtxt(fname, delimiter=', ', skip_header=3, dtype=float)
     XC = array[:,0]
@@ -104,43 +132,32 @@ def readFile(fname):
     
     return [XC, XE, N ,W, variables, parameters]
 
-def animate(k, XC, XE, N, W):
+def welcomeTxt(scenario):
+    """ Called by main function.
+    Goal: Generate text to explain variables and parameters of chosen scenario.
+    Args : scenario (str): name of scenario to select corresponding text.
+    Returns: text_welcome: corresponding text. """
 
-    s = k*skip
-    
-    if k==0:
-        ax.legend(loc='upper left', bbox_to_anchor=(-0.15, -0.06),
-        fancybox=True, shadow=True, ncol=4, fontsize='xx-small')
+    if scenario == "egalitarian":
+        text_welcome = """
+                    WELCOME TO YOUR EGALITARIAN SCENARIO!
 
-    ax.plot(t[:s], XC[:s], color = 'b', label = "Commoner population")
-    ax.plot(t[:s], XE[:s], color = 'r', label = "Elite population")
-    ax.plot(t[:s], N[:s], color = 'g', label = "Nature")
-    ax.plot(t[:s], W[:s], color = 'k', label = "Wealth")
+                    Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
 
-    if k==(time//skip)-1:
-        cursors()
+                    Used values:
+                        - Commoner population: 100
+                        - Elite population: 0
 
+                        - Inequality factor: 0 
+                        - Depletion per capita: D_reference
 
-# développer textes
-def welcomeEg():
-    text_welcome = """
-                WELCOME TO YOUR EGALITARIAN SCENARIO!
+                    All other values are typical.
+                    D_reference is the minimum consumption to go with the egalitarian scenario.
+                        """
+        return text_welcome
 
-                Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
-
-                Used values:
-                    - Commoner population: 100
-                    - Elite population: 0
-
-                    - Inequality factor: 0 
-                    - Depletion per capita: D_reference
-
-                All other values are typical.
-                D_reference is the minimum consumption to go with the egalitarian scenario.
-                    """
-    return text_welcome
-def welcomeEq():
-    text_welcome = """
+    if scenario == "equitable":
+        text_welcome = """
                 WELCOME TO YOUR EQUITABLE SCENARIO!
 
                 Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
@@ -155,9 +172,10 @@ def welcomeEq():
                 All other values are typical.
                 D_reference is the minimum consumption to go with the egalitarian scenario.
                     """
-    return text_welcome
-def welcomeUn():
-    text_welcome = """
+        return text_welcome
+
+    if scenario == "unequal":
+        text_welcome = """
                 WELCOME TO YOUR UNEQUAL SCENARIO!
 
                 Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
@@ -174,43 +192,63 @@ def welcomeUn():
                 All other values are typical.
                 D_reference is the minimum consumption to go with the egalitarian scenario.
                     """
-    return text_welcome
-
+        return text_welcome
 
 
 if __name__=='__main__':
+    """ Called by HANDY_calculs.c with arguments.
+    This file is the second Tkinter interactive interface.
+    Goals: Display animation of chosen scenario using datas sent by fen1.py and treated by HANDY_calculs.c.
+           Animation to see four variables evoluate step by step.
+           Display informations about the animation.
+           Possibility to come back to fen1.py or definitely quit program.
+           Ask user to chose parameters with cursors: D and K to produce personal modelisations.
+           Send chosen parameters to HANDY_calculs.c to modelize in next window. 
+           End by destroying window and C file continues.
+    Args: args.fileName (str): path of file containing incremented datas with time.
+          args.scenario (str): name of scenario to give accurate informations. """
 
+    # Arguments passed by HANDY_calculs.c
     args = parser.parse_args()
+
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
 
+    # Text according to chosen scenario in previous window
     text_welcome = []
     if args.scenario == "egalitarian" :
-        text_welcome.append(welcomeEg())
+        text_welcome.append(welcomeTxt("egalitarian"))
     if args.scenario == "equitable" :
-        text_welcome.append(welcomeEq())
+        text_welcome.append(welcomeTxt("equitable"))
     if args.scenario == "unequal" :
-        text_welcome.append(welcomeUn())
-
+        text_welcome.append(welcomeTxt("unequal"))
     welcome_label = Label(fen_princ, text = text_welcome[0]).grid(row= 0,column=0)
 
+    # Modelisation for 1000 years, generating x-axis
     time = 1000
-    skip = 20
-    
-    [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
     t = [i for i in range(time)]
 
+    # Skipping values for the animation to be faster
+    skip = 20
+    
+    # Stocking four variables incremented by HANDY_calculs.c
+    [XC, XE, N, W] = readFile(args.fileName)
+    
+    # Creating graphic on plt
     interface, ax = plt.subplots(figsize=(3.8,2.5))
-
+    # Setting limits and resizing scale-axis
     ax.set_xlim(-20, 1020)
     ax.set_ylim(-0.03, 1.03)
     ax.tick_params(axis='x', labelsize=5)
     ax.tick_params(axis='y', labelsize=5)
 
+    # Importing plt on Tkinter window
     canvas = FigureCanvasTkAgg(interface, master=fen_princ)
     canvas.get_tk_widget().place(x=0, y=270)
 
-    ani = FuncAnimation(fig = interface, func = animate, fargs = (XC,XE,N,W), frames = range(time//skip), interval = 1, repeat = False)
+    # Starting animation using frames
+    ani = FuncAnimation(fig = interface, func = animate, frames = range(time//skip), interval = 1, repeat = False)
 
+    # Display window
     fen_princ.mainloop()
 

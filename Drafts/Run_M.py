@@ -3,13 +3,12 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from HANDY import Model as HANDY
 
 
 def main():
     """ Main loop for plotting """
 
-    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_test.txt" #modifier le nom
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt" #modifier le nom
 
     array = np.genfromtxt(fname, delimiter=', ', skip_header=3, dtype=float)
     XC = array[:,0]

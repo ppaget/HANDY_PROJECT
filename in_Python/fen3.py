@@ -129,8 +129,10 @@ if __name__=='__main__':
     time = 1000
     skip = 20
 
-    [XC_b, XE_b, N_b, W_b, variables, parameters] = readFile(args.fileBasic)
-    [XC_c, XE_c, N_c, W_c, variables, parameters] = readFile(args.fileCursors)
+    [XC_b, XE_b, N_b, W_b, variables, parameters_b] = readFile(args.fileBasic)
+    [XC_c, XE_c, N_c, W_c, variables, parameters_c] = readFile(args.fileCursors)
+    caca_m_b = parameters_b[-1] #vérifier que chiffre et non string
+    caca_m_c = parameters_c[-1]
     t = [i for i in range(time-1)]
 
     interface, ax = plt.subplots(1, 2, figsize=(6,2.6), gridspec_kw={'width_ratios': [1, 1.5]})
@@ -144,7 +146,9 @@ if __name__=='__main__':
     ax[0].plot(t, XE_b, color = 'r', label = "Elite population")
     ax[0].plot(t, N_b, color = 'g', label = "Nature")
     ax[0].plot(t, W_b, color = 'k', label = "Wealth")
-    
+    ax[0].plot(t, caca_m_b, color = 'y', label = "Wealth")
+    ax[0].annotate('Local Max', xy =(3.3, 1),
+                xytext =(3, 1.8))
     ax[0].legend(loc='upper left', bbox_to_anchor=(0.25, -0.06),
         fancybox=True, shadow=True, ncol=4, fontsize='xx-small')
 
