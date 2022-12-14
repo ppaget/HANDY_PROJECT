@@ -2,7 +2,7 @@
 
 This is the Project of: Pernelle Paget and Mahlia Merville--Hipeau.
 
-To run our fabulous HANDY MODEL, please find the RUN_HANDY.py file in in_Python.
+To run our marvelous HANDY MODEL, please find the RUN_HANDY.py file in in_Python ; 
 Enjoy!
 
 
