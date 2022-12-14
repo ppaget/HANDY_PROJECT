@@ -22,6 +22,7 @@ struct Struct_params {
     double d ;
     double k ;
     double r ;
+    double caca_m ;
 } ;
 
 void readFile(const char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
@@ -55,6 +56,10 @@ It stocks the values in the two structures corresponding to the two types of arg
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
+        int caca_m = (params->g)*(params->l)/(2*params->d) ;
+        printf("%d\n", caca_m) ;
+        if (n==14) params->caca_m ;
+        
 
         n = n + 1 ;
         
@@ -103,9 +108,6 @@ Incremeting with differential functions defined in the paper, using Euler method
     double ce ; //consumption rate of elites
     double ac ; //death rate of commoners
     double ae ; //death rate of elites
-    double zh = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour egalitarian
-    double zhg = (g*(aM-am))/(s*(aM-bc))*pow((l/2),2) ; //pour equitable 
-    // printf("%f\n", zh) ;
 
     if (wth != 0) {
         cc = fmin(1, w_prev/wth) * s * xc_prev ;
@@ -207,17 +209,23 @@ euleur function and normalizes each value. */
     double mx_XE = findMax(variables, 'e', t) ;
     double mx_N = findMax(variables, 'n', t) ;
     double mx_W = findMax(variables, 'w', t) ;
+
+    
+    int norm_xc = params[0].caca_m ;
+    printf("%d\n", params[0].caca_m) ;
+    int norm_xe = params[0].caca_m ;
+    int norm_w = params[0].l ;
     
 
     for (int i = 0 ; i < t ; i++) {
         if (mx_XC == 0) variables[i].xc = 0 ;
-        else variables[i].xc = (variables[i].xc / 75000 / 2) ;
+        else variables[i].xc = (variables[i].xc / norm_xc) ;
         if (mx_XE == 0) variables[i].xe = 0 ;
-        else variables[i].xe = (variables[i].xe / 75000 / 2) ;
+        else variables[i].xe = (variables[i].xe / norm_xe) ;
         if (mx_N == 0) variables[i].n = 0 ;
         else variables[i].n = (variables[i].n / params[0].l) ;
         if (mx_W == 0) variables[i].w = 0 ;
-        else variables[i].w = (variables[i].w / params[0].l / 40) ;
+        else variables[i].w = (variables[i].w / norm_w) ;
     }
 }
 
@@ -246,16 +254,17 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     int t = 1000;
     struct Struct_variables tab_variables[t] ;
     struct Struct_params parameters ; 
-    int size = 13 ;
+    int size = 14 ;
 
+    readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, size);
+    //readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, 15);
+    runAuto(tab_variables, &parameters, t);
+    finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
 
-    const char * condition = argv[1] ;
+    // const char * condition = argv[1] ;
 
     double d_star = 6.67e-6 ;
 
-    // const char * condition = "eg_f" ;
-    // printf("%s\n", condition) ;
-    
     char * eg_f = "eg_f" ;
     char * eq_f = "eq_f" ;
     char * un_f = "un_f" ;
@@ -263,75 +272,71 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     char * eq_c = "eq_c" ;
     char * un_c = "un_c" ;
 
-    if (strcmp(condition, eg_f) == 0) {
-        printf("%s\n", condition) ;
-        const char * file_path = argv[2] ;
-        // const char * file_path = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt" ;
-        readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario egalitarian") ;
-    }
-    else if (strcmp(condition, eq_f) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario equitable") ;
-    }
-    else if (strcmp(condition, un_f) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario unequal") ;
-    }
+    // if (strcmp(condition, eg_f) == 0) {
+    //     printf("%s\n", condition) ;
+    //     const char * file_path = argv[2] ;
+    //     // const char * file_path = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt" ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario egalitarian") ;
+    // }
+    // else if (strcmp(condition, eq_f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario equitable") ;
+    // }
+    // else if (strcmp(condition, un_f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen2.py --fileName results_python_file.txt --scenario unequal") ;
+    // }
 
-    else if (strcmp(condition, eg_c) == 0) {
-        parameters.k = 0;
-        double d = atof(argv[3]) ;
-        parameters.d = d_star * d ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = 0 ;
-        tab_variables[0].n = 100 ;
-        tab_variables[0].w = 0 ;
-        paramsDefault(&parameters) ;
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario egalitarian") ;
-    }
-    else if (strcmp(condition, eq_c) == 0) {
-        parameters.k = 1;
-        double d = atof(argv[3]) ;
-        parameters.d = d_star * d ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = 10 ;
-        tab_variables[0].n = 100 ;
-        tab_variables[0].w = 0 ;
-        paramsDefault(&parameters) ;
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario equitable") ;
-    }
-    else if (strcmp(condition, un_c) == 0) {
-        double k = atof(argv[2]) ;
-        parameters.k = k;
-        double d = atof(argv[3]) ;
-        parameters.d = d_star * d ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = 0.2 ;
-        tab_variables[0].n = 100 ;
-        tab_variables[0].w = 0 ;
-        paramsDefault(&parameters) ;
-        runAuto(tab_variables, &parameters, t);
-        finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario unequal") ;
-    }
+    // else if (strcmp(condition, eg_c) == 0) {
+    //     parameters.k = 0;
+    //     double d = atof(argv[3]) ;
+    //     parameters.d = d_star * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 0 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
+    //     paramsDefault(&parameters) ;
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario egalitarian") ;
+    // }
+    // else if (strcmp(condition, eq_c) == 0) {
+    //     parameters.k = 1;
+    //     double d = atof(argv[3]) ;
+    //     parameters.d = d_star * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 10 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
+    //     paramsDefault(&parameters) ;
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario equitable") ;
+    // }
+    // else if (strcmp(condition, un_c) == 0) {
+    //     double k = atof(argv[2]) ;
+    //     parameters.k = k;
+    //     double d = atof(argv[3]) ;
+    //     parameters.d = d_star * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 0.2 ;
+    //     tab_variables[0].n = 100 ;
+    //     tab_variables[0].w = 0 ;
+    //     paramsDefault(&parameters) ;
+    //     runAuto(tab_variables, &parameters, t);
+    //     finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario unequal") ;
+    // }
 
-    //readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_egalitarian_basic.txt", tab_variables, &parameters, 15);
-    // readFile("/Users/peppa/Desktop/Ba3/CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, 15);
-    // runAuto(tab_variables, &parameters, t);
-    // finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
 
     return 0;
 }
