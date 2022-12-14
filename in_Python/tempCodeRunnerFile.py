@@ -1,1 +1,2 @@
-scenario = 4
+def quit():
+    fen_princ.destroy()

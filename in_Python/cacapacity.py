@@ -21,7 +21,7 @@ def finalText(File):
         i0 = result[0][0] #4 de différence car on a rajouté 2 lignes
 
         M = max(N[i0+1:])
-        iM = np.where(N==M)[0][0]
+        iM = np.where(N==M)[0][0] 
 
         if zero in XC[i0+1:iM+10] :
             scenario = 3

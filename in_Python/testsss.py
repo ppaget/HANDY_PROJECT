@@ -4,36 +4,43 @@ import numpy as np
 import time
 from tkinter import *
 
-def questionXE():
-    return 3
 
-def introduction():
-    global welcome_label
-    global go_button
+def readFile(fname):
 
+    array = np.genfromtxt(fname, delimiter=', ', skip_header=3, dtype=float)
+    XC = array[:,0]
+    XE = array[:,1]
+    N = array[:,2]
+    W = array[:,3]
+    f = open(fname, "r")
+    variables = [f.readline()]
+    variables = variables[0].split(", ")
+    parameters = [f.readline()]
+    parameters = parameters[0].split(", ")
+    
+    return [XC, XE, N ,W, variables, parameters]
 
-    #finir texte intro avec présentation prjet, explications variables + paramètres ET les 3 choix possibles pour user 
-    text_welcome = """WELCOME TO THE HANDY PROJECT\n\n
-                You are about to simulate the collapse of the society 
-                using only four variables and ten parameters. 
-                We will ask you to make choices about the variables and parameters so 
-                you can try different types of scenario.\n\n
-                First choice: do you want an Elite Population in the scenario?"""
-    #Si possible, travailler sur le côté graphique/esthétique du texte 
-
-    # First choices
-    welcome_label = Label(fen_princ, text = text_welcome, width=70)
-    welcome_label.pack()
-
-    go_button = Button(fen_princ, text = "Let's get started!", command = questionXE)
-    go_button.pack()
 
 if __name__=='__main__':
-    fen_princ = Tk()
 
-    fen_princ.attributes('-fullscreen', True)
-    word = introduction()
+    time = 1000
+    skip = 20
+    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
+    [XC, XE, N, W, variables, parameters] = readFile(fname)
+    t = [i for i in range(time-1)]
 
-    print(word)
-    fen_princ.mainloop()
+    interface, ax = plt.subplots(1, 2, figsize=(6.5,3))
+
+    ax[0].set_xlim(-20, 1020)
+    ax[0].set_ylim(-0.03, 1.03)
+
+    ax[0].plot(t, XC, color = 'b', label = "Commoner population")
+    ax[0].plot(t, XE, color = 'r', label = "Elite population")
+    ax[0].plot(t, N, color = 'g', label = "Nature")
+    ax[0].plot(t, W, color = 'k', label = "Wealth")
+    
+    ax[0].legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+        fancybox=True, shadow=True, ncol=4)
+
+    plt.show()
 
