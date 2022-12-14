@@ -9,6 +9,6 @@ be 3e-2    elite birth rate
 g  1e-2    nature regeneration factor
 l  100     nature's capactiy
 s  5e-4    subsistence salary (consumption)
-d  6.5e-6    nature depletion factor. only for unequal.
-k  100     difference in consumtion factor. only for unequal.
+d  6.35e-6    nature depletion factor. only for unequal.
+k  10     difference in consumtion factor. only for unequal.
 r  5e-3    minimum required consumption

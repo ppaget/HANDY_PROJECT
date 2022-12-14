@@ -50,9 +50,9 @@ def cursors():
     if args.scenario == "egalitarian" or args.scenario == "equitable" :
         next_graph_label= Label(fen_princ, text = "You can now chose a new parameter : d.", width=70).grid(row= 0,column=1)
 
-        curseurd = Scale(fen_princ, orient='horizontal', from_ = 1.25, to = 10)
+        curseurd = Scale(fen_princ, orient='horizontal', from_=0.5, to=20.0, digits = 4, resolution = 0.10)
         curseurd.grid(row=4, column=1)
-        d_label = Label(fen_princ, text = "Value for d", width=70)
+        d_label = Label(fen_princ, text = "d : 1", width=70)
         d_label.grid(row=5, column=1)
         monBoutond = Button(fen_princ, text = "Validate value for D", command = print_d).grid(row=6, column=1)
         
@@ -62,15 +62,15 @@ def cursors():
     if args.scenario == "unequal" :
         next_graph_label= Label(fen_princ, text = "You can now chose two starting parameters : k and d.", width=70).grid(row= 0,column=1)
 
-        curseurk = Scale(fen_princ, orient='horizontal', from_ = 0, to = 100)
+        curseurk = Scale(fen_princ, orient='horizontal', from_=5, to=100, resolution = 5)
         curseurk.grid(row=1, column=1)
-        k_label = Label(fen_princ, text = "Value for k", width=70)
+        k_label = Label(fen_princ, text = "k : 1", width=70)
         k_label.grid(row=2, column=1)
         monBoutonk = Button(fen_princ, text = "Validate value for K", command = print_k).grid(row=3, column=1)
 
-        curseurd = Scale(fen_princ, orient='horizontal', from_ = 1.25, to = 10)
+        curseurd = Scale(fen_princ, orient='horizontal', from_=0.5, to=20.0, digits = 4, resolution = 0.10)
         curseurd.grid(row=4, column=1)
-        d_label = Label(fen_princ, text = "Value for d", width=70)
+        d_label = Label(fen_princ, text = "d : 1", width=70)
         d_label.grid(row=5, column=1)
         monBoutond = Button(fen_princ, text = "Validate value for D", command = print_d).grid(row=6, column=1)
         

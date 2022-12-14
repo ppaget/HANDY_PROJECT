@@ -251,7 +251,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
 
     const char * condition = argv[1] ;
 
-    double d_scenario = 6.67e-6 ;
+    double d_star = 6.67e-6 ;
 
     // const char * condition = "eg_f" ;
     // printf("%s\n", condition) ;
@@ -290,7 +290,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     else if (strcmp(condition, eg_c) == 0) {
         parameters.k = 0;
         double d = atof(argv[3]) ;
-        parameters.d = d_scenario * d ;
+        parameters.d = d_star * d ;
         tab_variables[0].xc = 100 ;
         tab_variables[0].xe = 0 ;
         tab_variables[0].n = 100 ;
@@ -303,7 +303,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     else if (strcmp(condition, eq_c) == 0) {
         parameters.k = 1;
         double d = atof(argv[3]) ;
-        parameters.d = d_scenario * 1.25 * d ;
+        parameters.d = d_star * d ;
         tab_variables[0].xc = 100 ;
         tab_variables[0].xe = 10 ;
         tab_variables[0].n = 100 ;
@@ -313,11 +313,11 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
         system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario equitable") ;
     }
-    else if (strcmp(condition, un_c) == 0) {
+    else (strcmp(condition, un_c) == 0) {
         double k = atof(argv[2]) ;
         parameters.k = k;
         double d = atof(argv[3]) ;
-        parameters.d = d_scenario * 5 * d ;
+        parameters.d = d_star * d ;
         tab_variables[0].xc = 100 ;
         tab_variables[0].xe = 0.2 ;
         tab_variables[0].n = 100 ;

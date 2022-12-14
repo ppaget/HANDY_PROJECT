@@ -131,14 +131,42 @@ def introduction():
 
 
     #finir texte intro avec présentation prjet, explications variables + paramètres ET les 3 choix possibles pour user 
-    text_welcome = """WELCOME TO THE HANDY PROJECT\n\n
-                You are about to simulate the collapse of the society 
-                using only four variables and ten parameters. 
-                We will ask you to make choices about the variables and parameters so 
-                you can try different types of scenario.\n\n"""
-    #Si possible, travailler sur le côté graphique/esthétique du texte 
+    text_welcome = """
+                                    
+                    WELCOME TO THE HANDY PROJECT!\n\n
 
-    welcome_label = Label(fen_princ, text = text_welcome, width=70)
+            The purpose of this project is to study the dynamics between human
+            civilization and nature, following the collapsological theory.
+            This simulation, based on a predator-prey model, only uses four
+            variables and ten parameters.
+
+
+                        The four variables are:
+
+                    - the Commoner Population --> predators - work to take direct ressources from Nature
+                    - the Elite Population --> predators - take indirect ressources from Nature
+                    - the Nature --> prey - ressources for food, energy
+                    - the accumulated Wealth --> unique to human civilization - resilience from famine
+                    
+
+                        The parameters that control variables are:
+
+                    - normal and famine death rates --> control total population
+                    - commoners and elites birth rates --> control total population
+                    - subsistence salary per capita --> control wealth
+                    - threshold wealth per capita --> control wealth
+                    - regeneration rate of nature --> control nature
+                    - nature carrying capacity --> control nature
+
+                    - inequality factor: K --> difference in wealth between commoners and elites
+                    - depletion per capita: D --> commoners direct and elites indirect impacts on nature
+
+                    
+            You will be asked to make choices about the variables and parameters
+            so you can try different types of scenario.\n\n   
+            """
+
+    welcome_label = Label(fen_princ, text = text_welcome)
     welcome_label.pack()
 
     go_button = Button(fen_princ, text = "Let's get started!", command = questionXE)

@@ -20,27 +20,21 @@ def readFile(fname):
     
     return [XC, XE, N ,W, variables, parameters]
 
+def print_d() :
+    text_d = "d : " + str(curseurd.get())
+    d_label.configure(text= text_d)
+
+def sendCursors():
+    text = curseurd.get()
+    c_label = Label(fen_princ, text = text, width=70).grid(row=8, column=1)
 
 if __name__=='__main__':
+    fen_princ = Tk()
+    curseurd = Scale(fen_princ, orient='horizontal', from_=5, to=100, resolution = 5)
+    curseurd.grid(row=4, column=1)
+    d_label = Label(fen_princ, text = "Value for d", width=70)
+    d_label.grid(row=5, column=1)
+    monBoutond = Button(fen_princ, text = "Validate value for D", command = print_d).grid(row=6, column=1)
+    monBoutongo = Button(fen_princ, text = "Launch scenario", command = sendCursors).grid(row=7, column=1)
 
-    time = 1000
-    skip = 20
-    fname = "/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/in_C/results_python_file.txt"
-    [XC, XE, N, W, variables, parameters] = readFile(fname)
-    t = [i for i in range(time-1)]
-
-    interface, ax = plt.subplots(1, 2, figsize=(6.5,3))
-
-    ax[0].set_xlim(-20, 1020)
-    ax[0].set_ylim(-0.03, 1.03)
-
-    ax[0].plot(t, XC, color = 'b', label = "Commoner population")
-    ax[0].plot(t, XE, color = 'r', label = "Elite population")
-    ax[0].plot(t, N, color = 'g', label = "Nature")
-    ax[0].plot(t, W, color = 'k', label = "Wealth")
-    
-    ax[0].legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
-        fancybox=True, shadow=True, ncol=4)
-
-    plt.show()
-
+    fen_princ.mainloop()
