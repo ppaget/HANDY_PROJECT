@@ -118,16 +118,57 @@ def quit():
 
 # développer textes
 def welcomeEg():
-    text_welcome = """WELCOME TO YOUR EGALITARIAN MODELISATION\n
-                    No elite."""
+    text_welcome = """
+                WELCOME TO YOUR EGALITARIAN SCENARIO!
+
+                Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
+
+                Used values:
+                    - Commoner population: 100
+                    - Elite population: 0
+
+                    - Inequality factor: 0 
+                    - Depletion per capita: D_reference
+
+                All other values are typical.
+                D_reference is the minimum consumption to go with the egalitarian scenario.
+                    """
     return text_welcome
 def welcomeEq():
-    text_welcome = """WELCOME TO YOUR EQUITABLE MODELISATION\n
-                    Elites with same salaries as Commoners."""
+    text_welcome = """
+                WELCOME TO YOUR EQUITABLE SCENARIO!
+
+                Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
+
+                Used values:
+                    - Commoner population: 100
+                    - Elite population: 25
+
+                    - Inequality factor: 1 
+                    - Depletion per capita: D_reference*1.25
+                    
+                All other values are typical.
+                D_reference is the minimum consumption to go with the egalitarian scenario.
+                    """
     return text_welcome
 def welcomeUn():
-    text_welcome = """WELCOME TO YOUR UNEQUAL MODELISATION\n
-                    Elites with inequalities in salaries."""
+    text_welcome = """
+                WELCOME TO YOUR UNEQUAL SCENARIO!
+
+                Here is the modelisation which results in a soft-landing to OPTIMAL EQUILIBRIUM.
+
+                Used values:
+                    - Commoner population: 10 000
+                    - Elite population: 3 000
+                    - Commoner birth rate: 0.0065 (other scenarios: 0.03)
+                    - Elite birth rate: 0.02 (other scenarios: 0.03)
+
+                    - Inequality factor: 10 
+                    - Depletion per capita: D_reference*0.95
+                    
+                All other values are typical.
+                D_reference is the minimum consumption to go with the egalitarian scenario.
+                    """
     return text_welcome
 
 

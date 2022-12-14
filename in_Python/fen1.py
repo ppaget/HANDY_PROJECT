@@ -6,7 +6,7 @@ def quit():
 def send_egalitarianScenario():
     path = ['eg_f', "../Text/HANDY_egalitarian_basic.txt"]
 
-    os.chdir("../in_C")
+    os.chdir("in_C")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
@@ -15,7 +15,7 @@ def send_egalitarianScenario():
 def send_equitableScenario():
     path = ['eq_f', "../Text/HANDY_equitable_basic.txt"]
 
-    os.chdir("../in_C")
+    os.chdir("in_C")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
@@ -24,7 +24,7 @@ def send_equitableScenario():
 def send_unequalScenario():
     path = ['un_f', "../Text/HANDY_unequal_basic.txt"]
 
-    os.chdir("../in_C")
+    os.chdir("in_C")
     os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
     os.system("./handy_calculs_exe " + path[0] + " " + path[1])
 
@@ -141,15 +141,15 @@ def introduction():
             variables and ten parameters.
 
 
-                        The four variables are:
+                    The four variables are:
 
-                    - the Commoner Population --> predators - work to take direct ressources from Nature
-                    - the Elite Population --> predators - take indirect ressources from Nature
+                    - the Commoner Population --> predators - workers take direct ressources from Nature
+                    - the Elite Population --> predators - non-workers take indirect ressources from Nature
                     - the Nature --> prey - ressources for food, energy
                     - the accumulated Wealth --> unique to human civilization - resilience from famine
                     
 
-                        The parameters that control variables are:
+                    The parameters that control variables are:
 
                     - normal and famine death rates --> control total population
                     - commoners and elites birth rates --> control total population
@@ -158,8 +158,8 @@ def introduction():
                     - regeneration rate of nature --> control nature
                     - nature carrying capacity --> control nature
 
-                    - inequality factor: K --> difference in wealth between commoners and elites
-                    - depletion per capita: D --> commoners direct and elites indirect impacts on nature
+                    - inequality factor, K --> difference in wealth between commoners and elites
+                    - depletion per capita, D --> commoners direct and elites indirect impacts on nature
 
                     
             You will be asked to make choices about the variables and parameters

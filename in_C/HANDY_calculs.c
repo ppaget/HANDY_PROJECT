@@ -313,7 +313,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         finalFile("results_python_cursors.txt", tab_variables, &parameters, t) ;
         system("python ../in_Python/fen3.py --fileCursors results_python_cursors.txt --fileBasic results_python_file.txt --scenario equitable") ;
     }
-    else (strcmp(condition, un_c) == 0) {
+    else if (strcmp(condition, un_c) == 0) {
         double k = atof(argv[2]) ;
         parameters.k = k;
         double d = atof(argv[3]) ;
