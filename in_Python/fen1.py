@@ -41,7 +41,7 @@ def go_egalitarianScenario():
                             This means you will enter the Egalitarian Scenario.\n
                             Ready?"""
 
-    enter_egalitarian_label = Label(fen_princ, text = egalitarian_summary, width=70)
+    enter_egalitarian_label = Label(fen_princ, text = egalitarian_summary)
     enter_egalitarian_label.grid(row=0,column=0)
 
     enter_egalitarian_button = Button(fen_princ, text = "Start the Egalitarian Modelisation!", command = send_egalitarianScenario)
@@ -59,7 +59,7 @@ def go_equitableScenario():
                             This means you will enter the Equitable Scenario.\n
                             Ready?"""
 
-    enter_equitable_label = Label(fen_princ, text = equitable_summary, width=70)
+    enter_equitable_label = Label(fen_princ, text = equitable_summary)
     enter_equitable_label.grid(row=0,column=0)
 
     enter_equitable_button = Button(fen_princ, text = "Start the Equitable Modelisation!", command = send_equitableScenario)
@@ -77,7 +77,7 @@ def go_unequalScenario():
                             This means you will enter the Unequal Scenario.\n
                             Ready?"""
 
-    enter_unequal_label = Label(fen_princ, text = unequal_summary, width=70)
+    enter_unequal_label = Label(fen_princ, text = unequal_summary)
     enter_unequal_label.grid(row=0,column=0)
 
     enter_unequal_button = Button(fen_princ, text = "Start the Unequal Modelisation!", command = send_unequalScenario)
@@ -95,7 +95,7 @@ def questionK():
                     Second choice: Do you want the Elite and the Commoner Populations to be paid equally,\n
                     with no difference in their salaries?"""
 
-    question2_label = Label(fen_princ, text = question2, width=70)
+    question2_label = Label(fen_princ, text = question2)
     question2_label.grid(row=0,column=0)
 
     equitable_button = Button(fen_princ, text = "I want the two to be paid equally", command = go_equitableScenario)
@@ -115,7 +115,7 @@ def questionXE():
     question1 = """First choice: Do you want an Elite Population in the scenario?"""
 
     # First choices
-    question1_label = Label(fen_princ, text = question1, width=70)
+    question1_label = Label(fen_princ, text = question1)
     question1_label.grid(row=0,column=0)
 
     elite_button = Button(fen_princ, text = "I want an Elite Population", command = questionK)

@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import os
-from time import sleep
 import argparse
 
 parser = argparse.ArgumentParser(description="File sent from C")
@@ -40,7 +39,7 @@ def analysis_results(nbr):
         end.append("an EQUILIBRIUM")
 
     result_text = """Your modelisation leads to :\n""" + end[0]
-    result_label= Label(fen_princ, text = result_text, width=70).grid(row= 0,column=1)
+    result_label= Label(fen_princ, text = result_text).grid(row= 0,column=1)
 
 
     again_button = Button(fen_princ, text = "Chose new values", command = backFen2).grid(row=7, column=1)
