@@ -1,34 +1,37 @@
 # Computational Methods and Tools - HANDY MODEL
 
-This is the Project of: Pernelle Paget and Mahlia Merville--Hipeau.
+Project of the Computational Methods and Tools given at EPFL Fall 2022.
 
-To run our marvelous HANDY MODEL, please find the RUN_HANDY.py file in in_Python ; 
+## Team Members
+- Pernelle Paget
+- Mahlia Merville--Hipeau.
+
+## Instructions
+
+### Run
+
+To run our marvelous HANDY MODEL, please move to in_Python folder and run: 
+```
+python3 RUN_HANDY.py
+```
 Enjoy!
 
+## Structure
 
-Here are informations about the Git.
+This is the structure of the repository:
 
-You will find in this Git:
-- a folder with Python files named in_Python
-- a folder with C files named in_C
-- a folder with text files named Text
-
-Librairies we used:
-            Python:
-tkinter
-numpy
-matplotlib.pyplot
-matplotlib.backends.backend_tkagg
-matplotlib.animation
-os
-argparse
-            C:
-<stdio.h>
-<stdlib.h>
-<string.h>
-<math.h>
-
-Please ignore:
-.gitignore
-_pycache_
-.vscode
+- `in_C`: 
+    - `HANDY_calculs.c`: functions to increment the four variables
+    - `results.txt`: contains results from C to Python
+- `in_Python`:
+    - `helpers`:
+        - `fen_os.py`: functions to go from Python to C
+        - `fen_plot.py`: functions to plot datas
+        - `fen_services.py`: functions useful for Tkinter windows
+        - `fen_txt.py`: contains all displayed texts
+        - `result_scenario.py`: functions to analyse results
+    - `fen1.py`: introduction to model
+    - `fen2.py`: first graph
+    - `fen3.py`: compare two graphs
+    - `RUN_HANDY.py`: visualize different scenarios of societies
+- `Text`: contains initial variables and parameters

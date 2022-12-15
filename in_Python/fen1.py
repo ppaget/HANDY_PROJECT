@@ -1,44 +1,16 @@
 from tkinter import *
-import os
+from helpers.fen_os import Py2C
+from helpers.fen_services import quit
 
-def quit():
-    """ Activated by button.
-    Goal: Quit interface and end running of program. """
-    fen_princ.destroy()
-
-def send_egalitarianScenario():
-    """ Activated by button.
-    Goal: Start running C file from commands in terminal.
-    Same for each scenario. """
-
-    # For chosen scenario: name, path of file containing first variables and parameters
-    chosen = ['eg_f', "../Text/HANDY_egalitarian_basic.txt"]
-    # Steping into in_C
-    os.chdir("in_C")
-    # Compiling C file in in_C
-    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
-    # Run executable with arguments using the main function of HANDY_calculs.c
-    os.system("./handy_calculs_exe " + chosen[0] + " " + chosen[1])
-    # Destruction of the window
-    fen_princ.destroy()
-
-def send_equitableScenario():
-    chosen = ['eq_f', "../Text/HANDY_equitable_basic.txt"]
-
-    os.chdir("in_C")
-    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
-    os.system("./handy_calculs_exe " + chosen[0] + " " + chosen[1])
-
-    fen_princ.destroy()
-
-def send_unequalScenario():
-    chosen = ['un_f', "../Text/HANDY_unequal_basic.txt"]
-
-    os.chdir("in_C")
-    os.system("gcc HANDY_calculs.c -o handy_calculs_exe")
-    os.system("./handy_calculs_exe " + chosen[0] + " " + chosen[1])
-
-    fen_princ.destroy()
+def sendScenario(scenario: str):
+    path = 0
+    if scenario == "eg":
+        path = ['eg_f', "Text/HANDY_egalitarian_basic.txt"]
+    if scenario == "eq":
+        path = ['eq_f', "Text/HANDY_equitable_basic.txt"]
+    if scenario == "un":
+        path = ['un_f', "Text/HANDY_unequal_basic.txt"]
+    Py2C(path, fen_princ)
 
 def egalitarianScenario():
     """ Activated by button.
@@ -47,16 +19,23 @@ def egalitarianScenario():
     Same for each scenario. """
 
     # Cleaning old widgets
-    window = [elite_button, egalitarian_button]
+    window = [question1_label, elite_button, egalitarian_button]
     for i in window : i.destroy()
 
-    egalitarian_summary = """You have chosen a scenario with no Elite Population.
-                            This means you will enter the Egalitarian Scenario.\n
-                            Ready?"""
+    egalitarian_summary = """
+
+    You have chosen a scenario with no Elite Population.
+    This means you will enter the Egalitarian Scenario.
+
+
+
+    Ready?
+    
+    """
 
     enter_egalitarian_label = Label(fen_princ, text = egalitarian_summary)
     enter_egalitarian_label.pack()
-    enter_egalitarian_button = Button(fen_princ, text = "Start the Egalitarian Modelisation!", command = send_egalitarianScenario)
+    enter_egalitarian_button = Button(fen_princ, text = "Start the Egalitarian Modelisation!", command = lambda : sendScenario("eg"))
     enter_egalitarian_button.pack()
 
 def equitableScenario():
@@ -64,14 +43,21 @@ def equitableScenario():
     window = [elite_button, egalitarian_button, equitable_button, unequal_button]
     for i in window : i.destroy()
 
-    equitable_summary = """You have chosen a scenario with an Elite Population which is payed
-                            as much as the Commoner Population.
-                            This means you will enter the Equitable Scenario.\n
-                            Ready?"""
+    equitable_summary = """
+
+    You have chosen a scenario with an Elite Population which is
+    payed as much as the Commoner Population.
+    This means you will enter the Equitable Scenario.
+
+
+
+    Ready?
+    
+    """
 
     enter_equitable_label = Label(fen_princ, text = equitable_summary)
     enter_equitable_label.pack()
-    enter_equitable_button = Button(fen_princ, text = "Start the Equitable Modelisation!", command = send_equitableScenario)
+    enter_equitable_button = Button(fen_princ, text = "Start the Equitable Modelisation!", command = lambda : sendScenario("eq"))
     enter_equitable_button.pack()
 
 def unequalScenario():
@@ -79,14 +65,20 @@ def unequalScenario():
     window = [elite_button, egalitarian_button, equitable_button, unequal_button]
     for i in window : i.destroy()
 
-    unequal_summary = """You have chosen a scenario with an Elite Population which is payed
-                        more than the Commoner Population.
-                        This means you will enter the Unequal Scenario.\n
-                        Ready?"""
+    unequal_summary = """
 
+    You have chosen a scenario with an Elite Population which is
+    payed more than the Commoner Population.
+    This means you will enter the Unequal Scenario.
+
+
+
+    Ready?
+    
+    """
     enter_unequal_label = Label(fen_princ, text = unequal_summary)
     enter_unequal_label.pack()
-    enter_unequal_button = Button(fen_princ, text = "Start the Unequal Modelisation!", command = send_unequalScenario)
+    enter_unequal_button = Button(fen_princ, text = "Start the Unequal Modelisation!", command = lambda : sendScenario("un"))
     enter_unequal_button.pack()
 
 def questionK():
@@ -98,18 +90,22 @@ def questionK():
     global equitable_button
     global unequal_button
 
-    window = [elite_button, egalitarian_button]
+    window = [question1_label, elite_button, egalitarian_button]
     for i in window : i.destroy()
 
-    question2 = """You have chosen a scenario with an Elite Population.\n
-                    Second choice: Do you want the Elite and the Commoner Populations to be paid equally,\n
-                    with no difference in their salaries?"""
+    question2 = """
+
+    You have chosen a scenario with an Elite Population.\n
+    Second choice: Do you want the Elite and the Commoner Populations to be paid equally,
+    with no difference in their salaries?
+    
+    """
 
     question2_label = Label(fen_princ, text = question2)
     question2_label.pack()
-    equitable_button = Button(fen_princ, text = "I want the two to be paid equally", command = equitableScenario)
+    equitable_button = Button(fen_princ, text = "YES", command = equitableScenario)
     equitable_button.pack()
-    unequal_button = Button(fen_princ, text = "I do not want the two to be paid equally", command = unequalScenario)
+    unequal_button = Button(fen_princ, text = "NO", command = unequalScenario)
     unequal_button.pack()
 
 def questionXE():
@@ -123,13 +119,17 @@ def questionXE():
     window = [welcome_label, go_button, end_button]
     for i in window : i.destroy()
 
-    question1 = """First choice: Do you want an Elite Population in the scenario?"""
+    question1 = """
 
+
+    First choice: Do you want an Elite Population in the scenario?
+    
+    """
     question1_label = Label(fen_princ, text = question1)
     question1_label.pack()
-    elite_button = Button(fen_princ, text = "I want an Elite Population", command = questionK)
+    elite_button = Button(fen_princ, text = "YES", command = questionK)
     elite_button.pack()
-    egalitarian_button = Button(fen_princ, text = "I do not want an Elite population", command = egalitarianScenario)
+    egalitarian_button = Button(fen_princ, text = "NO", command = egalitarianScenario)
     egalitarian_button.pack()
 
 def introduction():
@@ -142,45 +142,49 @@ def introduction():
     global go_button
     global end_button
 
-    text_welcome = """            
-            WELCOME TO THE HANDY PROJECT!\n\n
-
-        The purpose of this project is to study the dynamics between human
-        civilization and nature, following the collapsological theory.
-        This simulation, based on a predator-prey model, only uses four
-        variables and ten parameters.
+    text_welcome = """   
 
 
-            The four variables are:
+        WELCOME TO THE HANDY PROJECT!\n\n
 
-            - the Commoner Population --> predators - workers take direct ressources from Nature
-            - the Elite Population --> predators - non-workers take indirect ressources from Nature
-            - the Nature --> prey - ressources for food, energy
-            - the accumulated Wealth --> unique to human civilization - resilience from famine
-                    
+    The purpose of this project is to study the dynamics between human
+    civilization and nature, following the collapsological theory.
+    This simulation, based on a predator-prey model, only uses four
+    variables and ten parameters.
 
-            The parameters that control variables are:
 
-            - normal and famine death rates --> control total population
-            - commoners and elites birth rates --> control total population
-            - subsistence salary per capita --> control wealth
-            - threshold wealth per capita --> control wealth
-            - regeneration rate of nature --> control nature
-            - nature carrying capacity --> control nature
+    The four variables are:
 
-            - inequality factor, K --> difference in wealth between commoners and elites
-            - depletion per capita, D --> commoners direct and elites indirect impacts on nature
+    - the Commoner Population --> predators - workers take direct ressources from Nature
+    - the Elite Population --> predators - non-workers take indirect ressources from Nature
+    - the Nature --> prey - ressources for food, energy
+    - the accumulated Wealth --> unique to human civilization - resilience from famine
+            
 
-                    
-        You will be asked to make choices about the variables and parameters
-        so you can try different types of scenario.\n\n   
-            """
+        The parameters that control variables are:
+
+    - normal and famine death rates --> control total population
+    - commoners and elites birth rates --> control total population
+    - subsistence salary per capita --> control wealth
+    - threshold wealth per capita --> control wealth
+    - regeneration rate of nature --> control nature
+    - nature carrying capacity --> control nature
+
+    - inequality factor, K --> difference in wealth between commoners and elites
+    - depletion per capita, D --> commoners direct and elites indirect impacts on nature
+
+    - carrying capacity --> number of humans nature can carry
+                
+    You will be asked to make choices about the variables and parameters
+    so you can try different types of scenario.
+    They may lead to equilibrium or collapses of society.\n\n   
+        """
 
     welcome_label = Label(fen_princ, text = text_welcome)
     welcome_label.pack()
-    go_button = Button(fen_princ, text = "Let's get started!", command = questionXE)
+    go_button = Button(fen_princ, text = "GO!", command = questionXE)
     go_button.pack()
-    end_button = Button(fen_princ, text = "Quit Model", command = quit)
+    end_button = Button(fen_princ, text = "Quit", command = lambda : quit(fen_princ))
     end_button.pack()
 
 

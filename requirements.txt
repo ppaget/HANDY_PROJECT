@@ -1,0 +1,14 @@
+            Python:
+tkinter
+numpy
+matplotlib.pyplot
+matplotlib.backends.backend_tkagg
+matplotlib.animation
+os
+argparse
+            
+            C:
+<stdio.h>
+<stdlib.h>
+<string.h>
+<math.h>

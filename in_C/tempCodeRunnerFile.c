@@ -1,1 +1,1 @@
-d_star = 6.67e-6
+    // printf("%f\n", rapport) ;
