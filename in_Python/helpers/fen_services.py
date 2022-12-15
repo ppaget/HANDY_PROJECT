@@ -1,17 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from tkinter import *
 
 def quit(fen_princ):
     """ Activated by button.
     Goal: Quit interface and end running of program. """
     fen_princ.destroy()
 
-def backFen(fen_princ, n):
+def backFen1(fen_princ):
     os.system("python in_Python/fen" + str(n) + ".py")
     fen_princ.destroy()
 
-def backFen2(fen_princ, scenario):
+def backFen2(fen_princ, scenario:str):
     if scenario == "eg" :
         os.system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario eg")
     if scenario == "eq" :
@@ -20,7 +21,19 @@ def backFen2(fen_princ, scenario):
         os.system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario un")
     fen_princ.destroy()
 
-def readFile(fname):
+def moveButton(fen_princ, n,  scenario):
+
+    if n==1:
+        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+    if n==2:
+        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+        home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
+    if n==3:
+        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+        home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
+        again_button = Button(fen_princ, text = "NEW VALUES", command = lambda:backFen2(fen_princ, scenario)).place(x=1130, y=95)
+
+def readFile(fname:str):
     """Called by main function.
     Goal: Read file sent by HANDY_calculs.c.
     Args: fname (str): file contains variables incremented with time according to Handy Model equations.
@@ -49,7 +62,6 @@ def dispValue(param: str, cursor, label):
     """
     value = param + ": " + str(cursor.get())
     label.configure(text= value)
-
 
 
 

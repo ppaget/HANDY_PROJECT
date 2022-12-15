@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import os
 import argparse
-from helpers.fen_services import readFile, dispValue, quit, backFen
+from helpers.fen_services import readFile, dispValue, quit, backFen1, moveButton
 from helpers.fen_plot import graphTemplate, animation
 from helpers.fen_txt import welcomeTxtFen2
 from helpers.fen_os import Py2C
@@ -52,8 +52,8 @@ def cursors():
     global curseurxe
     global xe_label
 
-    end_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
-    home_button = Button(fen_princ, text = "HOME", command = lambda:backFen(fen_princ, 1)).place(x=1150, y=60)
+    # end_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+    # home_button = Button(fen_princ, text = "HOME", command = lambda:backFen(fen_princ, 1)).place(x=1150, y=60)
 
     if args.scenario == "eg" or args.scenario == "eq" :
         text_d = """
@@ -186,6 +186,7 @@ if __name__=='__main__':
 
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
+    moveButton(fen_princ, 2, args.scenario)
 
     # Text according to chosen scenario in previous window
     text_welcome = 0

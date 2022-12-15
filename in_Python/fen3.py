@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import os
 import argparse
-from helpers.fen_services import readFile, quit, backFen, backFen2
+from helpers.fen_services import readFile, quit, backFen, backFen2, moveButton
 # faire pour les trois boutons dans le coin
 from helpers.fen_plot import graphTemplate, animation
 from helpers.result_scenario import resultScenario
@@ -182,6 +182,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
+    moveButton(fen_princ, 3, args.scenario)
 
     [XC_b, XE_b, N_b, W_b, variables, parameters_b] = readFile(args.fileBasic)
     [XC_c, XE_c, N_c, W_c, variables, parameters_c] = readFile(args.fileCursors)

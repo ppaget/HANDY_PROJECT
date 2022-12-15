@@ -1,8 +1,8 @@
 from tkinter import *
 from helpers.fen_os import Py2C
-from helpers.fen_services import quit
+from helpers.fen_services import moveButton
 
-def sendScenario(scenario: str):
+def sendScenario(scenario:str):
     path = 0
     if scenario == "eg":
         path = ['eg_f', "Text/HANDY_egalitarian_basic.txt"]
@@ -116,7 +116,7 @@ def questionXE():
     global egalitarian_button
     global elite_button
 
-    window = [welcome_label, go_button, end_button]
+    window = [welcome_label, go_button]
     for i in window : i.destroy()
 
     question1 = """
@@ -140,7 +140,6 @@ def introduction():
 
     global welcome_label
     global go_button
-    global end_button
 
     text_welcome = """   
 
@@ -184,8 +183,6 @@ def introduction():
     welcome_label.pack()
     go_button = Button(fen_princ, text = "GO!", command = questionXE)
     go_button.pack()
-    end_button = Button(fen_princ, text = "Quit", command = lambda : quit(fen_princ))
-    end_button.pack()
 
 
 if __name__=='__main__':
@@ -201,6 +198,9 @@ if __name__=='__main__':
     # Creation of Tkinter window
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
+
+    # Button to quit
+    moveButton(fen_princ, 1, "")
 
     # Only one function called because buttons call functions themselves
     introduction()
