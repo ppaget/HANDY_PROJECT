@@ -26,15 +26,15 @@ def backFen2(fen_princ, scenario:str):
 
 def moveButton(fen_princ, n,  scenario):
 
-    quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+    quit_button = Button(fen_princ, text = "QUIT", borderwidth=0, bg="lightcoral",command = lambda:quit(fen_princ)).place(x=1155, y=25)
     if n==2:
-        home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
+        home_button = Button(fen_princ, text = "HOME", bg='lightskyblue',command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
     if n==3:
-        home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
-        again_button = Button(fen_princ, text = "NEW VALUES", command = lambda:backFen2(fen_princ, scenario)).place(x=1130, y=95)
+        home_button = Button(fen_princ, text = "HOME", bg="navajowhite",command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
+        again_button = Button(fen_princ, text = "NEW VALUES",bg='lightgreen', command = lambda:backFen2(fen_princ, scenario)).place(x=1130, y=95)
 
-def cleanTk(w1, w2, w3):
-    window = [w1, w2, w3]
+def cleanTk(w1, w2, w3, w4):
+    window = [w1, w2, w3, w4]
     for i in window :
         if i != None: i.destroy()
 
@@ -71,22 +71,22 @@ def dispValue(param: str, cursor, label):
 def cursor_CC(fen_princ, scenario):
 
     txtCC = descrCCFen2()
-    labeltxtCC= Label(fen_princ, text = txtCC)
-    labeltxtCC.place(x=750, y=90)
+    labeltxtCC= Label(fen_princ, text = txtCC, fg= 'steelblue', bg="azure", font=('Yu Gothic',40, "bold"), justify=LEFT)
+    labeltxtCC.place(x=750, y=150)
 
-    cursorCC = Scale(fen_princ, orient='horizontal', from_=0.0, to=1.0, digits = 2, resolution = 0.1)
-    cursorCC.place(x=970, y=240)
+    cursorCC = Scale(fen_princ, orient='horizontal', from_=0.1, to=1.0, digits = 2, resolution = 0.1, width=60, length=300, bg="azure")
+    cursorCC.place(x=850, y=410)
 
-    labelCC = Label(fen_princ, text = "CC: 0.0")
-    labelCC.place(x=1000, y=280)
+    labelCC = Label(fen_princ, text = "CC: 0.1", font=('Yu Gothic',10, "bold"))
+    labelCC.place(x=850, y=500)
     
-    buttonCC = Button(fen_princ, text = "VALIDATE CC", command = lambda:dispValue("CC",cursorCC,labelCC))
-    buttonCC.place(x=940, y=320)
+    buttonCC = Button(fen_princ, text = "VALIDATE CC", fg= 'steelblue', bg="azure", font=('Yu Gothic',20, "bold"), command = lambda:dispValue("CC",cursorCC,labelCC))
+    buttonCC.place(x=910, y=550)
 
-    buttonGO = Button(fen_princ, text = "MODELISE", command = lambda:sendCursors(fen_princ, scenario, cursorCC))
-    buttonGO.place(x=950, y=360)
+    buttonGO = Button(fen_princ, text = "MODELIZE", fg= 'mediumblue', bg="azure", font=('Yu Gothic',40, "bold"),command = lambda:sendCursors(fen_princ, scenario, cursorCC))
+    buttonGO.place(x=900, y=650)
 
     hintstxt = hintsFen2(scenario)
-    labelhints = Label(fen_princ, text = hintstxt, bg="lightgreen")
-    labelhints.place(x=960, y=500)
+    labelhints = Label(fen_princ, text = hintstxt, fg= 'lightseagreen', bg="azure", borderwidth=3, relief="solid", font=('Yu Gothic',15, "bold"), justify=LEFT)
+    labelhints.place(x=1140, y=220)
         

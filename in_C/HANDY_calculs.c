@@ -56,7 +56,7 @@ It stocks the values in the two structures corresponding to the two types of arg
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
-        if (n == 13) params->CC = val ;
+        if (n == 14) params->CC = atoi(espace) ;
 
         n = n + 1 ;
         
@@ -85,10 +85,10 @@ void valuesDefault(struct Struct_variables *variables, struct Struct_params * pa
             variables[0].xe = 25 ;
             params->k=1 ;
         } 
-    variables[0].xc = 100 ;
-    params->bc = 0.03 ;
-    params->be = 0.03 ;
-    eta = 2/3 ;
+        variables[0].xc = 100 ;
+        params->bc = 0.03 ;
+        params->be = 0.03 ;
+        eta = 2/3 ;
     }
 
     else {
@@ -232,7 +232,7 @@ for the normalisation. */
     return 0 ;
 }
 
-void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, int mx_CC, double x_factor, int w_factor) {
+void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, double x_factor, int w_factor) {
 /* This function fulfills our tab_variables following the time using our
 euleur function and normalizes each value. */
 
@@ -252,13 +252,13 @@ euleur function and normalizes each value. */
     // double rapport = mx_W / mx_XC ;
     // printf("%f\n", rapport) ;
     
-    // int mx_CC = 75000 ;
+    int mxx_CC = 75000 ;
 
     for (int i = 0 ; i < t ; i++) {
         if (mx_XC == 0) variables[i].xc = 0 ;
-        else variables[i].xc = (variables[i].xc / mx_CC / x_factor) ;
+        else variables[i].xc = (variables[i].xc / mxx_CC / x_factor) ;
         if (mx_XE == 0) variables[i].xe = 0 ;
-        else variables[i].xe = (variables[i].xe / mx_CC / x_factor) ;
+        else variables[i].xe = (variables[i].xe / mxx_CC / x_factor) ;
         if (mx_N == 0) variables[i].n = 0 ;
         else variables[i].n = (variables[i].n / params[0].l) ;
         if (mx_W == 0) variables[i].w = 0 ;
@@ -297,6 +297,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     // finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
 
     const char * condition = argv[1] ;
+    // const char * condition = "eg_c" ;
 
     double d_optimal = 6.67e-6 ;
 
@@ -310,31 +311,27 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     if ((strcmp(condition, eg_f) == 0) || (strcmp(condition, eq_f) == 0) || (strcmp(condition, un_f) == 0)) {
         puts("entered");
         const char * file_path = argv[2] ;
-        char * scenario = "aa";
+        char * scenario ;
         double x_factor ;
         int w_factor ;
         if (strcmp(condition, eg_f) == 0) {
-            puts("entered");
             printf("%s/n", condition);
             x_factor = 1 ;
             w_factor = 4 ;
-            strcpy(scenario, "eg");
-            puts("lol")
+            scenario = "eg";
         }
         else if (strcmp(condition, eq_f) == 0) {
             x_factor = 1 ;
             w_factor = 4 ;
-            strcpy(scenario, "eq");
+            scenario = "eq";
         }
         else {
             x_factor = 1 ;
             w_factor = 4 ;
-            strcpy(scenario, "un");
+            scenario = "un";
         }
-        puts("fini");
         readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t, parameters.CC, x_factor, w_factor);
-        puts("file");
+        runAuto(tab_variables, &parameters, t, x_factor, w_factor);
         finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
 
         char runFen2[500] = "python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario ";
@@ -351,7 +348,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         double x_factor ;
         int w_factor ;
         if (strcmp(condition, eg_c) == 0) {
-            strcpy(scenario, "eg");
+            scenario = "eg";
             if (CC_c>=0.7 && CC_c<=1.0) {
                 puts("first");
                 x_factor = 1 ;
@@ -363,23 +360,24 @@ Then calculates datas. Creates a final file to send the datas to Python. */
             }
         }
         else if (strcmp(condition, eq_f) == 0) {
-            strcpy(scenario, "eq");
+            scenario = "eq";;
             x_factor = 1 ;
             w_factor = 20 ;
         }
         else {
-            strcpy(scenario, "un");
+            scenario = "un";
             x_factor = 0.2 ;
             w_factor = 4 ;
         }
-    valuesDefault(tab_variables, &parameters, scenario, CC_c, d_optimal);
-    runAuto(tab_variables, &parameters, t, parameters.CC, x_factor, w_factor);
-    finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
-
-    char runFen3[500] = "python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario ";
-    // char sc[5] = scenario;
-    strcat(runFen3, scenario);
-    system(runFen3) ;
+        puts("values");
+        valuesDefault(tab_variables, &parameters, scenario, CC_c, d_optimal);
+        runAuto(tab_variables, &parameters, t, x_factor, w_factor);
+        finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
+        puts("final file") ;
+        char runFen3[500] = "python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario ";
+        // char sc[5] = scenario;
+        strcat(runFen3, scenario);
+        system(runFen3) ;
     }
 
     return 0;

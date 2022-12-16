@@ -5,11 +5,9 @@
 
 int main(int argc, char * argv[]) {
 
-    char * scenario = "aa";
+    char * scenario ;
     if (0== 0) {
-        puts("entered");
-        strcpy(scenario, "eg");
-        puts("lol") ;
+        scenario = "eq";
     }
     printf("%s\n", scenario); 
    return 0;

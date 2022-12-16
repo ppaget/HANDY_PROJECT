@@ -84,7 +84,7 @@ def animate_c(k, XC, XE, N, W):
     #     ax[1].legend(loc='upper left', bbox_to_anchor=(0.2, -0.06),
     #     fancybox=True, shadow=True, ncol=5, fontsize=5)
 
-    animation(k, ax[1], t[:s], XC[:s], XE[:s], N[:s], W[:s], CC_c, mx_CC)
+    animation(k, ax[1], t[:s], XC[:s], XE[:s], N[:s], W[:s], CC_c)
     # problème avec légende je pense
     # ax[1].plot(t[:s], XC[:s], color = 'b')
     # ax[1].plot(t[:s], XE[:s], color = 'r')
@@ -116,8 +116,11 @@ def animate_c(k, XC, XE, N, W):
 
         # analysis_results(scenario) #en argument scenario
 
-        resultTxt = resultScenario(XC, N)
-        result_label= Label(fen_princ, text = resultTxt).grid(row= 0,column=2)
+        title, explanation = resultScenario(XC, N)
+        title_label = Label(fen_princ, text=title, bg="honeydew", font=('Yu Gothic',50, "bold"), borderwidth=4, relief="sunken")
+        title_label.place(x=270, y=90)
+        explanation_label= Label(fen_princ, text = explanation, fg= 'green', bg="honeydew", font=('Yu Gothic',28, "bold"))
+        explanation_label.place(x=800, y=170)
 
 
 # def reminders(d, k, xe):
@@ -182,54 +185,49 @@ if __name__=='__main__':
     args = parser.parse_args()
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
+    fen_princ.configure(bg="honeydew")
     moveButton(fen_princ, 3, args.scenario)
 
     [XC_b, XE_b, N_b, W_b, variables, parameters_b] = readFile(args.fileBasic)
     [XC_c, XE_c, N_c, W_c, variables, parameters_c] = readFile(args.fileCursors)
 
-    CC_c = float(parameters_c[8])
-    # k_c = float(parameters_c[9])
-    # xe_c = XE_c[0]
+    CC_c = float(parameters_c[-1])
 
-    reminder1 = 0
-    reminder2 = 0
+    title, reminder_f, reminderCC_f, newCC_c = 0, 0, 0, 0
     if args.scenario == "eg":
-        reminder1, reminder2 = remindersFen3("eg", CC_c)
+        title, reminder_f, reminderCC_f, newCC_c = remindersFen3("eg", CC_c)
     if args.scenario == "eq":
-        reminder1, reminder2 = remindersFen3("eg", CC_c)
+        title, reminder_f, reminderCC_f, newCC_c = remindersFen3("eq", CC_c)
     if args.scenario == "un":
-        reminder1, reminder2 = remindersFen3("eg", CC_c)
+        title, reminder_f, reminderCC_f, newCC_c = remindersFen3("un", CC_c)
 
-    # reminder1, reminder2 = remindersFen3(CC_c)
-    
-    reminder1_label = Label(fen_princ, text = reminder1, bg="seashell").grid(row= 0,column=0)
-    reminder2_label = Label(fen_princ, text = reminder2, bg="seashell").grid(row= 0,column=1)
+    titlelabel = Label(fen_princ, text=title, fg= 'green', bg="honeydew", font=('Yu Gothic',45, "bold")).pack()
+    reminder_f_label = Label(fen_princ, text=reminder_f, fg= 'mediumseagreen', bg="honeydew", borderwidth=3, relief="solid", font=('Yu Gothic',15, "bold"), justify=LEFT).place(x=25, y=125)
+    CCtxtlabel = Label(fen_princ, text=reminderCC_f, fg= 'mediumseagreen', bg="honeydew", borderwidth=3, relief="solid", font=('Yu Gothic',15, "bold")).place(x=110, y=220)
+    newCClabel = Label(fen_princ, text=newCC_c, fg= 'mediumseagreen', bg="honeydew", borderwidth=3, relief="solid", font=('Yu Gothic',15, "bold")).place(x=500, y=220)
+
+    # canvas = Canvas(fen_princ)
+    # canvas.pack()
+    # canvas.create_line(300, 210, 450, 210, arrow=LAST)
 
     time = 1000
     mx_CC = 75000
-    norm_CC = float(parameters_c[-3])
-    norm_N = float(parameters_c[-2])
+    x_factor = float(parameters_c[-3])
+    w_factor = int(parameters_c[-2])
+
     skip = 50
 
     CC_b = int(parameters_b[-1])
-    CC_c = int(parameters_c[-1])
 
     t = [i for i in range(time-1)]
 
     fig, ax = plt.subplots(1, 2, figsize=(6.39,2.74), gridspec_kw={'width_ratios': [1, 1.5]})
+    fig.patch.set_facecolor('honeydew')
+
     graphTemplate(ax[0], 1, 4)
-    graphTemplate(ax[1], norm_CC, norm_N)
+    graphTemplate(ax[1], x_factor, w_factor)
 
-    # ax[0].axhline(y=caca_b/caca_m, color='orange', linestyle='--', label = "Carrying Capacity")
-    animation(1, ax[0], t, XC_b, XE_b, N_b, W_b, CC_b, mx_CC)
-
-    # ax[0].plot(t, XC_b, color = 'b', label = "Commoner population")
-    # ax[0].plot(t, XE_b, color = 'r', label = "Elite population")
-    # ax[0].plot(t, N_b, color = 'g', label = "Nature")
-    # ax[0].plot(t, W_b, color = 'grey', label = "Wealth")
-    # ax[0].legend(loc='upper left', bbox_to_anchor=(0.2, -0.06),
-    #     fancybox=True, shadow=True, ncol=5, fontsize=5)
-
+    animation(0, ax[0], t, XC_b, XE_b, N_b, W_b, CC_b/mx_CC)
 
     canvas = FigureCanvasTkAgg(fig, master=fen_princ)
     canvas.get_tk_widget().place(x=0, y=250)

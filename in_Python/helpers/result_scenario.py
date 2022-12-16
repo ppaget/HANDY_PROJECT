@@ -2,56 +2,33 @@ import numpy as np
 
 
 def resultAnalysis(nbr:int):
-    resultTxt = 0
+
     if nbr == 1:
-        text1 = """
-        Your personnal modelisation leads to a:
-        TYPE-N COLLAPSE.
-        
-        Nature is over-exploited by Commoners 
-        to sustain themselves and Elites.
-        It has reached zero.
-        Accumulated Wealth is not sufficient to 
-        save humans who all die of famine.
-        Carrying capacity is too far-away from
-        the maximum one (1) 
+        title = """ TYPE-N COLLAPSE """
+        N_coll = """
+        CC too far away from optimal.
+        Nature over-exploited...
         """
-        resultTxt = text1
+        return title, N_coll
     if nbr == 2:
-        text2 = """
-        Your personnal modelisation leads to a:
-        TYPE-L COLLAPSE.
-
-        Humans do not pick enough Nature ressources
-        and accumulated Wealth is not sufficient.
-        They all die: first Commoners then Elites.
-        Nature can prosperate.
+        title = """ TYPE-L COLLAPSE """
+        L_coll = """
+        CC too far away from optimal.
+        Not enough workers...
         """
-        resultTxt = text2
+        return title, L_coll
     if nbr == 3:
-        text3 = """
-        Your personnal modelisation leads to a:
-        TYPE-N REVERSIBLE COLLAPSES.
-
-        Nature first reaches zero.
-        Humans start dying of famine.
-        Nature can recover.
-        Humans recover too.
-        Until Nature reaches zero...
+        title = """ TYPE-N REVERSIBLE COLLAPSES """
+        N_rev = """
+        Turning point...
         """
-        resultTxt = text3
+        return title, N_rev
     if nbr == 4:
-        text4 = """
-        Your personnal modelisation leads to an:
-        EQUILIBRIUM.
-
-        Total Population reaches equilibirum under 
-        maximum carrying capacity.
-        Difference with the optimal:
-        Earth will host less Humans and less Nature.
+        title = """ EQUILIBRIUM """
+        equi = """
+        Acceptable CC...
         """
-        resultTxt = text4
-    return resultTxt
+        return title, equi
 
 
 def resultScenario(XC:list,N:list):

@@ -1,2 +1,1 @@
-def quit():
-    fen_princ.destroy()
+580 590
