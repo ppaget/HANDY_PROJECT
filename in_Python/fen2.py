@@ -1,9 +1,7 @@
 from tkinter import *
-import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
-from PyQt5 import QtCore
 import argparse
 
 from helpers.fen_services import readFile, moveButton, cursor_CC
@@ -15,47 +13,42 @@ parser.add_argument("--fileName", type=str, help="fichier C", default="in_C/resu
 parser.add_argument("--scenario", type=str, help="type of scenario chosen", default="eg")
 
 
-
 def animate_f(k):
-    """Called by main.
-    Goal: Animated lines created step by step for the four variables.
+    """Animate y-axis step by step for four variables.
     Args: k (int): frames """
 
     # Skipping frames
     s = k*skip
-    
-    animation(k, ax, t[:s], XC[:s], XE[:s], N[:s], W[:s], CC/mx_CC)
 
-    # Displaying new informations at last frame
+    # Calling function with adequate lists
+    animation(k, ax, t[:s], XC[:s], XE[:s], N[:s], W[:s], CC)
+
+    # Displaying new informations about CC at last frame
     if k==(time//skip)-1:
         cursor_CC(fen_princ, args.scenario)
-
-
-
-
+        
 
 if __name__=='__main__':
-    """ Called by HANDY_calculs.c with arguments.
-    This file is the second Tkinter interactive interface.
+    """ Called by HANDY_calculs.c with arguments using argparse.
+    Second Tkinter interactive interface.
     Goals: Display animation of chosen scenario using datas sent by fen1.py and treated by HANDY_calculs.c.
-           Animation to see four variables evoluate step by step.
-           Display informations about the animation.
-           Possibility to come back to fen1.py or definitely quit program.
-           Ask user to chose parameters with cursors: D and K to produce personal modelisations.
+           Animation to see four variables evoluate over time.
+           Ask user to chose CC to produce personal modelisations.
            Send chosen parameters to HANDY_calculs.c to modelize in next window. 
-           End by destroying window and C file continues.
-    Args: args.fileName (str): path of file containing incremented datas with time.
-          args.scenario (str): name of scenario to give accurate informations. """
+    Args: args.fileName (str): path of file.
+          args.scenario (str): type of scenario. """
 
     # Arguments passed by HANDY_calculs.c
     args = parser.parse_args()
 
+    # Creation of window
     fen_princ = Tk()
     fen_princ.attributes('-fullscreen', True)
     fen_princ.configure(bg="azure")
     moveButton(fen_princ, 2, args.scenario)
 
-    # Text according to chosen scenario in previous window
+    # Displayed text according to scenario chosen in previous window
+    # Recall of starting values and CC optimal
     title, text_welcome = 0, 0
     if args.scenario == "eg":
         title, text_welcome, CCtxt = welcomeTxtFen2("eg")
@@ -71,16 +64,9 @@ if __name__=='__main__':
     time = 1000
     t = [i for i in range(time)]
 
-    # Stocking four variables and caryying capacity incremented by HANDY_calculs.c
+    # Stocking four variables and carying capacity
     [XC, XE, N, W, variables, parameters] = readFile(args.fileName)
-    CC = int(parameters[-1])
-
-    # Calculated maximum carrying capacity with the adequate formula
-    mx_CC = 75000
-
-    # SELON SCENARIOOOOO MODIFIER
-    # norm_CC = 1
-    # norm_N = 4
+    CC = float(parameters[-1])
 
     # Skipping variables values for the animation to be faster
     skip = 50
@@ -90,9 +76,9 @@ if __name__=='__main__':
     fig.patch.set_facecolor('azure')
 
     # Add template to graph
-    graphTemplate(ax, 1, 4)
+    graphTemplate(ax, int(parameters[-3]), int(parameters[-2]))
 
-    # Importing plt on Tkinter window
+    # Importing plt on Tkinter window with Canvas
     canvas = FigureCanvasTkAgg(fig, master=fen_princ)
     canvas.get_tk_widget().place(x=0, y=275)
 

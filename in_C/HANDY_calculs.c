@@ -1,4 +1,4 @@
-// File that contains all our calculus.
+// File that contains all of our calculus.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,13 +22,17 @@ struct Struct_params {
     double d ;
     double k ;
     double r ;
-    int CC ;
+    double CC ;
 } ;
 
 void readFile(const char * FileName, struct Struct_variables * variables, struct Struct_params * params, int size) {
-/* This function reads a text file of our initial conditions : 4 variables and 10 parameters.
-It stocks the values in the two structures corresponding to the two types of arguments
-(variables and parameters). */ 
+/* Reads text file of our initial conditions : 4 variables and 10 parameters.
+Stocks the values in corresponding structures.
+Args: FileName: given file
+      variables: all datas from beginning
+      params: all parameters
+      size: to stop loop.
+*/
 
     FILE * file = fopen(FileName, "r");
     if (file == NULL) printf("Error: file does not exist"); //ne fonctionne pas
@@ -56,52 +60,47 @@ It stocks the values in the two structures corresponding to the two types of arg
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
-        if (n == 14) params->CC = atoi(espace) ;
+        if (n == 14) params->CC = val ;
 
         n = n + 1 ;
         
         if (n>size) break ;
     }
     fclose(file);
-
-    // double eta = (params->aM-params->bc)/(params->aM-params->am) ;
-    // int CC = (params->g/params->d)*(params->l-(params->s*eta/params->d)) ;
-    // // printf("%d\n", CC) ;
-    // params->CC = CC ;
 }
 
-void valuesDefault(struct Struct_variables *variables, struct Struct_params * params, char*scenario, int CC_c, double d_optimal) {
-
+void valuesDefault(struct Struct_variables *variables, struct Struct_params * params, char*scenario, double CC_c, double d_optimal) {
+/* Fulfills parameters and first variable values according to type of scenario.
+Calculates parameter d from carrying capacity.
+Args: variables: datas
+      params: all parameters
+      scenario: type of scenario
+      CC_c: carrying capacity from cursors
+      d_optimal: factor to find d.
+*/
     char * eg = "eg" ;
     char * eq = "eq" ;
     char * un = "un" ;
-    double eta ;
-    if ((strcmp(scenario, eg) == 0) || (strcmp(scenario, eq) == 0)) {
-        if (strcmp(scenario, eg) == 0) {
-        variables[0].xe = 0 ;
-        params->k=0 ;
-        }
-        else {
-            variables[0].xe = 25 ;
-            params->k=1 ;
-        } 
-        variables[0].xc = 100 ;
-        params->bc = 0.03 ;
-        params->be = 0.03 ;
-        eta = 2/3 ;
+    double eta = 2/3 ;
+    if (strcmp(scenario, eg) == 0) {
+    variables[0].xe = 0 ;
+    params->k=0 ;
     }
-
+    else if (strcmp(scenario, eq) == 0){
+        variables[0].xe = 25 ;
+        params->k=1 ;
+    } 
     else {
-        variables[0].xc = 1e4 ;
-        variables[0].xe = 3e3 ;
-        params->k=10 ;
-        params->bc = 6.5e-2 ;
-        params->be = 2e-2 ;
-        eta = 1/12 ;
+        variables[0].xe = 0.001 ;
+        params->k = 100 ;
     }
-
+    variables[0].xc = 100 ;
+    variables[0].n = 100 ;
+    variables[0].w = 0 ;
     params->am = 0.01 ;
     params->aM = 0.07 ;
+    params->bc = 0.03 ;
+    params->be = 0.03 ;
     params->g = 0.01 ;
     params->l = 100 ;
     params->s = 0.0005 ;
@@ -123,10 +122,14 @@ void valuesDefault(struct Struct_variables *variables, struct Struct_params * pa
 }
 
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
-/* This function calculates the new four variables from the variables just before.
-Incremeting with differential functions defined in the paper, using Euler method.*/
+/* Calculates new four variables (i+1) from the variables just before (i).
+Incremeting with differential functions using Euler method.
+Args: variables: all datas from beginning
+      params: all parameters
+      i: index for structure
+*/
 
-    // giving name for variables to make the program lighter
+    // Giving name for variables to make the program lighter
     double xc_prev = variables[i].xc ;
     double xe_prev = variables[i].xe ;
     double n_prev = variables[i].n ;
@@ -143,16 +146,16 @@ Incremeting with differential functions defined in the paper, using Euler method
     double k = params->k ;
     double r = params->r ;
 
-    //why
     double wth = (r * xc_prev) + (k * r * xe_prev) ; //dépend du temps
     double cc ; //consumption rate of commoners
     double ce ; //consumption rate of elites
     double ac ; //death rate of commoners
     double ae ; //death rate of elites
 
+    // Values needed to calculate
     if (wth != 0) {
         cc = fmin(1, w_prev/wth) * s * xc_prev ;
-        ce = fmin(1, w_prev/wth) * k * s * xe_prev ; //k = 0 ou k=1
+        ce = fmin(1, w_prev/wth) * k * s * xe_prev ;
     }
     else {
         cc = s * xc_prev ;
@@ -171,7 +174,7 @@ Incremeting with differential functions defined in the paper, using Euler method
         ae = am ;
     }
 
-    // why
+    // Euler's method
     double dxc = (bc * xc_prev) - (ac * xc_prev) ;
     double dxe = (be * xe_prev) - (ae * xe_prev) ;
     double dn = (g * n_prev * (l - n_prev)) - (d * xc_prev * n_prev) ;
@@ -186,105 +189,72 @@ Incremeting with differential functions defined in the paper, using Euler method
     double w_next = w_prev + dw ;
     if (w_next < 0) w_next = 0 ;
 
-    // Addition of values of structure n°i+1
+    // Addition of values to structure n°i+1
     variables[i+1].xc = xc_next ;
     variables[i+1].xe = xe_next ;
     variables[i+1].n = n_next ;
     variables[i+1].w = w_next ;
 }
 
-double findMax(struct Struct_variables * variables, char variable_name, int t) {
-/* This function finds the maximum value for each of our 4 variable. It is then used
-for the normalisation. */ 
+void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, int x_factor, int w_factor) {
+/* Fulfills tab_variables over time using Euler method
+and normalizes each value.
+Args: variables: all datas from beginning
+      params: all parameters
+      t: time
+      x_factor: normalisation for populations
+      w_factor: normalisation for wealth
+*/
 
-    if (variable_name == 'c') {
-        double mx = 0 ;
-        for (int i = 0; i < t; i++) {
-            double val = variables[i].xc ;
-            mx = fmax(mx, val);
-        }
-        return mx ;
-    }
-    if (variable_name == 'e') {
-        double mx = 0 ;
-        for (int i = 0; i < t; i++) {
-            double val = variables[i].xe ;
-            mx = fmax(mx, val);
-        }
-        return mx ;
-    }
-    if (variable_name == 'n') {
-        double mx = 0 ;
-        for (int i = 0; i < t; i++) {
-            double val = variables[i].n ;
-            mx = fmax(mx, val);
-        }
-        return mx ;
-    }
-    if (variable_name == 'w') {
-        double mx = 0 ;
-        for (int i = 0; i < t; i++) {
-            double val = variables[i].w ;
-            mx = fmax(mx, val);
-        }
-        return mx ;
-    }
-    return 0 ;
-}
-
-void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, double x_factor, int w_factor) {
-/* This function fulfills our tab_variables following the time using our
-euleur function and normalizes each value. */
-
-//Mettre normalisation clean : en argument de la fonction
-//Déterminer comment normaliser selon les graphs 
-
+    // Calls euler each time
     for (int i = 0 ; i < t-1 ; i++) {
         euler(variables, params, i) ;
     }
 
-    //normalisation
-    double mx_XC = findMax(variables, 'c', t) ; 
-    double mx_XE = findMax(variables, 'e', t) ;
-    double mx_N = findMax(variables, 'n', t) ;
-    double mx_W = findMax(variables, 'w', t) ;
-
-    // double rapport = mx_W / mx_XC ;
-    // printf("%f\n", rapport) ;
-    
+    // Normalisation depending on variable
     int mxx_CC = 75000 ;
 
     for (int i = 0 ; i < t ; i++) {
-        if (mx_XC == 0) variables[i].xc = 0 ;
-        else variables[i].xc = (variables[i].xc / mxx_CC / x_factor) ;
-        if (mx_XE == 0) variables[i].xe = 0 ;
-        else variables[i].xe = (variables[i].xe / mxx_CC / x_factor) ;
-        if (mx_N == 0) variables[i].n = 0 ;
-        else variables[i].n = (variables[i].n / params[0].l) ;
-        if (mx_W == 0) variables[i].w = 0 ;
-        else variables[i].w = (variables[i].w / params[0].l / w_factor) ;
+        variables[i].xc = (variables[i].xc / mxx_CC / x_factor) ;
+        variables[i].xe = (variables[i].xe / mxx_CC / x_factor) ;
+        variables[i].n = (variables[i].n / params[0].l) ;
+        variables[i].w = (variables[i].w / params[0].l / w_factor) ;
     }
 }
 
-void finalFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int t, double x_factor, int w_factor) {
-/* This function creates the final file containing all datas to send to python
-(one variable per column). */
+void finalFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int t, int x_factor, int w_factor) {
+/* Creates final file containing all datas from tab_variables to send to Python.
+Contains a header with variables at t=0 and fixed parameters.
+Four variables (one per column) overtime.
+Args: FileName: file will be created
+      variables: all datas from beginning
+      params: all parameters
+      t: time
+      x_factor: normalisation for populations
+      w_factor: normalisation for wealth
+*/
 
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
-    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r, x_factor, w_factor, params->CC);
+    // Header
+    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d, %f\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r, x_factor, w_factor, params->CC);
 
-    for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
+    for (int i=0 ; i<t ; i++) { 
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
-    } // Warning : frpintf writes strings and not doubles into the file -> Need to convert in python file 
+    } // Warning : frpintf writes strings
 
     fclose(file);
 }
 
 int main(int argc, char const *argv[]) {
-/* This is our main function. It reads a text file.
-Then calculates datas. Creates a final file to send the datas to Python. */
+/* Runs in two ways. Increments variables and stock them in tab of strucutre
+with Euler method for solving differential equations.
+Args: type of scenario (str)
+      path of file (str) or chosen Carrying Capacity (str)
+Returns: a text file containing datas over time.
+        uses system to directly run Python files.
+*/
 ;
 
     int t = 1000;
@@ -292,12 +262,8 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     struct Struct_params parameters ; 
     int size = 14 ;
 
-    // readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, size);    
-    // runAuto(tab_variables, &parameters, t, 1, 4);
-    // finalFile("results_python_file.txt", tab_variables, &parameters, t) ;
-
+    // Type of scenario
     const char * condition = argv[1] ;
-    // const char * condition = "eg_c" ;
 
     double d_optimal = 6.67e-6 ;
 
@@ -308,14 +274,13 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     char * eq_c = "eq_c" ;
     char * un_c = "un_c" ;
 
+    // Case from file
     if ((strcmp(condition, eg_f) == 0) || (strcmp(condition, eq_f) == 0) || (strcmp(condition, un_f) == 0)) {
-        puts("entered");
         const char * file_path = argv[2] ;
         char * scenario ;
-        double x_factor ;
+        int x_factor ;
         int w_factor ;
         if (strcmp(condition, eg_f) == 0) {
-            printf("%s/n", condition);
             x_factor = 1 ;
             w_factor = 4 ;
             scenario = "eg";
@@ -333,24 +298,19 @@ Then calculates datas. Creates a final file to send the datas to Python. */
         readFile(file_path, tab_variables, &parameters, size);
         runAuto(tab_variables, &parameters, t, x_factor, w_factor);
         finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
-
         char runFen2[500] = "python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario ";
-        // char sc[5] = scenario;
         strcat(runFen2, scenario);
         system(runFen2) ;
     }
-
+    // Case from cursor
     else {
-        puts("cursors");
         double CC_c = atof(argv[2]) ;
-        printf("%f\n", CC_c);
         char * scenario ;
-        double x_factor ;
+        int x_factor ;
         int w_factor ;
         if (strcmp(condition, eg_c) == 0) {
             scenario = "eg";
             if (CC_c>=0.7 && CC_c<=1.0) {
-                puts("first");
                 x_factor = 1 ;
                 w_factor = 4 ;
             }
@@ -359,23 +319,26 @@ Then calculates datas. Creates a final file to send the datas to Python. */
                 w_factor = 20 ;
             }
         }
-        else if (strcmp(condition, eq_f) == 0) {
-            scenario = "eq";;
-            x_factor = 1 ;
-            w_factor = 20 ;
+        else if (strcmp(condition, eq_c) == 0) {
+            scenario = "eq";
+            if (CC_c>=0.7 && CC_c<=1.0) {
+                x_factor = 1 ;
+                w_factor = 4 ;
+            }
+            else {
+                x_factor = 2 ;
+                w_factor = 20 ;
+            }
         }
         else {
             scenario = "un";
-            x_factor = 0.2 ;
-            w_factor = 4 ;
+            x_factor = 2 ;
+            w_factor = 40 ;
         }
-        puts("values");
         valuesDefault(tab_variables, &parameters, scenario, CC_c, d_optimal);
         runAuto(tab_variables, &parameters, t, x_factor, w_factor);
         finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
-        puts("final file") ;
         char runFen3[500] = "python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario ";
-        // char sc[5] = scenario;
         strcat(runFen3, scenario);
         system(runFen3) ;
     }

@@ -1,3 +1,7 @@
+# Helper for prepared texts. Window is given.
+# Type of scenario often needed to display right text.
+
+
 def titleFen1():
     title = """   
         WELCOME TO HANDY PROJECT!"""
@@ -8,7 +12,7 @@ def titleFen1():
     return title, subtitle
 
 def welcomeTxtFen1():
-        
+      
     welcomeTxt=    """   
     Only four variables to simulate human life on earth!
 
@@ -75,9 +79,9 @@ def welcomeTxtFen2(scenario:str):
     XC(0): 100  
     XE(0): 0    
     N(0): 100   
-    W(0): 0 
+    K: 0 
 """
-        CCtxt = """  CC optimal: 75 000  """
+        CCtxt = """  CC optimal: 1  """
         return title, text_welcome, CCtxt
 
     if scenario == "eq":
@@ -86,20 +90,20 @@ def welcomeTxtFen2(scenario:str):
     XC(0): 100  
     XE(0): 25   
     N(0): 100   
-    W(0): 0 
+    K: 1 
 """
-        CCtxt = """  CC optimal: 60 000  """
+        CCtxt = """  CC optimal: 0.8  """
         return title, text_welcome, CCtxt
 
     if scenario == "un":
-        title = """ UNEQUAL EQUILIBRIUM """
+        title = """ UNEQUAL COLLAPSE """
         text_welcome = """
-    XC(0): 10 000   
-    XE(0): 3 000    
+    XC(0): 100    
+    XE(0): 0.2    
     N(0): 100   
-    W(0): 0 
+    K: 100 
 """
-        CCtxt = """  CC optimal: 79 000  """
+        CCtxt = """  CC optimal: 1  """
         return title, text_welcome, CCtxt
 
 def descrCCFen2():
@@ -119,21 +123,18 @@ def hintsFen2(scenario):
     Hints:
     CC = 0.4    
     CC = 0.3    
-    CC = 0.2    
     """
     if scenario=="eq":
         hints = """
     Hints:
-    CC = 0.8    
+    CC = 0.6    
     CC = 0.3
-    CC = 0.2
     """
     if scenario=="un":
         hints = """
     Hints:
     CC = 0.5    
     CC = 0.3
-    CC = 0.2
     """
     return hints
 

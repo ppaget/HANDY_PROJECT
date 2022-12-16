@@ -1,2 +1,0 @@
-    if k==(time//skip)-1:
-        next_graph()
