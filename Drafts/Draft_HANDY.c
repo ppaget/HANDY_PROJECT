@@ -111,3 +111,67 @@ int main(int argc, char const *argv[]){
 //     double wth = (r * xc) + (k * r * xe) ;
 //     xc * (bc - (am + max(0,1-min(1,w/wth))(aM-am))) ;
 // }
+
+
+    // if (strcmp(condition, eg_f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t, 75000, 1, 4);
+    //     finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario eg") ;
+    // }
+    // else if (strcmp(condition, eq_f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t, 60000, 1, 4);
+    //     finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario eq") ;
+    // }
+    // else if (strcmp(condition, un_f) == 0) {
+    //     const char * file_path = argv[2] ;
+    //     readFile(file_path, tab_variables, &parameters, size);
+    //     runAuto(tab_variables, &parameters, t, 79000, 1, 4);
+    //     finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario un") ;
+    // }
+
+
+
+    // else if (strcmp(condition, eg_c) == 0) {
+    //     parameters.k = 0;
+    //     double d = atof(argv[2]) ;
+    //     parameters.d = d_optimal * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 0 ;
+    //     valuesDefault(tab_variables, &parameters) ;
+    //     runAuto(tab_variables, &parameters, t, 2, 20);
+    //     finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario eg") ;
+    // }
+    // else if (strcmp(condition, eq_c) == 0) {
+    //     parameters.k = 1;
+    //     double d = atof(argv[2]) ;
+    //     parameters.d = d_optimal * d ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = 10 ;
+    //     valuesDefault(tab_variables, &parameters) ;
+    //     runAuto(tab_variables, &parameters, t, 1, 20);
+    //     finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario eq") ;
+    // }
+    // else if (strcmp(condition, un_c) == 0) {
+    //     double k = atof(argv[3]) ;
+    //     parameters.k = k;
+    //     double d = atof(argv[2]) ;
+    //     parameters.d = d_optimal * d ;
+    //     double xe = atof(argv[4]) ;
+    //     tab_variables[0].xc = 100 ;
+    //     tab_variables[0].xe = xe ;
+    //     valuesDefault(tab_variables, &parameters) ;
+    //     runAuto(tab_variables, &parameters, t, 2, 4);
+    //     finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
+    //     system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario un") ;
+    // }
+
+
+//if ((strcmp(condition, eg_c) == 0) || (strcmp(condition, eq_c) == 0) || (strcmp(condition, un_c) == 0)) {

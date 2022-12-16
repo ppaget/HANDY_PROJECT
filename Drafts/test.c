@@ -4,11 +4,15 @@
 #include <math.h>
 
 int main(int argc, char * argv[]) {
-    
-    char * condition = "c" ;
-    if (strcmp(condition, char* c = "c") == 0) {
-        printf("%s", "lol") ;
+
+    char * scenario = "aa";
+    if (0== 0) {
+        puts("entered");
+        strcpy(scenario, "eg");
+        puts("lol") ;
     }
+    printf("%s\n", scenario); 
+   return 0;
 
 
         

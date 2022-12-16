@@ -1,5 +1,106 @@
 
 
+def welcomeTxtFen1():
+        
+    welcomeTxt=    """   
+
+
+        WELCOME TO THE HANDY PROJECT!\n\n
+
+    The purpose of this project is to study the dynamics between human
+    civilization and nature, following the collapsological theory.
+    This simulation, based on a predator-prey model, only uses four
+    variables and ten parameters.
+
+
+    The four variables are:
+
+    - the Commoner Population --> predators - workers take direct ressources from Nature
+    - the Elite Population --> predators - non-workers take indirect ressources from Nature
+    - the Nature --> prey - ressources for food, energy
+    - the accumulated Wealth --> unique to human civilization - resilience from famine
+            
+
+        The parameters that control variables are:
+
+    - normal and famine death rates --> control total population
+    - commoners and elites birth rates --> control total population
+    - subsistence salary per capita --> control wealth
+    - threshold wealth per capita --> control wealth
+    - regeneration rate of nature --> control nature
+    - nature carrying capacity --> control nature
+
+    - inequality factor, K --> difference in wealth between commoners and elites
+    - depletion per capita, D --> commoners direct and elites indirect impacts on nature
+
+    - carrying capacity --> number of humans nature can carry
+                
+    You will be asked to make choices about the variables and parameters
+    so you can try different types of scenario.
+    They may lead to equilibrium or collapses of society.\n\n   
+        """
+    return welcomeTxt
+
+def question1Fen1():
+    question1 = """
+
+
+    First choice: Do you want an Elite Population in the scenario?
+    
+    """
+    return question1
+    
+
+def question2Fen1():
+    question2 = """
+
+    You have chosen a scenario with an Elite Population.\n
+    Second choice: Do you want the Elite and the Commoner Populations to be paid equally,
+    with no difference in their salaries?
+    
+    """
+    return question2
+
+def summaryTxtFen1(scenario:str):
+    summaryTxt = 0
+    if scenario=="eg":
+        summaryTxt = """
+
+    You have chosen a scenario with no Elite Population.
+    This means you will enter the Egalitarian Scenario.
+
+
+
+    Ready?
+    
+    """
+    if scenario=="eq":
+        summaryTxt = """
+
+    You have chosen a scenario with an Elite Population which is
+    payed as much as the Commoner Population.
+    This means you will enter the Equitable Scenario.
+
+
+
+    Ready?
+    
+    """
+    if scenario=="un":
+        summaryTxt = """
+
+    You have chosen a scenario with an Elite Population which is
+    payed more than the Commoner Population.
+    This means you will enter the Unequal Scenario.
+
+
+
+    Ready?
+    
+    """
+    return summaryTxt
+
+
 def welcomeTxtFen2(scenario:str):
 
 
@@ -112,3 +213,42 @@ def remindersFen3(scenario:str, CC:float):
     reminder2 = """New Carrying Capicity: """ + str(CC)
 
     return reminder1, reminder2
+
+def descrCCFen2():
+
+    txtCC = """
+            You can now chose to vary a starting parameter:
+                the CARRYING CAPACITY.
+
+            It represents the number oh humans earth can carry.
+            If it goes away too far away from its optimal value:
+            COLLAPSE!
+
+            Try yourself!
+            """
+    return txtCC
+
+def hintsFen2(scenario):
+    hints = 0
+    if scenario=="eg":
+        hints = """Hints:
+        You could try with:
+            d = 2.5
+            d = 4
+            d = 5.5
+            """
+    if scenario=="eq":
+        hints = """Hints:
+        You could try with:
+            d = 2.5
+            d = 4
+            d = 5.5
+            """
+    if scenario=="un":
+        hints = """Hints:
+        You could try with:
+            d = 2.5
+            d = 4
+            d = 5.5
+            """
+    return hints

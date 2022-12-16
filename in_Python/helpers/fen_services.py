@@ -3,13 +3,16 @@ import matplotlib.pyplot as plt
 import os
 from tkinter import *
 
+from helpers.fen_os import sendCursors
+from helpers.fen_txt import descrCCFen2, hintsFen2
+
 def quit(fen_princ):
     """ Activated by button.
     Goal: Quit interface and end running of program. """
     fen_princ.destroy()
 
 def backFen1(fen_princ):
-    os.system("python in_Python/fen" + str(n) + ".py")
+    os.system("python in_Python/fen1.py")
     fen_princ.destroy()
 
 def backFen2(fen_princ, scenario:str):
@@ -23,15 +26,17 @@ def backFen2(fen_princ, scenario:str):
 
 def moveButton(fen_princ, n,  scenario):
 
-    if n==1:
-        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
+    quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
     if n==2:
-        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
         home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
     if n==3:
-        quit_button = Button(fen_princ, text = "QUIT", command = lambda:quit(fen_princ)).place(x=1155, y=25)
         home_button = Button(fen_princ, text = "HOME", command = lambda:backFen1(fen_princ)).place(x=1150, y=60)
         again_button = Button(fen_princ, text = "NEW VALUES", command = lambda:backFen2(fen_princ, scenario)).place(x=1130, y=95)
+
+def cleanTk(w1, w2, w3):
+    window = [w1, w2, w3]
+    for i in window :
+        if i != None: i.destroy()
 
 def readFile(fname:str):
     """Called by main function.
@@ -63,5 +68,25 @@ def dispValue(param: str, cursor, label):
     value = param + ": " + str(cursor.get())
     label.configure(text= value)
 
+def cursor_CC(fen_princ, scenario):
 
+    txtCC = descrCCFen2()
+    labeltxtCC= Label(fen_princ, text = txtCC)
+    labeltxtCC.place(x=750, y=90)
 
+    cursorCC = Scale(fen_princ, orient='horizontal', from_=0.0, to=1.0, digits = 2, resolution = 0.1)
+    cursorCC.place(x=970, y=240)
+
+    labelCC = Label(fen_princ, text = "CC: 0.0")
+    labelCC.place(x=1000, y=280)
+    
+    buttonCC = Button(fen_princ, text = "VALIDATE CC", command = lambda:dispValue("CC",cursorCC,labelCC))
+    buttonCC.place(x=940, y=320)
+
+    buttonGO = Button(fen_princ, text = "MODELISE", command = lambda:sendCursors(fen_princ, scenario, cursorCC))
+    buttonGO.place(x=950, y=360)
+
+    hintstxt = hintsFen2(scenario)
+    labelhints = Label(fen_princ, text = hintstxt, bg="lightgreen")
+    labelhints.place(x=960, y=500)
+        

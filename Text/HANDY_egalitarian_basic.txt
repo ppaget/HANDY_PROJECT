@@ -12,3 +12,4 @@ s  5e-4    subsistence salary (consumption)
 d  6.67e-6 nature depletion factor
 k  0       difference in consumption factor. only for egalitarian.
 r  5e-3    minimum required consumption
+CC 75000   carrying capacity

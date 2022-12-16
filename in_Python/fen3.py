@@ -5,8 +5,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import os
 import argparse
-from helpers.fen_services import readFile, quit, backFen, backFen2, moveButton
-# faire pour les trois boutons dans le coin
+
+from helpers.fen_services import readFile, moveButton
 from helpers.fen_plot import graphTemplate, animation
 from helpers.result_scenario import resultScenario
 from helpers.fen_txt import remindersFen3
@@ -84,7 +84,7 @@ def animate_c(k, XC, XE, N, W):
     #     ax[1].legend(loc='upper left', bbox_to_anchor=(0.2, -0.06),
     #     fancybox=True, shadow=True, ncol=5, fontsize=5)
 
-    animation(k, ax[1], t[:s], XC[:s], XE[:s], N[:s], W[:s])
+    animation(k, ax[1], t[:s], XC[:s], XE[:s], N[:s], W[:s], CC_c, mx_CC)
     # problème avec légende je pense
     # ax[1].plot(t[:s], XC[:s], color = 'b')
     # ax[1].plot(t[:s], XE[:s], color = 'r')
@@ -207,8 +207,8 @@ if __name__=='__main__':
 
     time = 1000
     mx_CC = 75000
-    norm_CC = 6
-    norm_N = 4
+    norm_CC = float(parameters_c[-3])
+    norm_N = float(parameters_c[-2])
     skip = 50
 
     CC_b = int(parameters_b[-1])
@@ -217,11 +217,11 @@ if __name__=='__main__':
     t = [i for i in range(time-1)]
 
     fig, ax = plt.subplots(1, 2, figsize=(6.39,2.74), gridspec_kw={'width_ratios': [1, 1.5]})
-    graphTemplate(ax[0], norm_CC, norm_N)
+    graphTemplate(ax[0], 1, 4)
     graphTemplate(ax[1], norm_CC, norm_N)
 
     # ax[0].axhline(y=caca_b/caca_m, color='orange', linestyle='--', label = "Carrying Capacity")
-    animation(ax[0], t, XC_b, XE_b, N_b, W_b, CC_b, mx_CC)
+    animation(1, ax[0], t, XC_b, XE_b, N_b, W_b, CC_b, mx_CC)
 
     # ax[0].plot(t, XC_b, color = 'b', label = "Commoner population")
     # ax[0].plot(t, XE_b, color = 'r', label = "Elite population")

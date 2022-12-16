@@ -56,6 +56,7 @@ It stocks the values in the two structures corresponding to the two types of arg
         if (n == 11) params->d = val ;
         if (n == 12) params->k = val ;
         if (n == 13) params->r = val ;
+        if (n == 13) params->CC = val ;
 
         n = n + 1 ;
         
@@ -63,28 +64,62 @@ It stocks the values in the two structures corresponding to the two types of arg
     }
     fclose(file);
 
-    double eta = (params->aM-params->bc)/(params->aM-params->am) ;
-    int CC = (params->g/params->d)*(params->l-(params->s*eta/params->d)) ;
-    // printf("%d\n", CC) ;
-    params->CC = CC ;
+    // double eta = (params->aM-params->bc)/(params->aM-params->am) ;
+    // int CC = (params->g/params->d)*(params->l-(params->s*eta/params->d)) ;
+    // // printf("%d\n", CC) ;
+    // params->CC = CC ;
 }
 
-void valuesDefault(struct Struct_variables *variables, struct Struct_params * params) {
-    params->am = 0.01 ;
-    params->aM = 0.07 ;
+void valuesDefault(struct Struct_variables *variables, struct Struct_params * params, char*scenario, int CC_c, double d_optimal) {
+
+    char * eg = "eg" ;
+    char * eq = "eq" ;
+    char * un = "un" ;
+    double eta ;
+    if ((strcmp(scenario, eg) == 0) || (strcmp(scenario, eq) == 0)) {
+        if (strcmp(scenario, eg) == 0) {
+        variables[0].xe = 0 ;
+        params->k=0 ;
+        }
+        else {
+            variables[0].xe = 25 ;
+            params->k=1 ;
+        } 
+    variables[0].xc = 100 ;
     params->bc = 0.03 ;
     params->be = 0.03 ;
+    eta = 2/3 ;
+    }
+
+    else {
+        variables[0].xc = 1e4 ;
+        variables[0].xe = 3e3 ;
+        params->k=10 ;
+        params->bc = 6.5e-2 ;
+        params->be = 2e-2 ;
+        eta = 1/12 ;
+    }
+
+    params->am = 0.01 ;
+    params->aM = 0.07 ;
     params->g = 0.01 ;
     params->l = 100 ;
     params->s = 0.0005 ;
     params->r = 0.005 ;
+    params->CC = CC_c ;
 
-    variables[0].n = 100 ;
-    variables[0].w = 0 ;
+    double d_c = (params->g*params->l+sqrt(pow(params->g*params->l,2)-4*CC_c*eta*params->s*params->g))/(2*CC_c) ;
 
-    double eta = (params->aM-params->bc)/(params->aM-params->am) ;
-    int CC = (params->g/params->d)*(params->l-(params->s*eta/params->d)) ;
-    params->CC = CC ;
+    if (strcmp(scenario, eg) == 0) {
+        params->d= d_c * d_optimal ;
+    }
+    else if (strcmp(scenario, eq) == 0) {
+        params->d= d_c * 1.25 * d_optimal ;
+    } 
+    else {
+        params->d= d_c * 0.95 * d_optimal ;
+    }
+    
 }
 
 void euler(struct Struct_variables * variables, struct Struct_params * params, int i) {
@@ -197,7 +232,7 @@ for the normalisation. */
     return 0 ;
 }
 
-void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, int x_factor, int w_factor) {
+void runAuto(struct Struct_variables * variables, struct Struct_params * params, int t, int mx_CC, double x_factor, int w_factor) {
 /* This function fulfills our tab_variables following the time using our
 euleur function and normalizes each value. */
 
@@ -217,7 +252,8 @@ euleur function and normalizes each value. */
     // double rapport = mx_W / mx_XC ;
     // printf("%f\n", rapport) ;
     
-    int mx_CC = 75000 ;
+    // int mx_CC = 75000 ;
+
     for (int i = 0 ; i < t ; i++) {
         if (mx_XC == 0) variables[i].xc = 0 ;
         else variables[i].xc = (variables[i].xc / mx_CC / x_factor) ;
@@ -230,14 +266,14 @@ euleur function and normalizes each value. */
     }
 }
 
-void finalFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int t) {
+void finalFile(char * FileName, struct Struct_variables * variables, struct Struct_params * params, int t, double x_factor, int w_factor) {
 /* This function creates the final file containing all datas to send to python
 (one variable per column). */
 
     FILE * file = fopen(FileName, "w");
     if (file == NULL) printf("Error: can not open file.\n");
 
-    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r, params->CC);
+    fprintf(file, "%s, %f, %f, %f, %f\n%s, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d\n", "Variables at t=0", variables->xc, variables->xe, variables->n, variables->w, "Parameters", params->am, params->aM, params->bc, params->be, params->g, params->l, params->s, params->d, params->k, params->r, x_factor, w_factor, params->CC);
 
     for (int i=0 ; i<t ; i++) {  // line break implemented for each i 
         fprintf(file, "%f, %f, %f, %f\n", variables[i].xc, variables[i].xe, variables[i].n, variables[i].w);
@@ -254,7 +290,7 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     int t = 1000;
     struct Struct_variables tab_variables[t] ;
     struct Struct_params parameters ; 
-    int size = 13 ;
+    int size = 14 ;
 
     // readFile("/Users/macbookpro/Desktop/BA3/BA3-CMT/PROJECT/HANDY_PROJECT/Text/HANDY_unequal_basic.txt", tab_variables, &parameters, size);    
     // runAuto(tab_variables, &parameters, t, 1, 4);
@@ -271,69 +307,82 @@ Then calculates datas. Creates a final file to send the datas to Python. */
     char * eq_c = "eq_c" ;
     char * un_c = "un_c" ;
 
-    if (strcmp(condition, eg_f) == 0) {
-        // printf("%s\n", condition) ;
+    if ((strcmp(condition, eg_f) == 0) || (strcmp(condition, eq_f) == 0) || (strcmp(condition, un_f) == 0)) {
+        puts("entered");
         const char * file_path = argv[2] ;
+        char * scenario = "aa";
+        double x_factor ;
+        int w_factor ;
+        if (strcmp(condition, eg_f) == 0) {
+            puts("entered");
+            printf("%s/n", condition);
+            x_factor = 1 ;
+            w_factor = 4 ;
+            strcpy(scenario, "eg");
+            puts("lol")
+        }
+        else if (strcmp(condition, eq_f) == 0) {
+            x_factor = 1 ;
+            w_factor = 4 ;
+            strcpy(scenario, "eq");
+        }
+        else {
+            x_factor = 1 ;
+            w_factor = 4 ;
+            strcpy(scenario, "un");
+        }
+        puts("fini");
         readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t, 1, 4);
-        finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario eg") ;
-    }
-    else if (strcmp(condition, eq_f) == 0) {
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t, 1, 4);
-        finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
-        system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario eq") ;
-    }
-    else if (strcmp(condition, un_f) == 0) {
-        // printf("%s\n", condition) ;
-        const char * file_path = argv[2] ;
-        readFile(file_path, tab_variables, &parameters, size);
-        runAuto(tab_variables, &parameters, t, 1, 4);
-        finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t) ;
-        printf("%s\n", condition) ;
-        system("python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario un") ;
-        printf("%s\n", condition) ;
+        runAuto(tab_variables, &parameters, t, parameters.CC, x_factor, w_factor);
+        puts("file");
+        finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
+
+        char runFen2[500] = "python in_Python/fen2.py --fileName in_C/results_python_file.txt --scenario ";
+        // char sc[5] = scenario;
+        strcat(runFen2, scenario);
+        system(runFen2) ;
     }
 
-    else if (strcmp(condition, eg_c) == 0) {
-        parameters.k = 0;
-        double d = atof(argv[2]) ;
-        parameters.d = d_optimal * d ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = 0 ;
-        valuesDefault(tab_variables, &parameters) ;
-        runAuto(tab_variables, &parameters, t, 2, 20);
-        finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario eg") ;
-    }
-    else if (strcmp(condition, eq_c) == 0) {
-        parameters.k = 1;
-        double d = atof(argv[2]) ;
-        parameters.d = d_optimal * d ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = 10 ;
-        valuesDefault(tab_variables, &parameters) ;
-        runAuto(tab_variables, &parameters, t, 1, 20);
-        finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario eq") ;
-    }
-    else if (strcmp(condition, un_c) == 0) {
-        double k = atof(argv[3]) ;
-        parameters.k = k;
-        double d = atof(argv[2]) ;
-        parameters.d = d_optimal * d ;
-        double xe = atof(argv[4]) ;
-        tab_variables[0].xc = 100 ;
-        tab_variables[0].xe = xe ;
-        valuesDefault(tab_variables, &parameters) ;
-        runAuto(tab_variables, &parameters, t, 2, 4);
-        finalFile("in_C/results_python_cursors.txt", tab_variables, &parameters, t) ;
-        system("python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario un") ;
-    }
+    else {
+        puts("cursors");
+        double CC_c = atof(argv[2]) ;
+        printf("%f\n", CC_c);
+        char * scenario ;
+        double x_factor ;
+        int w_factor ;
+        if (strcmp(condition, eg_c) == 0) {
+            strcpy(scenario, "eg");
+            if (CC_c>=0.7 && CC_c<=1.0) {
+                puts("first");
+                x_factor = 1 ;
+                w_factor = 4 ;
+            }
+            else {
+                x_factor = 2 ;
+                w_factor = 20 ;
+            }
+        }
+        else if (strcmp(condition, eq_f) == 0) {
+            strcpy(scenario, "eq");
+            x_factor = 1 ;
+            w_factor = 20 ;
+        }
+        else {
+            strcpy(scenario, "un");
+            x_factor = 0.2 ;
+            w_factor = 4 ;
+        }
+    valuesDefault(tab_variables, &parameters, scenario, CC_c, d_optimal);
+    runAuto(tab_variables, &parameters, t, parameters.CC, x_factor, w_factor);
+    finalFile("in_C/results_python_file.txt", tab_variables, &parameters, t, x_factor, w_factor) ;
 
+    char runFen3[500] = "python in_Python/fen3.py --fileCursors in_C/results_python_cursors.txt --fileBasic in_C/results_python_file.txt --scenario ";
+    // char sc[5] = scenario;
+    strcat(runFen3, scenario);
+    system(runFen3) ;
+    }
 
     return 0;
+
 }
 

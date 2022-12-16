@@ -38,6 +38,7 @@ def animation(k, ax, t, XC, XE, N, W, CC, mx_CC):
     if k==0:
         ax.legend(loc='upper left', bbox_to_anchor=(0.2, -0.06),
         fancybox=True, shadow=True, ncol=5, fontsize=5)
+    if k==1:
         ax.axhline(y=CC/mx_CC, color='orange', linestyle='--', label = "Carrying Capacity")
 
     ax.plot(t, XC, color = 'b', label = "Commoner population")
