@@ -121,7 +121,7 @@ def hintsFen2(scenario):
     if scenario=="eg":
         hints = """
     Hints:
-    CC = 0.4    
+    CC = 0.5    
     CC = 0.3    
     """
     if scenario=="eq":
